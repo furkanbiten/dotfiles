@@ -2,9 +2,10 @@ call plug#begin()
 Plug 'preservim/NERDTree'
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'cjrh/vim-conda'
-Plug 'itchyny/lightline.vim'
 "Plug 'vim-airline/vim-airline'
-"Plug 'ap/vim-buftabline'
+Plug 'itchyny/lightline.vim'
+Plug 'ap/vim-buftabline'
+"Plug 'bling/vim-bufferline'
 "Plug 'sainnhe/everforest'
 "Plug 'inducer/pudb'
 "Plug 'davidhalter/jedi-vim'
@@ -21,8 +22,8 @@ Plug 'preservim/tagbar'
 Plug 'vim-scripts/AutoClose'
 "Plug 'valloric/youcompleteme'
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
-"Plug 'nvim-lua/plenary.nvim'
-"Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 "Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 "Plug 'liuchengxu/vim-clap', { 'do': { -> clap#installer#force_download() } }
 "Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
@@ -40,11 +41,18 @@ call plug#end()
 
 let mapleader=","
 "noremap <leader>
+let g:lightline = {
+      \ 'colorscheme': 'one',
+      \ }
 
-noremap <C-F> :Clap blines<CR>
-noremap <leader>fa :Clap grep<CR> 
-noremap <leader>ff :Clap files<CR>
-noremap <leader>fm :Clap maps<CR>
+noremap <C-F> :Telescope current_buffer_fuzzy_find fuzzy=false case_mode=ignore_case<CR>
+noremap <leader>fa :Telescope live_grep<CR>
+noremap <leader>ff :Telescope find_files<CR>
+noremap <leader>fm :Telescope keymaps<CR>
+"noremap <C-F> :Clap blines<CR>
+"noremap <leader>fa :Clap grep<CR> 
+"noremap <leader>ff :Clap files<CR>
+"noremap <leader>fm :Clap maps<CR>
 "let g:vimspector_enable_mappings = 'HUMAN'
 "nmap <leader>c <Plug>VimspectorContinue
 "nmap <leader>b <Plug>VimspectorToggleBreakpoint
@@ -137,9 +145,9 @@ nmap <leader>l :ls<CR>
 " To start nerdtree on startup
 let g:nerdtree_tabs_open_on_console_startup=1
 "Airline Plugin: show tabs
-"let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#enabled = 1
 "Show just the filename
-"let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline#extensions#tabline#fnamemod = ':t'
 
 "ALE plugin 
 "let b:ale_fixers = ['prettier', 'eslint']
@@ -175,7 +183,7 @@ map <leader>fy  <Plug>(YCMFindSymbolInWorkspace)
 "set completeopt=menuone,longest,preview
 "set previewnopup=height:60,width:60
 "set completepopup=height:10,width:60,highlight:Pmenu,border:off
-set completeopt+=popup
+"set completeopt+=popup
 "autocmd FileType python setlocal completeopt-=preview
 
 " Gruvbox-material Plugin: theme specificitations
