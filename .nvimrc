@@ -2,229 +2,36 @@ call plug#begin()
 Plug 'preservim/NERDTree'
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'cjrh/vim-conda'
-"Plug 'vim-airline/vim-airline'
 Plug 'itchyny/lightline.vim'
 Plug 'ap/vim-buftabline'
-"Plug 'bling/vim-bufferline'
-"Plug 'sainnhe/everforest'
-"Plug 'inducer/pudb'
-"Plug 'davidhalter/jedi-vim'
 Plug 'aluriak/nerdcommenter'
-"Plug 'dense-analysis/ale'
 Plug 'sainnhe/gruvbox-material'
 Plug 'airblade/vim-gitgutter'
-"Plug 'deoplete-plugins/deoplete-jedi'
-"Plug 'townk/vim-autoclose'
-"Plug 'ervandew/supertab'
-"Plug 'kien/ctrlp.vim'
-"Plug 'mileszs/ack.vim'
 Plug 'preservim/tagbar'
 Plug 'vim-scripts/AutoClose'
-"Plug 'valloric/youcompleteme'
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
-"Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
-"Plug 'liuchengxu/vim-clap', { 'do': { -> clap#installer#force_download() } }
-"Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
-"Plug 'liuchengxu/vim-clap'
 Plug 'Yggdroot/indentLine'
 Plug 'brooth/far.vim'
 Plug 'voldikss/vim-floaterm'
-"Plug 'puremourning/vimspector'
-"Plug 'raphamorim/lucario'
-"Plug 'mhinz/vim-grepper'
-"Plug 'vim-pandoc/vim-pandoc-syntax'
-"Plug 'vim-scripts/AutoComplPop'
-"Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+Plug 'mfussenegger/nvim-dap'
+Plug 'rcarriga/nvim-dap-ui'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'puremourning/vimspector'
+Plug 'jpalardy/vim-slime', { 'for': 'python' }
+Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }
+Plug 'dense-analysis/ale'
 call plug#end()
 
+"------------------------------------------------------------------------------
+" Vim specific commands 
+"------------------------------------------------------------------------------
 let mapleader=","
-"noremap <leader>
-let g:lightline = {
-      \ 'colorscheme': 'one',
-      \ }
-
-noremap <C-F> :Telescope current_buffer_fuzzy_find fuzzy=false case_mode=ignore_case<CR>
-noremap <leader>fa :Telescope live_grep<CR>
-noremap <leader>ff :Telescope find_files<CR>
-noremap <leader>fm :Telescope keymaps<CR>
-"noremap <C-F> :Clap blines<CR>
-"noremap <leader>fa :Clap grep<CR> 
-"noremap <leader>ff :Clap files<CR>
-"noremap <leader>fm :Clap maps<CR>
-"let g:vimspector_enable_mappings = 'HUMAN'
-"nmap <leader>c <Plug>VimspectorContinue
-"nmap <leader>b <Plug>VimspectorToggleBreakpoint
-"nmap <leader>R <Plug>VimpectorRestart
-
-" Configuration example
-"let g:floaterm_keymap_new    = '<F5>'
-"let g:floaterm_keymap_prev   = '<F8>'
-"let g:floaterm_keymap_next   = '<F9>'
-noremap <leader>o :FloatermNew --wintype=split --height=0.3<CR>
-let g:floaterm_keymap_toggle = '<leader>t'
-let g:floaterm_keymap_kill = '<leader>k'
-"nnoremap   <silent>   <F7>    :FloatermNew<CR>
-"tnoremap   <silent>   <F7>    <C-\><C-n>:FloatermNew<CR>
-"nnoremap   <silent>   <F8>    :FloatermPrev<CR>
-"tnoremap   <silent>   <F8>    <C-\><C-n>:FloatermPrev<CR>
-"nnoremap   <silent>   <F9>    :FloatermNext<CR>
-"tnoremap   <silent>   <F9>    <C-\><C-n>:FloatermNext<CR>
-"nnoremap   <silent>   <F12>   :FloatermToggle<CR>
-"tnoremap   <silent>   <F12>   <C-\><C-n>:FloatermToggle<CR>
-
-
-"let g:Lf_ShortcutF = "<leader>ff"
-
-"let g:Lf_CommandMap = {'j':['<Down>'], '<k>': ['<Up>'],'<C-K>': ['<Up>'], '<C-J>': ['<Down>']}
-"let g:Lf_WindowPosition = 'popup'
-"let g:Lf_PreviewInPopup = 1
-"let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2", 'font': "DejaVu Sans Mono for Powerline" }
-"let g:Lf_PreviewResult = {'Function': 0, 'BufTag': 0 }
-"noremap <leader>ff :<C-U><C-R>=printf("Leaderf file %s", "")<CR><CR>
-"noremap <leader>fb :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
-"noremap <leader>fm :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
-"noremap <leader>ft :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
-"noremap <leader>fl :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
-
-"noremap <C-F> :<C-U><C-R>=printf("Leaderf! rg --current-buffer -e %s ", expand("<cword>"))<CR>
-" Search in all projects with Control+Shift+F like PyCharm 
-"Have to map this escape character in terminal (iterm2 or gnome)
-"noremap <leader>fa :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR>
-" search visually selected text literally
-"xnoremap gf :<C-U><C-R>=printf("Leaderf! rg -F -e %s ", leaderf#Rg#visual())<CR>
-"noremap go :<C-U>Leaderf! rg --recall<CR>
-"let g:Lf_GtagsSource = 1
-"let g:Lf_GtagsAutoGenerate=1
-
-
-
-
-"let g:far#default_file_mask = '*'
-
-"nnoremap <C-F> :F
-set regexpengine=1        " use old regexp engine
-set ignorecase smartcase  " ignore case only when the pattern contains no capital letters
-
-" shortcut for far.vim find
-"nnoremap <silent> <C-f>  :Farf<cr>
-"vnoremap <silent> <C-f>  :Farf<cr>
-
-" shortcut for far.vim replace
-nnoremap <silent> <leader>r  :Farr<cr>
-vnoremap <silent> <leader>r  :Farr<cr>
-
-nmap <s-t> :TagbarToggle<CR>
-"nnoremap t] :call tagbar#jumpToNearbyTag(1)
-"nnoremap t[ :call tagbar#jumpToNearbyTag(-1)
-"set <CS-F>=^[f
-" Search with Ack (sa)
-"nnoremap <leader>sa :Ack! -S --python<Space>
-" Search in current buffer/file only
-"nnoremap <C-F> :AckWindow! -S --python<Space> 
-" This allows buffers to be hidden if you've modified a buffer.
-" This is almost a must if you wish to use buffers in this way.
-"set hidden
-" To open a new empty buffer
-" This replaces :tabnew which I used to bind to this mapping
-nmap <C-T> :enew<cr>
-" Move to the next buffer
-nmap <Tab> :bnext<CR>
-" Move to the previous buffer
-nmap <s-Tab> :bprevious<CR>
-" Close the current buffer and move to the previous one
-" This replicates the idea of closing a tab, 
-" however be warned it will close without saving anything!
-noremap <leader>q :bp <BAR> bd! #<CR>
-" Show all open buffers and their status
-nmap <leader>l :ls<CR>
-
-
-" Plugin Specific configurations
-" To start nerdtree on startup
-let g:nerdtree_tabs_open_on_console_startup=1
-"Airline Plugin: show tabs
-let g:airline#extensions#tabline#enabled = 1
-"Show just the filename
-let g:airline#extensions#tabline#fnamemod = ':t'
-
-"ALE plugin 
-"let b:ale_fixers = ['prettier', 'eslint']
-"let g:ale_linters = {'python': ['flake8']}
-let g:ale_fixers = {'python': ['remove_trailing_lines', 'trim_whitespace', 'autopep8']}
-
-"YCM Plugin configs:
-"let g:ycm_global_ycm_extra_conf='~/.vim/bundle/youcompleteme/.ycm_extra_conf.py'
-noremap <C-g> :YcmCompleter GoTo<CR>
-noremap <C-n> :YcmCompleter GoToReferences<CR>
-"noremap <C-q> :YcmCompleter GetDoc<CR>
-nmap <C-q> <plug>(YCMHover)
-autocmd FileType python let b:ycm_hover = {
-      \ 'command': 'GetDoc',
-      \ 'syntax': 'tex'
-      \ }
-"nmap <ESC>[65;5u  <Plug>(YCMFindSymbolInWorkspace)
-map <leader>fy  <Plug>(YCMFindSymbolInWorkspace)
-
-
-"Jedi Plugin:
-"let g:jedi#show_call_signatures = 0 
-"let g:jedi#show_call_signatures_modes = 'ni'
-"let g:jedi#use_tabs_not_buffers = 0 
-"let g:jedi#use_splits_not_buffers = "right" 
-"execute 'nnoremap <buffer> '.g:jedi#goto_command.' :call jedi#goto()<CR>zz'
-"nnoremap <C-space> :tab sp | set nodiff<CR>
-"let g:jedi#completions_enabled = 1 
-"let g:jedi#goto_command = "<C-b>"
-"let g:jedi#usages = "<leader>pl"
-"nnoremap <ESC>[65;6u <leader>pl
-"let g:pymode_rope = 0
-"set completeopt=menuone,longest,preview
-"set previewnopup=height:60,width:60
-"set completepopup=height:10,width:60,highlight:Pmenu,border:off
-"set completeopt+=popup
-"autocmd FileType python setlocal completeopt-=preview
-
-" Gruvbox-material Plugin: theme specificitations
-let g:gruvbox_material_background = 'hard'
-let g:airline_theme = 'gruvbox_material'
-let g:lightline = {'colorscheme' : 'gruvbox_material', 'gruvbox_material_palette':'mix'}
-let g:gruvbox_material_palette = 'mix'
-colorscheme gruvbox-material
-set t_Co=256
-set background=dark
-" Important!!
-if has('termguicolors')
-  set termguicolors
-endif
-
-
-" Key rebindings
-nnoremap <C-Down> <C-W><C-J>
-nnoremap <C-Up> <C-W><C-K>
-" Check this for MacOS: https://apple.stackexchange.com/questions/341993/macos-can-i-disable-f12-ctrl-left-arrow-ctrl-right-arrow sadsa sa dasda 
-nnoremap <C-Left> <C-W><C-H>
-nnoremap <C-Right> <C-W><C-L>
-"nnoremap <C-t> :tabnew<CR>
-"nnoremap <Tab> :tabnext<CR>
-"nnoremap <s-Tab> :tabprev<CR>
-"nnoremap <leader>q :tabclose<CR>
-nmap <C-_> <Plug>NERDCommenterToggle
-vmap <C-_> <Plug>NERDCommenterToggle<CR>gv
-
-"au VimEnter * ALEToggle
-"au VimEnter * NERDTree
-"au VimEnter * NERDTreeTabsOpen
-"autocmd BufEnter * NERDTreeMirror
-"let g:nerdtree_tabs_open_on_new_tab = 1
-"let NERDTreeMapOpenInTab='<ENTER>'
-"autocmd BufNew * execute ":tabmove99"
-
 syntax enable
 "filetype on
 "filetype detect
-"set clipboard=unnamedplus
+set clipboard=unnamedplus
 set encoding=utf-8
 set tabstop=4
 set softtabstop=4
@@ -246,51 +53,283 @@ set foldnestmax=10
 nnoremap <space> za
 set foldmethod=indent
 
-"function! ScrollPopup(down)
-    "let winid = popup_findinfo()
-    "if winid == 0
-        "return 0
-    "endif
+"------------------------------------------------------------------------------
+" Keybindings for using buffers in Vim 
+"------------------------------------------------------------------------------
+" To open a new empty buffer
+" This replaces :tabnew which I used to bind to this mapping
+nmap <C-T> :enew<cr>
+" Move to the next buffer
+nmap <Tab> :bnext<CR>
+" Move to the previous buffer
+nmap <s-Tab> :bprevious<CR>
+" Close the current buffer and move to the previous one
+" This replicates the idea of closing a tab, 
+" however be warned it will close without saving anything!
+noremap <leader>q :bp <BAR> bd! #<CR>
+" Show all open buffers and their status
+nmap <leader>l :ls<CR>
+" Moving between splits with arrow keys, sorry Vim, I don't deserve you :(
+nnoremap <C-Down> <C-W><C-J>
+nnoremap <C-Up> <C-W><C-K>
+" Check this for MacOS: https://apple.stackexchange.com/questions/341993/macos-can-i-disable-f12-ctrl-left-arrow-ctrl-right-arrow sadsa sa dasda 
+nnoremap <C-Left> <C-W><C-H>
+nnoremap <C-Right> <C-W><C-L>
 
-    "" if the popup window is hidden, bypass the keystrokes
-    "let pp = popup_getpos(winid)
-    "if pp.visible != 1
-        "return 0
-    "endif
+"------------------------------------------------------------------------------
+" Lightline configuration
+"------------------------------------------------------------------------------
+let g:lightline = {
+      \ 'colorscheme': 'one',
+      \ }
+let g:lightline = {'colorscheme' : 'gruvbox_material', 'gruvbox_material_palette':'mix'}
+"------------------------------------------------------------------------------
+" Telescope keybindings configuration
+"------------------------------------------------------------------------------
+noremap <C-F> :Telescope current_buffer_fuzzy_find fuzzy=false case_mode=ignore_case<CR>
+noremap <leader>fa :Telescope live_grep<CR>
+noremap <leader>ff :Telescope find_files<CR>
+noremap <leader>fm :Telescope keymaps<CR>
 
-    "let firstline = pp.firstline + a:down
-    "let buf_lastline = str2nr(trim(win_execute(winid, "echo line('$')")))
-    "if firstline < 1
-        "let firstline = 1
-    "elseif pp.lastline + a:down > buf_lastline
-        "let firstline = firstline - a:down + buf_lastline - pp.lastline
-    "endif
+"------------------------------------------------------------------------------
+" YouCompleteMe keybindings configuration
+"------------------------------------------------------------------------------
+noremap <C-g> :YcmCompleter GoTo<CR>
+noremap <C-n> :YcmCompleter GoToReferences<CR>
+"noremap <C-q> :YcmCompleter GetDoc<CR>
+nmap <C-q> <plug>(YCMHover)
+autocmd FileType python let b:ycm_hover = {
+      \ 'command': 'GetDoc',
+      \ 'syntax': 'tex'
+      \ }
+"nmap <ESC>[65;5u  <Plug>(YCMFindSymbolInWorkspace)
+map <leader>fy  <Plug>(YCMFindSymbolInWorkspace)
 
-    "" The appear of scrollbar will change the layout of the content which will cause inconsistent height.
-    "call popup_setoptions( winid,
-                "\ {'scrollbar': 0, 'firstline' : firstline } )
 
-    "return 1
-"endfunction
-"inoremap <expr> <C-e> ScrollPopup(3) ? '' : '<C-e>'
-"inoremap <expr> <C-y> ScrollPopup(-3) ? '' : '<C-y>'
-"map <expr> <C-e> ScrollPopup(2) ? '' : '<C-e>'
-"map <expr> <C-y> ScrollPopup(-3) ? '' : '<C-y>'
-"nnoremap <C-e> :call ScrollPopup(1)<CR>
-"nnoremap <C-y> :call ScrollPopup(0)<CR>
+"------------------------------------------------------------------------------
+" Floaterm keybindings configuration
+"------------------------------------------------------------------------------
+noremap <leader>o :FloatermNew --wintype=split --height=0.3<CR>
+let g:floaterm_keymap_toggle = '<leader>t'
+let g:floaterm_keymap_kill = '<leader>k'
 
-"function ScrollPopup(down)
-    "let winid = popup_findinfo()
-    "if winid == 0
-        "return 0
-    "endif
-    "echo "$winid"
-    "" The popup window has been hidden in the normal mode, we should make it show again.
-    "call popup_show(winid)
-    "let pp = popup_getpos(winid)
-    "call popup_setoptions( winid,
-                "\ {'firstline' : pp.firstline + ( a:down ? 1 : -1 ) } ) 
+"------------------------------------------------------------------------------
+" Farr keybindings configuration
+"------------------------------------------------------------------------------
+nnoremap <silent> <leader>r  :Farr<cr>
+vnoremap <silent> <leader>r  :Farr<cr>
 
-    "return 1
-"endfunction
+"------------------------------------------------------------------------------
+" TagBar keybindings configuration
+"------------------------------------------------------------------------------
+nmap <s-t> :TagbarToggle<CR>
+"nnoremap t] :call tagbar#jumpToNearbyTag(1)
+"nnoremap t[ :call tagbar#jumpToNearbyTag(-1)
+
+"------------------------------------------------------------------------------
+" Gruvbox-material colorscheme configuration
+"------------------------------------------------------------------------------
+let g:gruvbox_material_background = 'hard'
+let g:gruvbox_material_palette = 'mix'
+colorscheme gruvbox-material
+set t_Co=256
+set background=dark
+" Important!!
+if has('termguicolors')
+  set termguicolors
+endif
+
+"------------------------------------------------------------------------------
+" NERDTree configuration
+"------------------------------------------------------------------------------
+" Plugin Specific configurations
+" To start nerdtree on startup
+let g:nerdtree_tabs_open_on_console_startup=1
+
+"------------------------------------------------------------------------------
+" NERDCommenter configuration so that we can use toggle comment
+"------------------------------------------------------------------------------
+nmap <C-_> <Plug>NERDCommenterToggle
+vmap <C-_> <Plug>NERDCommenterToggle<CR>gv
+
+"------------------------------------------------------------------------------
+" Ale configuration so that we can lint and see the errors
+"------------------------------------------------------------------------------
+let g:ale_fixers = {'python': ['yapf'], '*': ['remove_trailing_lines', 'trim_whitespace']}
+let g:ale_linters = {'python': ['flake8', 'pylint']}
+let g:ale_fix_on_save = 1
+let g:ale_set_highlights = 1 
+let g:ale_sign_error = '>>'
+let g:ale_sign_warning = '--'
+"let g:lightline#extensions#ale#enabled = 1
+nmap <leader>af :ALEFix<CR>
+
+"let g:ale_fixers = {'python': ['remove_trailing_lines', 'trim_whitespace', 'autopep8']}
+
+"------------------------------------------------------------------------------
+" Some Lua stuff for treesitter and nvim-dap: THE debugger.
+"------------------------------------------------------------------------------
+lua << EOF
+require'nvim-treesitter.configs'.setup {
+  -- One of "all", "maintained" (parsers with maintainers), or a list of languages
+  ensure_installed = "maintained",
+
+  -- Install languages synchronously (only applied to `ensure_installed`)
+  sync_install = false,
+
+  -- List of parsers to ignore installing
+  ignore_install = { "javascript" },
+
+  highlight = {
+    -- `false` will disable the whole extension
+    enable = true,
+
+    -- NOTE: these are the names of the parsers and not the filetype. (for example if you want to
+    --disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
+    --the name of the parser)
+    -- list of language that will be disabled
+    disable = { "c", "rust" },
+    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+    -- Using this option may slow down your editor, and you may see some duplicate highlights.
+    -- Instead of true it can also be a list of languages
+    additional_vim_regex_highlighting = false,
+  },
+}
+EOF
+lua << EOF
+    local dap = require('dap')
+    dap.adapters.python = {
+      type = 'executable';
+      command = '/home/abiten/miniconda3/envs/transformers/bin/python';
+      args = { '-m', 'debugpy.adapter' };
+      justMyCode=false;
+    }
+EOF
+lua << EOF
+    require('dap')
+    vim.fn.sign_define('DapBreakpoint', {text='🛑', texthl='', linehl='', numhl=''})
+    local dap = require('dap')
+    dap.configurations.python = {
+      {
+        type = 'python';
+        request = 'launch';
+        name = "Launch file";
+        program = "${file}";
+        justMyCode=false; 
+        args = function()
+            local args_string = vim.fn.input('Arguments: ')
+            return vim.split(args_string, " +")
+        end;
+        pythonPath = '/home/abiten/miniconda3/envs/transformers/bin/python';
+      },
+    }
+EOF
+
+nnoremap <silent> <F9> :lua require'dap'.continue()<CR>
+nnoremap <silent> <F8> :lua require'dap'.step_over()<CR>
+nnoremap <silent> <F7> :lua require'dap'.step_into()<CR>
+nnoremap <silent> <F6> :lua require'dap'.step_out()<CR>
+nnoremap <silent> <C-b> :lua require'dap'.toggle_breakpoint()<CR>
+nnoremap <silent> <leader>B :lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>
+nnoremap <silent> <leader>lp :lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>
+nnoremap <silent> <leader>dr :lua require'dap'.repl.open()<CR>
+nnoremap <silent> <leader>dl :lua require'dap'.run_last()<CR>
+function! Run_dapui()
+        lua require'dapui'.setup()
+        lua require'dapui'.open()
+endfunction
+nnoremap <leader>do :<C-u>call Run_dapui()<CR> 
+"let g:vimspector_enable_mappings = 'HUMAN'
+"nnoremap <leader>si <Plug>VimspectorStepInto<CR>
+" for normal mode - the word under the cursor
+"nmap <Leader>di <Plug>VimspectorBalloonEval
+
+"------------------------------------------------------------------------------
+" Vim-slime configuration
+"------------------------------------------------------------------------------
+" always use tmux
+let g:slime_target = 'tmux'
+"let g:slime_target = "vimterminal"
+let g:slime_paste_file = "$HOME/.slime_paste"
+" or maybe...
+let g:slime_paste_file = tempname()
+let g:slime_default_config = {"socket_name": get(split($TMUX, ","), 0), "target_pane": ":.2"}
+
+" fix paste issues in ipython
+let g:slime_python_ipython = 1
+
+" always send text to the top-right pane in the current tmux tab without asking
+let g:slime_default_config = {
+            \ 'socket_name': get(split($TMUX, ','), 0),
+            \ 'target_pane': '{top-right}' }
+let g:slime_dont_ask_default = 1
+
+"------------------------------------------------------------------------------
+" ipython-cell configuration
+"------------------------------------------------------------------------------
+" Keyboard mappings. <Leader> is \ (backslash) by default
+
+" map <Leader>s to start IPython
+nnoremap <Leader>s :SlimeSend1 ipython --matplotlib<CR>
+
+" map <Leader>r to run script
+nnoremap <Leader>r :IPythonCellRun<CR>
+
+" map <Leader>R to run script and time the execution
+nnoremap <Leader>R :IPythonCellRunTime<CR>
+
+" map <Leader>c to execute the current cell
+nnoremap <Leader>c :IPythonCellExecuteCell<CR>
+
+" map <Leader>C to execute the current cell and jump to the next cell
+nnoremap <Leader>C :IPythonCellExecuteCellJump<CR>
+
+" map <Leader>l to clear IPython screen
+nnoremap <Leader>l :IPythonCellClear<CR>
+
+" map <Leader>x to close all Matplotlib figure windows
+nnoremap <Leader>x :IPythonCellClose<CR>
+
+" map [c and ]c to jump to the previous and next cell header
+nnoremap [c :IPythonCellPrevCell<CR>
+nnoremap ]c :IPythonCellNextCell<CR>
+
+" map <Leader>h to send the current line or current selection to IPython
+nmap <Leader>h <Plug>SlimeLineSend
+xmap <Leader>h <Plug>SlimeRegionSend
+
+" map <Leader>p to run the previous command
+nnoremap <Leader>p :IPythonCellPrevCommand<CR>
+
+" map <Leader>Q to restart ipython
+nnoremap <Leader>Q :IPythonCellRestart<CR>
+
+" map <Leader>d to start debug mode
+nnoremap <Leader>d :SlimeSend1 %debug<CR>
+
+" map <Leader>q to exit debug mode or IPython
+nnoremap <Leader>q :SlimeSend1 exit<CR>
+
+" map <F9> and <F10> to insert a cell header tag above/below and enter insert mode
+nmap <F9> :IPythonCellInsertAbove<CR>a
+nmap <F10> :IPythonCellInsertBelow<CR>a
+
+" also make <F9> and <F10> work in insert mode
+imap <F9> <C-o>:IPythonCellInsertAbove<CR>
+imap <F10> <C-o>:IPythonCellInsertBelow<CR>
+function! IPythonOpen()
+    " open a new terminal in vertical split and run IPython
+    vnew|call termopen('zsh; conda activate transformers; ipython --matplotlib')
+    file ipython " name the new buffer
+
+    " set slime target to new terminal
+    if !exists('g:slime_default_config')
+        let g:slime_default_config = {}
+    end
+    let g:slime_default_config['jobid'] = b:terminal_job_id
+
+    wincmd p " switch to the previous buffer
+endfunction
+
 
