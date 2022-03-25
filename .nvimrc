@@ -2,7 +2,8 @@ call plug#begin()
 Plug 'preservim/NERDTree'
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'cjrh/vim-conda'
-Plug 'itchyny/lightline.vim'
+"Plug 'itchyny/lightline.vim'
+Plug 'vim-airline/vim-airline'
 Plug 'ap/vim-buftabline'
 Plug 'aluriak/nerdcommenter'
 Plug 'sainnhe/gruvbox-material'
@@ -22,12 +23,37 @@ Plug 'puremourning/vimspector'
 Plug 'jpalardy/vim-slime', { 'for': 'python' }
 Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }
 Plug 'dense-analysis/ale'
+"Plug 'farhanmustar/ale-python-linter'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+"Plug 'vim-syntastic/syntastic'
+"Plug 'nvim-lua/popup.nvim'
 call plug#end()
 
+let g:python3_host_prog = $CONDA_PREFIX.'/bin/python'
+let g:conda_startup_msg_suppress = 1
+" Set ultisnips triggers
+let g:UltiSnipsExpandTrigger=">"
+let g:UltiSnipsJumpForwardTrigger=">"
+let g:UltiSnipsJumpBackwardTrigger="<"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
 "------------------------------------------------------------------------------
-" Vim specific commands 
+" Vim specific commands
 "------------------------------------------------------------------------------
 let mapleader=","
+"set signcolumn=number
+
+" set the font
+set guifont=Lucida_Console:h9:cDEFAULT
+
+" visual selection copied to clipboard
+set guioptions=at
+" enable modelines
+set modeline
+set modelines=5
+
 syntax enable
 "filetype on
 "filetype detect
@@ -54,7 +80,7 @@ nnoremap <space> za
 set foldmethod=indent
 
 "------------------------------------------------------------------------------
-" Keybindings for using buffers in Vim 
+" Keybindings for using buffers in Vim
 "------------------------------------------------------------------------------
 " To open a new empty buffer
 " This replaces :tabnew which I used to bind to this mapping
@@ -64,7 +90,7 @@ nmap <Tab> :bnext<CR>
 " Move to the previous buffer
 nmap <s-Tab> :bprevious<CR>
 " Close the current buffer and move to the previous one
-" This replicates the idea of closing a tab, 
+" This replicates the idea of closing a tab,
 " however be warned it will close without saving anything!
 noremap <leader>q :bp <BAR> bd! #<CR>
 " Show all open buffers and their status
@@ -72,7 +98,7 @@ nmap <leader>l :ls<CR>
 " Moving between splits with arrow keys, sorry Vim, I don't deserve you :(
 nnoremap <C-Down> <C-W><C-J>
 nnoremap <C-Up> <C-W><C-K>
-" Check this for MacOS: https://apple.stackexchange.com/questions/341993/macos-can-i-disable-f12-ctrl-left-arrow-ctrl-right-arrow sadsa sa dasda 
+" Check this for MacOS: https://apple.stackexchange.com/questions/341993/macos-can-i-disable-f12-ctrl-left-arrow-ctrl-right-arrow sadsa sa dasda
 nnoremap <C-Left> <C-W><C-H>
 nnoremap <C-Right> <C-W><C-L>
 
@@ -97,13 +123,15 @@ noremap <leader>fm :Telescope keymaps<CR>
 noremap <C-g> :YcmCompleter GoTo<CR>
 noremap <C-n> :YcmCompleter GoToReferences<CR>
 "noremap <C-q> :YcmCompleter GetDoc<CR>
-nmap <C-q> <plug>(YCMHover)
+noremap <C-q> <plug>(YCMHover)
 autocmd FileType python let b:ycm_hover = {
       \ 'command': 'GetDoc',
       \ 'syntax': 'tex'
       \ }
 "nmap <ESC>[65;5u  <Plug>(YCMFindSymbolInWorkspace)
 map <leader>fy  <Plug>(YCMFindSymbolInWorkspace)
+let g:ycm_add_preview_to_completeopt = 'popup'
+"set completeopt+=popup
 
 
 "------------------------------------------------------------------------------
@@ -132,8 +160,8 @@ nmap <s-t> :TagbarToggle<CR>
 let g:gruvbox_material_background = 'hard'
 let g:gruvbox_material_palette = 'mix'
 colorscheme gruvbox-material
-set t_Co=256
-set background=dark
+"set t_Co=256
+"set background=dark
 " Important!!
 if has('termguicolors')
   set termguicolors
@@ -156,13 +184,25 @@ vmap <C-_> <Plug>NERDCommenterToggle<CR>gv
 " Ale configuration so that we can lint and see the errors
 "------------------------------------------------------------------------------
 let g:ale_fixers = {'python': ['yapf'], '*': ['remove_trailing_lines', 'trim_whitespace']}
-let g:ale_linters = {'python': ['flake8', 'pylint']}
+let g:ale_linters = {'python': ['flake8','pylint']}
 let g:ale_fix_on_save = 1
-let g:ale_set_highlights = 1 
+let g:ale_set_highlights =  1
+"let g:ale_sign_error = '❌'
+"let g:ale_sign_warning = '⚠️'
 let g:ale_sign_error = '>>'
 let g:ale_sign_warning = '--'
 "let g:lightline#extensions#ale#enabled = 1
 nmap <leader>af :ALEFix<CR>
+let g:airline#extensions#ale#enabled = 1
+"let g:ale_python_pylint_change_directory=0
+"let g:ale_python_flake8_change_directory=0
+"let g:ale_python_auto_pipenv = 1
+let g:ale_python_flake8_executable = $CONDA_PREFIX.'/bin/python'
+let g:ale_python_pylint_options = "--generated-members=numpy.*,torch.*"
+"let g:ale_python_pylint_executable ="/home/abiten/miniconda3/envs/transformers/bin/python"
+let g:ale_set_highlights =0
+"hi! EndOfBuffer ctermbg=bg ctermfg=bg guibg=bg guifg=bg
+
 
 "let g:ale_fixers = {'python': ['remove_trailing_lines', 'trim_whitespace', 'autopep8']}
 
@@ -201,7 +241,7 @@ lua << EOF
     local dap = require('dap')
     dap.adapters.python = {
       type = 'executable';
-      command = '/home/abiten/miniconda3/envs/transformers/bin/python';
+      command = os.getenv("CONDA_PREFIX")..'/bin/python';
       args = { '-m', 'debugpy.adapter' };
       justMyCode=false;
     }
@@ -216,31 +256,31 @@ lua << EOF
         request = 'launch';
         name = "Launch file";
         program = "${file}";
-        justMyCode=false; 
+        justMyCode=false;
         args = function()
             local args_string = vim.fn.input('Arguments: ')
             return vim.split(args_string, " +")
         end;
-        pythonPath = '/home/abiten/miniconda3/envs/transformers/bin/python';
+        pythonPath =  os.getenv("CONDA_PREFIX")..'/bin/python';
       },
     }
 EOF
 
-nnoremap <silent> <F9> :lua require'dap'.continue()<CR>
-nnoremap <silent> <F8> :lua require'dap'.step_over()<CR>
-nnoremap <silent> <F7> :lua require'dap'.step_into()<CR>
-nnoremap <silent> <F6> :lua require'dap'.step_out()<CR>
-nnoremap <silent> <C-b> :lua require'dap'.toggle_breakpoint()<CR>
-nnoremap <silent> <leader>B :lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>
-nnoremap <silent> <leader>lp :lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>
-nnoremap <silent> <leader>dr :lua require'dap'.repl.open()<CR>
-nnoremap <silent> <leader>dl :lua require'dap'.run_last()<CR>
-function! Run_dapui()
-        lua require'dapui'.setup()
-        lua require'dapui'.open()
-endfunction
-nnoremap <leader>do :<C-u>call Run_dapui()<CR> 
-"let g:vimspector_enable_mappings = 'HUMAN'
+"nnoremap <silent> <F9> :lua require'dap'.continue()<CR>
+"nnoremap <silent> <F8> :lua require'dap'.step_over()<CR>
+"nnoremap <silent> <F7> :lua require'dap'.step_into()<CR>
+"nnoremap <silent> <F6> :lua require'dap'.step_out()<CR>
+"nnoremap <silent> <C-b> :lua require'dap'.toggle_breakpoint()<CR>
+"nnoremap <silent> <leader>B :lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>
+"nnoremap <silent> <leader>lp :lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>
+"nnoremap <silent> <leader>dr :lua require'dap'.repl.open()<CR>
+"nnoremap <silent> <leader>dl :lua require'dap'.run_last()<CR>
+"function! Run_dapui()
+        "lua require'dapui'.setup()
+        "lua require'dapui'.open()
+"endfunction
+"nnoremap <leader>do :<C-u>call Run_dapui()<CR>
+let g:vimspector_enable_mappings = 'HUMAN'
 "nnoremap <leader>si <Plug>VimspectorStepInto<CR>
 " for normal mode - the word under the cursor
 "nmap <Leader>di <Plug>VimspectorBalloonEval
@@ -274,22 +314,22 @@ let g:slime_dont_ask_default = 1
 nnoremap <Leader>s :SlimeSend1 ipython --matplotlib<CR>
 
 " map <Leader>r to run script
-nnoremap <Leader>r :IPythonCellRun<CR>
+"nnoremap <Leader>r :IPythonCellRun<CR>
 
 " map <Leader>R to run script and time the execution
-nnoremap <Leader>R :IPythonCellRunTime<CR>
+"nnoremap <Leader>R :IPythonCellRunTime<CR>
 
 " map <Leader>c to execute the current cell
-nnoremap <Leader>c :IPythonCellExecuteCell<CR>
+"nnoremap <Leader>c :IPythonCellExecuteCell<CR>
 
 " map <Leader>C to execute the current cell and jump to the next cell
-nnoremap <Leader>C :IPythonCellExecuteCellJump<CR>
+"nnoremap <Leader>C :IPythonCellExecuteCellJump<CR>
 
 " map <Leader>l to clear IPython screen
 nnoremap <Leader>l :IPythonCellClear<CR>
 
 " map <Leader>x to close all Matplotlib figure windows
-nnoremap <Leader>x :IPythonCellClose<CR>
+"nnoremap <Leader>x :IPythonCellClose<CR>
 
 " map [c and ]c to jump to the previous and next cell header
 nnoremap [c :IPythonCellPrevCell<CR>
@@ -300,24 +340,24 @@ nmap <Leader>h <Plug>SlimeLineSend
 xmap <Leader>h <Plug>SlimeRegionSend
 
 " map <Leader>p to run the previous command
-nnoremap <Leader>p :IPythonCellPrevCommand<CR>
+"nnoremap <Leader>p :IPythonCellPrevCommand<CR>
 
 " map <Leader>Q to restart ipython
-nnoremap <Leader>Q :IPythonCellRestart<CR>
+"nnoremap <Leader>Q :IPythonCellRestart<CR>
 
 " map <Leader>d to start debug mode
 nnoremap <Leader>d :SlimeSend1 %debug<CR>
 
 " map <Leader>q to exit debug mode or IPython
-nnoremap <Leader>q :SlimeSend1 exit<CR>
+"nnoremap <Leader>q :SlimeSend1 exit<CR>
 
 " map <F9> and <F10> to insert a cell header tag above/below and enter insert mode
-nmap <F9> :IPythonCellInsertAbove<CR>a
-nmap <F10> :IPythonCellInsertBelow<CR>a
+"nmap <F9> :IPythonCellInsertAbove<CR>a
+"nmap <F10> :IPythonCellInsertBelow<CR>a
 
 " also make <F9> and <F10> work in insert mode
-imap <F9> <C-o>:IPythonCellInsertAbove<CR>
-imap <F10> <C-o>:IPythonCellInsertBelow<CR>
+"imap <F9> <C-o>:IPythonCellInsertAbove<CR>
+"imap <F10> <C-o>:IPythonCellInsertBelow<CR>
 function! IPythonOpen()
     " open a new terminal in vertical split and run IPython
     vnew|call termopen('zsh; conda activate transformers; ipython --matplotlib')
@@ -332,4 +372,12 @@ function! IPythonOpen()
     wincmd p " switch to the previous buffer
 endfunction
 
-
+" Terminal Settings
+if has("nvim")
+    tnoremap <silent> <Esc> <C-\><C-n>`.$
+    tnoremap <A-h> <C-\><C-n><C-w>h
+    tnoremap <A-j> <C-\><C-n><C-w>j
+    tnoremap <A-k> <C-\><C-n><C-w>k
+    tnoremap <A-l> <C-\><C-n><C-w>l
+    autocmd BufEnter term://* startinsert
+endif
