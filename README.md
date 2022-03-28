@@ -21,14 +21,3 @@ Launch nvim and run :PlugInstall to install all the libraries.
 
 # Vim Basics
 
-
-run sudo apt install eslint
-
-```inoremap <silent><expr> <TAB>
- 20 │     \ pumvisible() ? coc#_select_confirm() :
- 21 │     \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
- 22 │     \ <SID>check_back_space() ? "\<TAB>" :
- 23 │     \ coc#refresh()
- 24
- 25 function! s:check_back_space() abo
-```
