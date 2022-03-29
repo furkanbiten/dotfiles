@@ -1,31 +1,25 @@
 call plug#begin()
-"Plug 'preservim/NERDTree'
-"Plug 'jistr/vim-nerdtree-tabs'
-"Plug 'cjrh/vim-conda'
 "Plug 'vim-airline/vim-airline'
-"Plug 'ap/vim-buftabline'
 Plug 'aluriak/nerdcommenter'
 Plug 'sainnhe/gruvbox-material'
 "Plug 'airblade/vim-gitgutter'
-Plug 'preservim/tagbar'
 Plug 'vim-scripts/AutoClose'
-"Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
-"Plug 'Yggdroot/indentLine'
 Plug 'brooth/far.vim'
 Plug 'voldikss/vim-floaterm'
 Plug 'puremourning/vimspector'
 Plug 'jpalardy/vim-slime', { 'for': 'python' }
 Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }
-"Plug 'dense-analysis/ale'
+Plug 'dense-analysis/ale'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'liuchengxu/vista.vim'
+Plug 'mzlogin/vim-markdown-toc'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 "We are now going full nvim
 Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh' }
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'folke/trouble.nvim'
-Plug 'neovim/nvim-lspconfig'
-"Plug 'glepnir/lspsaga.nvim'
+"Plug 'neovim/nvim-lspconfig'
 "Plug 'hrsh7th/cmp-nvim-lsp'
 "Plug 'hrsh7th/cmp-buffer'
 "Plug 'hrsh7th/cmp-path'
@@ -43,14 +37,12 @@ Plug 'akinsho/bufferline.nvim'
 Plug 'feline-nvim/feline.nvim'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-"Plug 'vim-syntastic/syntastic'
-"Plug 'nvim-lua/popup.nvim'
 call plug#end()
 
-
-
 set completeopt=menu,menuone,noselect
+set shell=/usr/bin/zsh
 
+"let g:vista#renderer#enable_icon = 1
 au User NvimGdbQuery GdbLopenBacktrace
 "au User NvimGdbQuery GdbCreateWatch locals()
 "au User NvimGdbQuery call nvim_buf_set_lines(5, 0, -1, 0, split(GdbCustomCommand("locals()"), "\n"))
@@ -175,9 +167,10 @@ nnoremap <silent> <leader>r  :Farr<cr>
 vnoremap <silent> <leader>r  :Farr<cr>
 
 "------------------------------------------------------------------------------
-" TagBar keybindings configuration
+" Vista keybindings configuration
 "------------------------------------------------------------------------------
-nmap <s-t> :TagbarToggle<CR>
+nmap <s-t> :Vista!!<CR>
+let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
 "nnoremap t] :call tagbar#jumpToNearbyTag(1)
 "nnoremap t[ :call tagbar#jumpToNearbyTag(-1)
 
@@ -211,13 +204,15 @@ vmap <C-_> <Plug>NERDCommenterToggle<CR>gv
 "------------------------------------------------------------------------------
 " Ale configuration so that we can lint and see the errors
 "------------------------------------------------------------------------------
-let g:ale_fixers = {'python': ['yapf'], '*': ['remove_trailing_lines', 'trim_whitespace']}
-let g:ale_linters = {'python': ['flake8','pylint']}
-let g:ale_fix_on_save = 1
+let g:ale_fixers = {'python': ['yapf', 'isort', 'autoflake', 'autopep8', 'add_blank_lines_for_python_control_statements'], '*': ['remove_trailing_lines', 'trim_whitespace']}
+let g:ale_linters = {'python': ['pep8','pylint', 'pyflakes']}
+"let g:ale_linters = {'python': ['bandit', 'flake8', 'flakehell', 'jedils', 'mypy', 'prospector', 'pycodestyle', 'pydocstyle', 'pyflakes', 'pylama', 'pylint', 'pylsp', 'pyre', 'pyright', 'unimport', 'vulture']}
+"let g:ale_fix_on_save = 1
 "let g:ale_sign_error = '❌'
 "let g:ale_sign_warning = '⚠️'
-let g:ale_sign_error = '>>'
-let g:ale_sign_warning = '--'
+let g:ale_sign_error = 'E'
+let g:ale_sign_warning = 'W'
+highlight ALEWarningSign ctermbg=NONE ctermfg=yellow guifg=orange
 "let g:lightline#extensions#ale#enabled = 1
 nmap <leader>af :ALEFix<CR>
 "let g:airline#extensions#ale#enabled = 1
@@ -229,7 +224,6 @@ let g:ale_python_pylint_options = "--generated-members=numpy.*,torch.*"
 "let g:ale_python_pylint_executable ="/home/abiten/miniconda3/envs/transformers/bin/python"
 let g:ale_set_highlights =0
 "hi! EndOfBuffer ctermbg=bg ctermfg=bg guibg=bg guifg=bg
-
 
 "let g:ale_fixers = {'python': ['remove_trailing_lines', 'trim_whitespace', 'autopep8']}
 
@@ -294,21 +288,22 @@ lua << EOF
     }
 EOF
 
-nnoremap <silent> <F9> :lua require'dap'.continue()<CR>
-nnoremap <silent> <F8> :lua require'dap'.step_over()<CR>
-nnoremap <silent> <F7> :lua require'dap'.step_into()<CR>
-nnoremap <silent> <F6> :lua require'dap'.step_out()<CR>
-nnoremap <silent> <C-b> :lua require'dap'.toggle_breakpoint()<CR>
-nnoremap <silent> <leader>B :lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>
-nnoremap <silent> <leader>lp :lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>
-nnoremap <silent> <leader>dr :lua require'dap'.repl.open()<CR>
-nnoremap <silent> <leader>dl :lua require'dap'.run_last()<CR>
-function! Run_dapui()
-        lua require'dapui'.setup()
-        lua require'dapui'.open()
-endfunction
-nnoremap <leader>do :<C-u>call Run_dapui()<CR>
-"let g:vimspector_enable_mappings = 'HUMAN'
+"nnoremap <silent> <F9> :lua require'dap'.continue()<CR>
+"nnoremap <silent> <F8> :lua require'dap'.step_over()<CR>
+"nnoremap <silent> <F7> :lua require'dap'.step_into()<CR>
+"nnoremap <silent> <F6> :lua require'dap'.step_out()<CR>
+"nnoremap <silent> <F5> :lua require'dap'.toggle_breakpoint()<CR>
+"nnoremap <silent> <leader>B :lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>
+"nnoremap <silent> <leader>lp :lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>
+"nnoremap <silent> <leader>dr :lua require'dap'.repl.open()<CR>
+"nnoremap <silent> <leader>dl :lua require'dap'.run_last()<CR>
+"function! Run_dapui()
+        "lua require'dapui'.setup()
+        "lua require'dapui'.open()
+"endfunction
+"nnoremap <leader>do :<C-u>call Run_dapui()<CR>
+let g:vimspector_enable_mappings = 'HUMAN'
+"let g:vimspector_base_dir=expand( '$HOME/.local/share/nvim/plugged/vimspector/configurations/.vimspector.json' )
 "nnoremap <leader>si <Plug>VimspectorStepInto<CR>
 " for normal mode - the word under the cursor
 "nmap <Leader>di <Plug>VimspectorBalloonEval
@@ -414,74 +409,22 @@ lua <<EOF
 
 require'nvim-tree'.setup {open_on_setup = true}
 require'trouble'.setup{}
-require("bufferline").setup{}
+require'bufferline'.setup{}
 --require'lspconfig'.pyright.setup{}
+--require'coq'.setup{coq.lsp_ensure_capabilities()}
 --require'lspconfig'.pyre.setup{}
-require('feline').setup()
-require('gitsigns').setup{}
---local saga = require 'lspsaga'
---saga.init_lsp_saga()
+require('feline').setup{}
+require('gitsigns').setup{
+    preview_config = {
+    -- Options passed to nvim_open_win
+    border = 'double',
+    style = 'minimal',
+    relative = 'cursor',
+    row = 0,
+    col = 2
+  }
+}
 
---require'lspconfig'.pyls.setup{}
--- Setup nvim-cmp.
-  local cmp = require'cmp'
-
-  cmp.setup({
-    snippet = {
-      -- REQUIRED - you must specify a snippet engine
-      expand = function(args)
-        --vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-        -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-        -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
-        vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
-      end,
-    },
-    mapping = {
-      ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-      ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-      ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-      ['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
-      ['<C-e>'] = cmp.mapping({
-        i = cmp.mapping.abort(),
-        c = cmp.mapping.close(),
-      }),
-      ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-    },
-    sources = cmp.config.sources({
-      { name = 'nvim_lsp' },
-      -- { name = 'vsnip' }, -- For vsnip users.
-      -- { name = 'luasnip' }, -- For luasnip users.
-      { name = 'ultisnips' }, -- For ultisnips users.
-      -- { name = 'snippy' }, -- For snippy users.
-    }, {
-      { name = 'buffer' },
-    })
-  })
-
-  -- Set configuration for specific filetype.
-  cmp.setup.filetype('gitcommit', {
-    sources = cmp.config.sources({
-      { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
-    }, {
-      { name = 'buffer' },
-    })
-  })
-
-  -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
-  cmp.setup.cmdline('/', {
-    sources = {
-      { name = 'buffer' }
-    }
-  })
-
-  -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-  cmp.setup.cmdline(':', {
-    sources = cmp.config.sources({
-      { name = 'path' }
-    }, {
-      { name = 'cmdline' }
-    })
-  })
 vim.opt.list = true
 --vim.opt.listchars:append("space:⋅")
 vim.opt.listchars:append("eol: ")
@@ -491,48 +434,13 @@ require("indent_blankline").setup {
     show_current_context = true,
     show_current_context_start = true,
 }
-  -- Setup lspconfig.
-  --local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-  -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
-  --require('lspconfig')['python'].setup {
-    --capabilities = capabilities
-  --}
------------------------------------------------------------
--- Neovim LSP configuration file
------------------------------------------------------------
--- Mappings.
--- See `:help vim.diagnostic.*` for documentation on any of the below functions
 local opts = { noremap=true, silent=true }
 vim.api.nvim_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
 vim.api.nvim_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
 vim.api.nvim_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
 vim.api.nvim_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
-
--- Use an on_attach function to only map the following keys
--- after the language server attaches to the current buffer
-local on_attach = function(client, bufnr)
-  -- Enable completion triggered by <c-x><c-o>
-  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.onifunc')
-
-  -- Mappings.
-  -- See `:help vim.lsp.*` for documentation on any of the below functions
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-end
--- Plugin: nvim-lspconfig
--- url: https://github.com/neovim/nvim-lspconfig
 EOF
+
 nnoremap <silent><leader>1 <Cmd>BufferLineGoToBuffer 1<CR>
 nnoremap <silent><leader>2 <Cmd>BufferLineGoToBuffer 2<CR>
 nnoremap <silent><leader>3 <Cmd>BufferLineGoToBuffer 3<CR>
@@ -548,10 +456,10 @@ nnoremap <silent><leader>9 <Cmd>BufferLineGoToBuffer 9<CR>
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
   let col = col('.') - 1
@@ -614,8 +522,8 @@ augroup end
 
 " Applying codeAction to the selected region.
 " Example: `<leader>aap` for current paragraph
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
+"xmap <leader>a  <Plug>(coc-codeaction-selected)
+"nmap <leader>a  <Plug>(coc-codeaction-selected)
 
 " Remap keys for applying codeAction to the current buffer.
 nmap <leader>ac  <Plug>(coc-codeaction)
@@ -651,19 +559,20 @@ endif
 nmap <silent> <C-s> <Plug>(coc-range-select)
 xmap <silent> <C-s> <Plug>(coc-range-select)
 
-" Add `:Format` command to format current buffer.
+"" Add `:Format` command to format current buffer.
 command! -nargs=0 Format :call CocActionAsync('format')
 
-" Add `:Fold` command to fold current buffer.
+"" Add `:Fold` command to fold current buffer.
 command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
-" Add `:OR` command for organize imports of the current buffer.
+"" Add `:OR` command for organize imports of the current buffer.
 command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
 
+command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
 " Add (Neo)Vim's native statusline support.
 " NOTE: Please see `:h coc-status` for integrations with external plugins that
 " provide custom statusline: lightline.vim, vim-airline.
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+"set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Mappings for CoCList
 " Show all diagnostics.
