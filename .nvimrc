@@ -14,8 +14,8 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'liuchengxu/vista.vim'
 Plug 'mzlogin/vim-markdown-toc'
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 "We are now going full nvim
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh' }
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'folke/trouble.nvim'
@@ -34,13 +34,14 @@ Plug 'rcarriga/nvim-dap-ui'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'akinsho/bufferline.nvim'
-Plug 'feline-nvim/feline.nvim'
+"Plug 'feline-nvim/feline.nvim'
+Plug 'nvim-lualine/lualine.nvim'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
 
 set completeopt=menu,menuone,noselect
-set shell=/usr/bin/zsh
+"set shell=/usr/bin/zsh
 
 "let g:vista#renderer#enable_icon = 1
 au User NvimGdbQuery GdbLopenBacktrace
@@ -74,6 +75,7 @@ set modelines=5
 syntax enable
 filetype on
 filetype detect
+filetype indent on
 "set filename-display absolute
 set clipboard=unnamedplus
 set encoding=utf-8
@@ -84,7 +86,6 @@ set number
 set relativenumber
 set showcmd
 set cursorline
-"filetype indent on
 set wildmenu
 set lazyredraw
 set showmatch
@@ -204,8 +205,8 @@ vmap <C-_> <Plug>NERDCommenterToggle<CR>gv
 "------------------------------------------------------------------------------
 " Ale configuration so that we can lint and see the errors
 "------------------------------------------------------------------------------
-let g:ale_fixers = {'python': ['yapf', 'isort', 'autoflake', 'autopep8', 'add_blank_lines_for_python_control_statements'], '*': ['remove_trailing_lines', 'trim_whitespace']}
-let g:ale_linters = {'python': ['pep8','pylint', 'pyflakes']}
+let g:ale_fixers = {'python': ['yapf'], '*': ['remove_trailing_lines', 'trim_whitespace']}
+let g:ale_linters = {'python': ['pep8','pylint', 'pyflakes', 'mypy', 'flake8']}
 "let g:ale_linters = {'python': ['bandit', 'flake8', 'flakehell', 'jedils', 'mypy', 'prospector', 'pycodestyle', 'pydocstyle', 'pyflakes', 'pylama', 'pylint', 'pylsp', 'pyre', 'pyright', 'unimport', 'vulture']}
 "let g:ale_fix_on_save = 1
 "let g:ale_sign_error = '❌'
@@ -257,8 +258,7 @@ require'nvim-treesitter.configs'.setup {
     additional_vim_regex_highlighting = false,
   },
 }
-EOF
-lua << EOF
+
     local dap = require('dap')
     dap.adapters.python = {
       type = 'executable';
@@ -266,8 +266,6 @@ lua << EOF
       args = { '-m', 'debugpy.adapter'};
       justMyCode=false;
     }
-EOF
-lua << EOF
     require('dap')
     vim.fn.sign_define('DapBreakpoint', {text='🛑', texthl='', linehl='', numhl=''})
     local dap = require('dap')
@@ -413,7 +411,43 @@ require'bufferline'.setup{}
 --require'lspconfig'.pyright.setup{}
 --require'coq'.setup{coq.lsp_ensure_capabilities()}
 --require'lspconfig'.pyre.setup{}
-require('feline').setup{}
+--require('feline').setup{}
+require('lualine').setup{
+options = {
+  section_separators = { left = '', right = '' },
+  component_separators = { left = '', right = '' }
+},
+
+sections = {
+lualine_c = { {'filename', path=1},
+    {
+      'diagnostics',
+
+      -- Table of diagnostic sources, available sources are:
+      --   'nvim_lsp', 'nvim_diagnostic', 'coc', 'ale', 'vim_lsp'.
+      -- or a function that returns a table as such:
+      --   { error=error_cnt, warn=warn_cnt, info=info_cnt, hint=hint_cnt }
+      sources = { 'ale' },
+
+      -- Displays diagnostics for the defined severity types
+      sections = { 'error', 'warn', 'info', 'hint' },
+
+      diagnostics_color = {
+        -- Same values as the general color option can be used here.
+        error = 'DiagnosticError', -- Changes diagnostics' error color.
+        warn  = 'DiagnosticWarn',  -- Changes diagnostics' warn color.
+        info  = 'DiagnosticInfo',  -- Changes diagnostics' info color.
+        hint  = 'DiagnosticHint',  -- Changes diagnostics' hint color.
+      },
+      symbols = {error = '✘ ', warn = ' ', info = ' ', hint = '💡'},
+      colored = true,           -- Displays diagnostics status in color if set to true.
+      update_in_insert = false, -- Update diagnostics in insert mode.
+      always_visible = false,   -- Show diagnostics even if there are none.
+    }
+  }
+}
+}
+
 require('gitsigns').setup{
     preview_config = {
     -- Options passed to nvim_open_win
@@ -421,11 +455,13 @@ require('gitsigns').setup{
     style = 'minimal',
     relative = 'cursor',
     row = 0,
-    col = 2
+    col = 4
   }
 }
 
 vim.opt.list = true
+vim.opt.termguicolors = true
+vim.cmd [[highlight IndentBlanklineContextChar guifg=#D27E99 gui=nocombine]]
 --vim.opt.listchars:append("space:⋅")
 vim.opt.listchars:append("eol: ")
 
@@ -433,6 +469,7 @@ require("indent_blankline").setup {
     space_char_blankline = " ",
     show_current_context = true,
     show_current_context_start = true,
+    --space_char_highlight_list = {"IndentBlanklineIndent1"}
 }
 local opts = { noremap=true, silent=true }
 vim.api.nvim_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
