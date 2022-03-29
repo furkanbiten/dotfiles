@@ -21,5 +21,3 @@ Launch nvim and run :PlugInstall to install all the libraries.
 
 # Vim Basics
 
-
-run sudo apt install eslint
