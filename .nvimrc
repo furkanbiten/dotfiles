@@ -14,6 +14,7 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'liuchengxu/vista.vim'
 Plug 'mzlogin/vim-markdown-toc'
+Plug 'simeji/winresizer'
 "We are now going full nvim
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh' }
@@ -34,7 +35,6 @@ Plug 'rcarriga/nvim-dap-ui'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'akinsho/bufferline.nvim'
-"Plug 'feline-nvim/feline.nvim'
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -245,16 +245,6 @@ require'nvim-treesitter.configs'.setup {
   highlight = {
     -- `false` will disable the whole extension
     enable = true,
-
-    -- NOTE: these are the names of the parsers and not the filetype. (for example if you want to
-    --disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
-    --the name of the parser)
-    -- list of language that will be disabled
-    disable = { "c", "rust" },
-    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-    -- Using this option may slow down your editor, and you may see some duplicate highlights.
-    -- Instead of true it can also be a list of languages
     additional_vim_regex_highlighting = false,
   },
 }
@@ -284,8 +274,12 @@ require'nvim-treesitter.configs'.setup {
         console = "internalConsole";
       },
     }
+    dap.defaults.fallback.external_terminal = {
+    command = '/usr/bin/x-terminal-emulator';
+    args = {'-e'};
+  }
 EOF
-
+au FileType dap-repl lua require('dap.ext.autocompl').attach()
 "nnoremap <silent> <F9> :lua require'dap'.continue()<CR>
 "nnoremap <silent> <F8> :lua require'dap'.step_over()<CR>
 "nnoremap <silent> <F7> :lua require'dap'.step_into()<CR>
@@ -477,6 +471,12 @@ vim.api.nvim_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', op
 vim.api.nvim_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
 vim.api.nvim_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
 EOF
+
+" These commands will move the current buffer backwards or forwards in the bufferline
+nnoremap <silent><leader>bn :BufferLineMoveNext<CR>
+nnoremap <silent><leader>bp :BufferLineMovePrev<CR>
+nnoremap <silent><Tab> :BufferLineCycleNext<CR>
+nnoremap <silent><s-Tab> :BufferLineCyclePrev<CR>
 
 nnoremap <silent><leader>1 <Cmd>BufferLineGoToBuffer 1<CR>
 nnoremap <silent><leader>2 <Cmd>BufferLineGoToBuffer 2<CR>
