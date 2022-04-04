@@ -7,6 +7,7 @@
   "python.formatting.provider": "yapf",
   "pyright.disableDiagnostics": true,
   "diagnostic.displayByAle": true,
+  "coc.preferences.colorSupport":true,
     "suggest.completionItemKindLabels": {
     "keyword": "\uf1de", //  sliders
     "variable": "\ue79b", //  isometric box
