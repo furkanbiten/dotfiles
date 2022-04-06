@@ -1,20 +1,22 @@
 call plug#begin()
 Plug 'aluriak/nerdcommenter'
-Plug 'sainnhe/gruvbox-material'
 "Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'
-Plug 'vim-scripts/AutoClose'
+Plug 'mbbill/undotree'
+Plug 'AndrewRadev/sideways.vim'
 Plug 'wellle/context.vim'
+Plug 'AndrewRadev/splitjoin.vim'
+Plug 'jiangmiao/auto-pairs'
 "Plug 'unblevable/quick-scope'
 Plug 'brooth/far.vim'
 Plug 'voldikss/vim-floaterm'
 Plug 'puremourning/vimspector'
 Plug 'jpalardy/vim-slime', { 'for': 'python' }
 Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }
-Plug 'dense-analysis/ale'
+"Plug 'dense-analysis/ale'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'mzlogin/vim-markdown-toc'
@@ -22,6 +24,7 @@ Plug 'simeji/winresizer'
 "Plug 'Olical/conjure'
 "We are now going full nvim
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+"Plug 'Raimondi/delimitMate'
 Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh' }
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'folke/trouble.nvim'
@@ -49,14 +52,11 @@ Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'akinsho/bufferline.nvim'
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'lewis6991/gitsigns.nvim'
-"Plug 'neoclide/coc.nvim', {'branch': 'release'}
-"Plug 'simrat39/symbols-outline.nvim'
 Plug 'stevearc/aerial.nvim'
 Plug 'williamboman/nvim-lsp-installer'
-"Plug 'sbdchd/neoformat'
 Plug 'mfussenegger/nvim-lint'
-"Plug 'lukas-reineke/lsp-format.nvim'
-"Plug 'jose-elias-alvarez/null-ls.nvim'
+Plug 'lukas-reineke/lsp-format.nvim'
+Plug 'jose-elias-alvarez/null-ls.nvim'
 Plug 'RRethy/vim-illuminate'
 Plug 'lewis6991/impatient.nvim'
 Plug 'nathom/filetype.nvim'
@@ -64,9 +64,10 @@ Plug 'colepeters/spacemacs-theme.vim'
 Plug 'marko-cerovac/material.nvim'
 Plug 'luukvbaal/stabilize.nvim'
 "Plug 'karb94/neoscroll.nvim'
-
+Plug 'dstein64/nvim-scrollview'
 "Themes
 Plug 'NLKNguyen/papercolor-theme'
+Plug 'sainnhe/gruvbox-material'
 Plug 'dracula/vim'
 Plug 'rebelot/kanagawa.nvim'
 call plug#end()
@@ -80,6 +81,14 @@ let g:python3_host_prog = $CONDA_PREFIX.'/bin/python'
 " Vim specific commands
 "------------------------------------------------------------------------------
 let mapleader=","
+
+nnoremap <c-h> :SidewaysLeft<cr>
+nnoremap <c-l> :SidewaysRight<cr>
+map <C-c> <Esc>
+nnoremap <leader>u :UndotreeToggle<CR>
+
+let g:scrollview_current_only = 1
+let g:scrollview_winblend = 0
 "set signcolumn=number
 
 " set the font
@@ -200,6 +209,7 @@ endif
 colorscheme kanagawa
 "colorscheme material
 "let g:material_style = "deep ocean"
+"let g:material_style = "darker"
 "------------------------------------------------------------------------------
 " NERDCommenter configuration so that we can use toggle comment
 "------------------------------------------------------------------------------
@@ -209,21 +219,21 @@ vmap <C-_> <Plug>NERDCommenterToggle<CR>gv
 "------------------------------------------------------------------------------
 " Ale configuration so that we can lint and see the errors
 "------------------------------------------------------------------------------
-let g:ale_fixers = {'python': ['black', 'isort'], 'lua': ['lua-format'], '*': ['remove_trailing_lines', 'trim_whitespace']}
-let g:ale_linters = {'python': []}
-"let g:ale_linters = {'python': ['bandit', 'flake8', 'flakehell', 'jedils', 'mypy', 'prospector', 'pycodestyle', 'pydocstyle', 'pyflakes', 'pylama', 'pylint', 'pylsp', 'pyre', 'pyright', 'unimport', 'vulture']}
-"let g:ale_fix_on_save = 1
-let g:ale_disable_lsp=1
-let g:ale_sign_error = 'E'
-let g:ale_sign_warning = 'W'
-nmap <leader>af :ALEFix<CR>
-nnoremap ]r :ALENextWrap<CR>
-nnoremap [r :ALEPreviousWrap<CR>
-nnoremap ]rd :ALEDetail<CR>
-let g:ale_lua_stylua_executable="/Users/abiten/.cargo/bin/stylua"   
-"let g:ale_python_pyre_executable = $CONDA_PREFIX.'/bin/python'
-"let g:ale_python_pylint_options = " --generated-members=numpy.* ,torch.* ,cv2.* , cv.*"
-let g:ale_set_highlights =0
+"let g:ale_fixers = {'python': ['black', 'isort'], 'lua': ['lua-format'], '*': ['remove_trailing_lines', 'trim_whitespace']}
+"let g:ale_linters = {'python': []}
+""let g:ale_linters = {'python': ['bandit', 'flake8', 'flakehell', 'jedils', 'mypy', 'prospector', 'pycodestyle', 'pydocstyle', 'pyflakes', 'pylama', 'pylint', 'pylsp', 'pyre', 'pyright', 'unimport', 'vulture']}
+""let g:ale_fix_on_save = 1
+"let g:ale_disable_lsp=1
+"let g:ale_sign_error = 'E'
+"let g:ale_sign_warning = 'W'
+"nmap <leader>af :ALEFix<CR>
+"nnoremap ]r :ALENextWrap<CR>
+"nnoremap [r :ALEPreviousWrap<CR>
+"nnoremap ]rd :ALEDetail<CR>
+"let g:ale_lua_stylua_executable="/Users/abiten/.cargo/bin/stylua"   
+""let g:ale_python_pyre_executable = $CONDA_PREFIX.'/bin/python'
+""let g:ale_python_pylint_options = " --generated-members=numpy.* ,torch.* ,cv2.* , cv.*"
+"let g:ale_set_highlights =0
 
 "------------------------------------------------------------------------------
 " Some Lua stuff for treesitter and nvim-dap: THE debugger.
@@ -232,7 +242,9 @@ lua require('dap_config')
 lua require('treesitter')
 lua require('lsp')
 lua require('cosmetics')
-au  BufEnter * lua require('lint').try_lint()
+"au  InsertLeave * lua require('lint').try_lint()
+au  BufWritePre * lua require('lint').try_lint()
+au  TextChanged * lua require('lint').try_lint()
 au FileType dap-repl lua require('dap.ext.autocompl').attach()
 nnoremap <silent> <F9> :lua require'dap'.continue()<CR>
 nnoremap <silent> <F8> :lua require'dap'.step_over()<CR>
@@ -361,14 +373,27 @@ if has("nvim")
 endif
 
 let g:context_nvim_no_redraw = 1
-augroup qs_colors
-autocmd!
-autocmd ColorScheme * highlight QuickScopePrimary gui=underline cterm=underline
-autocmd ColorScheme * highlight QuickScopeSecondary gui=underline cterm=underline
-augroup END
+"augroup qs_colors
+"autocmd!
+"autocmd ColorScheme * highlight QuickScopePrimary gui=underline cterm=underline
+"autocmd ColorScheme * highlight QuickScopeSecondary gui=underline cterm=underline
+"augroup END
 au User NvimGdbQuery GdbLopenBacktrace
 "au User NvimGdbQuery GdbCreateWatch locals()
 "au User NvimGdbQuery call nvim_buf_set_lines(5, 0, -1, 0, split(GdbCustomCommand("locals()"), "\n"))
 "au  User NvimGdbQuery echo GdbCustomCommand('locals()')
+  "sign define DiagnosticSignError text=❌ texthl=LspDiagnosticsError linehl= numhl=
+  "sign define DiagnosticSignWarn text=⚠️ texthl=LspDiagnosticsWarning linehl= numhl=
+  "sign define DiagnosticSignInfo text=🔎 texthl=LspDiagnosticsInformation linehl= numhl=
+  "sign define DiagnosticSignHint text=💡 texthl=LspDiagnosticsHint linehl= numhl=
 
-
+  "let g:gitgutter_sign_added = '▋'
+  "let g:gitgutter_sign_modified = '▐'
+  "let g:gitgutter_sign_removed = '▋'
+  "let g:gitgutter_sign_removed_first_line = '▋'
+  "let g:gitgutter_sign_modified_removed = '▐_'
+autocmd BufReadPre *.png silent %!xdg-open "%"
+autocmd BufReadPre *.eps silent %!xdg-open "%"
+autocmd BufReadPre *.jpg silent %!xdg-open "%"
+autocmd BufReadPre *.bmp silent %!xdg-open "%"
+autocmd BufReadPre *.ipynb silent %!xdg-open "%"

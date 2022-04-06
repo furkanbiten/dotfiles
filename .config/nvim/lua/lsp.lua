@@ -18,7 +18,7 @@ require("lsp_signature").setup(signature_config)
 --  Linting Config  --
 ----------------------
 
-require("lint").linters_by_ft = {python = {"flake8", "pycodestyle"}}
+require("lint").linters_by_ft = {python = {"flake8", "pycodestyle", "mypy"}}
 local pycodestyle = require("lint.linters.pycodestyle")
 pycodestyle.args = {
     "--format=%(path)s:%(row)d:%(col)d:%(code)s:%(text)s", "--ignore=E223,E501",
@@ -165,16 +165,31 @@ local function on_attach(client, bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>f',
                                 '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
     require("aerial").on_attach(client, bufnr)
+    require'illuminate'.on_attach(client)
     -- client.resolved_capabilities.document_formatting = false
     -- require "lsp-format".on_attach(client)
 end
 
 local enhance_server_opts = {
+    ["pylsp"] = function(opts)
+            opts.settings = {
+              pyls = {
+                plugins = {
+                  pydocstyle = {
+                    enabled = false,
+                  },
+                  pycodestyle = {
+                    maxLineLength = 120,
+                  },
+                },
+              },
+            }
+    end,
     -- Provide settings that should only apply to the "eslintls" server
     ["pyright"] = function(opts)
-        --  opts.handlers = {
-        --          ['textDocument/publishDiagnostics'] = function(...) end
-        --          }
+          opts.handlers = {
+                  ['textDocument/publishDiagnostics'] = function(...) end
+                  }
         opts.settings = {
             -- cmd = os.getenv("CONDA_PREFIX")..'/bin/python',
             python = {analysis = {typeCheckingMode = "off"}}
@@ -199,20 +214,23 @@ lsp_installer.on_server_ready(function(server)
     server:setup(opts)
 end)
 
--- local null_ls = require("null-ls")
--- null_ls.setup({
--- sources = {
--- Python
--- null_ls.builtins.formatting.autopep8,
--- null_ls.builtins.formatting.isort,
--- null_ls.builtins.diagnostics.flake8,
--- null_ls.builtins.formatting.black,
--- null_ls.builtins.formatting.prettier,
--- },
--- on_attach = function()
--- vim.cmd([[ command! Format execute 'lua vim.lsp.buf.formatting()' ]])
--- end,
--- })
+ local null_ls = require("null-ls")
+ null_ls.setup({
+         sources = {
+         --Python
+                 null_ls.builtins.formatting.autopep8,
+                 null_ls.builtins.formatting.isort,
+                 --null_ls.builtins.diagnostics.flake8,
+                 null_ls.builtins.formatting.black,
+                 --null_ls.builtins.formatting.luaformat,
+                 --null_ls.builtins.formatting.prettier,
+                 },
+                 on_attach = require "lsp-format".on_attach
+                 --function()
+                         --vim.cmd([[ command! Format execute 'lua vim.lsp.buf.formatting()' ]])
+                         --require "lsp-format".on_attach
+                 --end,
+ })
 
 vim.diagnostic.config({
     underline = false,
@@ -220,4 +238,4 @@ vim.diagnostic.config({
     signs = true,
     update_in_insert = false
 })
-
+--vim.diagnostic.disable()
