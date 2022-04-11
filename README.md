@@ -19,17 +19,23 @@ cd dotfiles/
 cp -r .config/nvim ~/.config/ 
 ```
 
-Run with the native python not **WITH ENVIRONMENT: 
+Run with the native python not **without any envrionment**: 
 ```bash
-$ python3 -m pip install --user --upgrade pynvim 
-```
+/usr/bin/python3 -m pip install --user --upgrade pynvim
 
+```
+```bash
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
-Launch nvim and run :PlugInstall to install all the plugins.
+```
+```bash
 
 sudo apt install npm clangd ripgrep python3-autopep8 flake8 black isort python3.8-venv pycodestyle mypy pylint
+```
+
+Launch nvim and run :PlugInstall to install all the plugins.
+
 
 We have to install Meslo font otherwise everything will look weird: https://github.com/andreberg/Meslo-Font
 

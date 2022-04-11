@@ -52,14 +52,14 @@ cmp.setup({
         ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), {'i', 'c'}),
         ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), {'i', 'c'}),
         ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), {'i', 'c'}),
-        -- ["<S-Tab>"] = cmp.mapping.select_prev_item(),
-        -- ["<Tab>"] = cmp.mapping.select_next_item(),
-        ["<Tab>"] = cmp.mapping(function(fallback)
-            cmp_ultisnips_mappings.expand_or_jump_forwards(fallback)
-        end, {"i", "s" --[[ "c" (to enable the mapping in command mode) ]] }),
-        ["<S-Tab>"] = cmp.mapping(function(fallback)
-            cmp_ultisnips_mappings.jump_backwards(fallback)
-        end, {"i", "s" --[[ "c" (to enable the mapping in command mode) ]] }),
+         ["<S-Tab>"] = cmp.mapping.select_prev_item(),
+         ["<Tab>"] = cmp.mapping.select_next_item(),
+        --["<Tab>"] = cmp.mapping(function(fallback)
+            --cmp_ultisnips_mappings.expand_or_jump_forwards(fallback)
+        --end, {"i", "s" [> "c" (to enable the mapping in command mode) <] }),
+        --["<S-Tab>"] = cmp.mapping(function(fallback)
+            --cmp_ultisnips_mappings.jump_backwards(fallback)
+        --end, {"i", "s" [> "c" (to enable the mapping in command mode) <] }),
         ['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
         ['<C-e>'] = cmp.mapping({
             i = cmp.mapping.abort(),
@@ -239,3 +239,17 @@ vim.diagnostic.config({
     update_in_insert = false
 })
 --vim.diagnostic.disable()
+
+local saga = require('lspsaga')
+saga.init_lsp_saga()
+--local map = vim.api.nvim_buf_set_keymap
+--map(0, "n", "gr", "<cmd>Lspsaga rename<cr>", {silent = true, noremap = true})
+--map(0, "n", "gx", "<cmd>Lspsaga code_action<cr>", {silent = true, noremap = true})
+--map(0, "x", "gx", ":<c-u>Lspsaga range_code_action<cr>", {silent = true, noremap = true})
+--map(0, "n", "K",  "<cmd>Lspsaga hover_doc<cr>", {silent = true, noremap = true})
+--map(0, "n", "go", "<cmd>Lspsaga show_line_diagnostics<cr>", {silent = true, noremap = true})
+--map(0, "n", "gj", "<cmd>Lspsaga diagnostic_jump_next<cr>", {silent = true, noremap = true})
+--map(0, "n", "gk", "<cmd>Lspsaga diagnostic_jump_prev<cr>", {silent = true, noremap = true})
+--map(0, "n", "<C-u>", "<cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1, '<c-u>')<cr>", {})
+--map(0, "n", "<C-d>", "<cmd>lua require('lspsaga.action').smart_scroll_with_saga(1, '<c-d>')<cr>", {})
+

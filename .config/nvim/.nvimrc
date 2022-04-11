@@ -29,6 +29,7 @@ Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh' }
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'folke/trouble.nvim'
 Plug 'neovim/nvim-lspconfig'
+Plug 'tami5/lspsaga.nvim'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
@@ -60,21 +61,22 @@ Plug 'jose-elias-alvarez/null-ls.nvim'
 Plug 'RRethy/vim-illuminate'
 Plug 'lewis6991/impatient.nvim'
 Plug 'nathom/filetype.nvim'
-Plug 'colepeters/spacemacs-theme.vim'
 Plug 'marko-cerovac/material.nvim'
 Plug 'luukvbaal/stabilize.nvim'
 "Plug 'karb94/neoscroll.nvim'
-Plug 'dstein64/nvim-scrollview'
+"Plug 'dstein64/nvim-scrollview'
+
 "Themes
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'sainnhe/gruvbox-material'
-Plug 'dracula/vim'
+"Plug 'colepeters/spacemacs-theme.vim'
+"Plug 'NLKNguyen/papercolor-theme'
+"Plug 'sainnhe/gruvbox-material'
+"Plug 'dracula/vim'
 Plug 'rebelot/kanagawa.nvim'
 call plug#end()
 
 set completeopt=menu,menuone,noselect
-let g:python3_host_prog = $CONDA_PREFIX.'/bin/python'
-
+"let g:python3_host_prog = $CONDA_PREFIX.'/bin/python'
+let g:python3_host_prog = '/usr/bin/python3'
 " If you want :UltiSnipsEdit to split your window.
 "let g:UltiSnipsEditSplit="vertical"
 "------------------------------------------------------------------------------
@@ -357,7 +359,7 @@ endfunction
 """""""""""""""""""""""
 "  Ultisnips keymaps  "
 """""""""""""""""""""""
-let g:UltiSnipsExpandTrigger="<Tab>"
+"let g:UltiSnipsExpandTrigger="<Tab>"
 let g:UltiSnipsJumpForwardTrigger="<Tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-Tab>"
 
@@ -387,13 +389,22 @@ au User NvimGdbQuery GdbLopenBacktrace
   "sign define DiagnosticSignInfo text=🔎 texthl=LspDiagnosticsInformation linehl= numhl=
   "sign define DiagnosticSignHint text=💡 texthl=LspDiagnosticsHint linehl= numhl=
 
-  "let g:gitgutter_sign_added = '▋'
-  "let g:gitgutter_sign_modified = '▐'
-  "let g:gitgutter_sign_removed = '▋'
-  "let g:gitgutter_sign_removed_first_line = '▋'
-  "let g:gitgutter_sign_modified_removed = '▐_'
+let g:gitgutter_sign_added = '▋'
+let g:gitgutter_sign_modified = '▐'
+let g:gitgutter_sign_removed = '▋'
+let g:gitgutter_sign_removed_first_line = '▋'
+let g:gitgutter_sign_modified_removed = '▐_'
+highlight GitGutterAdd    guifg=#009900 ctermfg=2
+highlight GitGutterChange guifg=#bbbb00 ctermfg=3
+highlight GitGutterDelete guifg=#ff2222 ctermfg=1
 autocmd BufReadPre *.png silent %!xdg-open "%"
 autocmd BufReadPre *.eps silent %!xdg-open "%"
 autocmd BufReadPre *.jpg silent %!xdg-open "%"
 autocmd BufReadPre *.bmp silent %!xdg-open "%"
 autocmd BufReadPre *.ipynb silent %!xdg-open "%"
+
+
+"-- lsp provider to find the cursor word definition and reference
+"nnoremap <silent> gh <cmd>lua require'lspsaga.provider'.lsp_finder()<CR>
+"-- or use command LspSagaFinder
+"nnoremap <silent> gh :Lspsaga lsp_finder<CR>
