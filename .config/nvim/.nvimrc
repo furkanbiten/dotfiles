@@ -4,14 +4,14 @@ Plug 'aluriak/nerdcommenter'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
 Plug 'junegunn/gv.vim'
 Plug 'mbbill/undotree'
 Plug 'AndrewRadev/sideways.vim'
 Plug 'wellle/context.vim'
-Plug 'AndrewRadev/splitjoin.vim'
+Plug 'wellle/targets.vim'
 Plug 'jiangmiao/auto-pairs'
-"Plug 'unblevable/quick-scope'
-Plug 'brooth/far.vim'
+"Plug 'brooth/far.vim'
 Plug 'voldikss/vim-floaterm'
 Plug 'puremourning/vimspector'
 Plug 'jpalardy/vim-slime', { 'for': 'python' }
@@ -24,7 +24,6 @@ Plug 'simeji/winresizer'
 "Plug 'Olical/conjure'
 "We are now going full nvim
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
-"Plug 'Raimondi/delimitMate'
 Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh' }
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'folke/trouble.nvim'
@@ -38,6 +37,7 @@ Plug 'hrsh7th/nvim-cmp'
 Plug 'quangnguyen30192/cmp-nvim-ultisnips'
 Plug 'ray-x/lsp_signature.nvim'
 Plug 'onsails/lspkind-nvim'
+Plug 'ggandor/lightspeed.nvim'
 "Plug 'L3MON4D3/LuaSnip'
 "Plug 'rafamadriz/friendly-snippets'
 "Plug 'saadparwaiz1/cmp_luasnip'
@@ -61,12 +61,12 @@ Plug 'jose-elias-alvarez/null-ls.nvim'
 Plug 'RRethy/vim-illuminate'
 Plug 'lewis6991/impatient.nvim'
 Plug 'nathom/filetype.nvim'
-Plug 'marko-cerovac/material.nvim'
 Plug 'luukvbaal/stabilize.nvim'
 "Plug 'karb94/neoscroll.nvim'
 "Plug 'dstein64/nvim-scrollview'
 
 "Themes
+"Plug 'marko-cerovac/material.nvim'
 "Plug 'colepeters/spacemacs-theme.vim'
 "Plug 'NLKNguyen/papercolor-theme'
 "Plug 'sainnhe/gruvbox-material'
@@ -115,8 +115,8 @@ set expandtab
 set number
 set relativenumber
 "set ruler             " show the cursor position all the time
-set showcmd           " display incomplete commands
-set cursorline
+set showcmd           "shows the last command entered in the very bottom right 
+"set cursorline " draws a horizontal highlight (or underline, depending on your colorscheme) on the line your cursor is currently on
 set wildmenu
 set lazyredraw
 set showmatch
@@ -268,7 +268,8 @@ nnoremap <leader>dt :lua require'dapui'.toggle()<CR>
 "nnoremap <leader>si <Plug>VimspectorStepInto<CR>
 " for normal mode - the word under the cursor
 "nmap <Leader>di <Plug>VimspectorBalloonEval
-
+"autocmd BufDelete <buffer> lua require('lsp').DetachBufferFromClients(tonumber(vim.fn.expand("<abuf>")))
+"au BufDelete <buffer> * lua vim.lsp.stop_client(vim.lsp.buf_get_clients())
 "------------------------------------------------------------------------------
 " Vim-slime configuration
 "------------------------------------------------------------------------------

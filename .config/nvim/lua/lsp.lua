@@ -18,7 +18,7 @@ require("lsp_signature").setup(signature_config)
 --  Linting Config  --
 ----------------------
 
-require("lint").linters_by_ft = {python = {"flake8", "pycodestyle", "mypy"}}
+require("lint").linters_by_ft = {python = {"flake8", "pycodestyle"}}
 local pycodestyle = require("lint.linters.pycodestyle")
 pycodestyle.args = {
     "--format=%(path)s:%(row)d:%(col)d:%(code)s:%(text)s", "--ignore=E223,E501",
@@ -201,7 +201,8 @@ lsp_installer.on_server_ready(function(server)
     -- Specify the default options which we'll use to setup all servers
     local opts = {
         on_attach = on_attach,
-        capabilities = capabilities
+        capabilities = capabilities,
+        --autostart = false,
         -- handlers = {
         --     ['textDocument/publishDiagnostics'] = function(...) end
         -- },
@@ -221,7 +222,7 @@ end)
                  null_ls.builtins.formatting.autopep8,
                  null_ls.builtins.formatting.isort,
                  --null_ls.builtins.diagnostics.flake8,
-                 null_ls.builtins.formatting.black,
+                 --null_ls.builtins.formatting.black,
                  --null_ls.builtins.formatting.luaformat,
                  --null_ls.builtins.formatting.prettier,
                  },
@@ -234,7 +235,7 @@ end)
 
 vim.diagnostic.config({
     underline = false,
-    virtual_text = true,
+    virtual_text = false,
     signs = true,
     update_in_insert = false
 })
@@ -253,3 +254,9 @@ saga.init_lsp_saga()
 --map(0, "n", "<C-u>", "<cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1, '<c-u>')<cr>", {})
 --map(0, "n", "<C-d>", "<cmd>lua require('lspsaga.action').smart_scroll_with_saga(1, '<c-d>')<cr>", {})
 
+--function DetachBufferFromClients(bufnr)
+  --local clients = vim.lsp.buf_get_clients(bufnr)
+  --for client_id, _ in pairs(clients) do
+    --vim.lsp.buf_detach_client(bufnr, client_id)
+  --end
+--end
