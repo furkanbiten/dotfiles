@@ -11,17 +11,20 @@ Plug 'AndrewRadev/sideways.vim'
 Plug 'wellle/context.vim'
 Plug 'wellle/targets.vim'
 Plug 'jiangmiao/auto-pairs'
-"Plug 'brooth/far.vim'
 Plug 'voldikss/vim-floaterm'
-Plug 'puremourning/vimspector'
-Plug 'jpalardy/vim-slime', { 'for': 'python' }
+"Plug 'puremourning/vimspector'
+Plug 'jpalardy/vim-slime'
 Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }
 "Plug 'dense-analysis/ale'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'mzlogin/vim-markdown-toc'
 Plug 'simeji/winresizer'
-"Plug 'Olical/conjure'
+Plug 'Olical/conjure'
+"Plug 'kien/rainbow_parentheses.vim'
+"Plug 'luochen1990/rainbow'
+"Plug 'junegunn/rainbow_parentheses.vim'
+"Plug 'p00f/nvim-ts-rainbow'
 "We are now going full nvim
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh' }
@@ -33,14 +36,13 @@ Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/cmp-omni'
 Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-nvim-lua'
 Plug 'quangnguyen30192/cmp-nvim-ultisnips'
 Plug 'ray-x/lsp_signature.nvim'
 Plug 'onsails/lspkind-nvim'
 Plug 'ggandor/lightspeed.nvim'
-"Plug 'L3MON4D3/LuaSnip'
-"Plug 'rafamadriz/friendly-snippets'
-"Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'kyazdani42/nvim-tree.lua'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
@@ -66,31 +68,41 @@ Plug 'luukvbaal/stabilize.nvim'
 "Plug 'dstein64/nvim-scrollview'
 
 "Themes
+"Plug 'catppuccin/nvim', {'as': 'catppuccin'}
 "Plug 'marko-cerovac/material.nvim'
 "Plug 'colepeters/spacemacs-theme.vim'
 "Plug 'NLKNguyen/papercolor-theme'
 "Plug 'sainnhe/gruvbox-material'
 "Plug 'dracula/vim'
 Plug 'rebelot/kanagawa.nvim'
+Plug 'bluz71/vim-nightfly-guicolors'
 call plug#end()
 
 set completeopt=menu,menuone,noselect
 "let g:python3_host_prog = $CONDA_PREFIX.'/bin/python'
 let g:python3_host_prog = '/usr/bin/python3'
+let g:conjure#client#scheme#stdio#command = "scheme"
+
+noremap s <Plug>Lightspeed_omni_s
 " If you want :UltiSnipsEdit to split your window.
 "let g:UltiSnipsEditSplit="vertical"
 "------------------------------------------------------------------------------
 " Vim specific commands
 "------------------------------------------------------------------------------
 let mapleader=","
+let maplocalleader=","
+
+inoremap <C-k> <C-o>d$
+noremap <silent> <leader>w :w<CR>
+noremap <silent> <leader>qa :qall<CR>
 
 nnoremap <c-h> :SidewaysLeft<cr>
 nnoremap <c-l> :SidewaysRight<cr>
 map <C-c> <Esc>
 nnoremap <leader>u :UndotreeToggle<CR>
 
-let g:scrollview_current_only = 1
-let g:scrollview_winblend = 0
+"let g:scrollview_current_only = 1
+"let g:scrollview_winblend = 0
 "set signcolumn=number
 
 " set the font
@@ -110,12 +122,14 @@ filetype indent on
 set clipboard=unnamedplus
 set encoding=utf-8
 set tabstop=4
-set softtabstop=4
+set shiftwidth=0   " If 0, then uses value of 'tabstop'
+set softtabstop=-1 " If negative, then uses 'shiftwidth' (which can use 'tabstop')
+"set softtabstop=4
 set expandtab
 set number
 set relativenumber
 "set ruler             " show the cursor position all the time
-set showcmd           "shows the last command entered in the very bottom right 
+set showcmd           "shows the last command entered in the very bottom right
 "set cursorline " draws a horizontal highlight (or underline, depending on your colorscheme) on the line your cursor is currently on
 set wildmenu
 set lazyredraw
@@ -134,9 +148,16 @@ nnoremap <leader><space> :nohlsearch<CR>
 "set foldnestmax=10
 "nnoremap <space> za
 "set foldmethod=indent
-
-"
-"------------------------------------------------------------------------------
+"let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowToggle
+"autocmd syntax scheme call :RainbowToggle<CR>
+"function! s:ActivateRainbowParens() abort
+    "RainbowToggle
+"endfunction
+"augroup rainbow_lisp
+  "autocmd!
+  "autocmd FileType lisp,clojure,scheme RainbowParenthesesActivate
+  "autocmd FileType lisp,clojure,scheme RainbowParenthesesActivate
+"augroup END
 " Keybindings for using buffers in Vim
 "------------------------------------------------------------------------------
 " To open a new empty buffer
@@ -208,7 +229,8 @@ set t_Co=256
 if has('termguicolors')
         set termguicolors
 endif
-colorscheme kanagawa
+"colorscheme kanagawa
+colorscheme nightfly
 "colorscheme material
 "let g:material_style = "deep ocean"
 "let g:material_style = "darker"
@@ -221,10 +243,10 @@ vmap <C-_> <Plug>NERDCommenterToggle<CR>gv
 "------------------------------------------------------------------------------
 " Ale configuration so that we can lint and see the errors
 "------------------------------------------------------------------------------
-"let g:ale_fixers = {'python': ['black', 'isort'], 'lua': ['lua-format'], '*': ['remove_trailing_lines', 'trim_whitespace']}
-"let g:ale_linters = {'python': []}
+"let g:ale_fixers = {'python': ['autopep8', 'isort'], 'lua': ['lua-format'], '*': ['remove_trailing_lines', 'trim_whitespace']}
+"let g:ale_linters = {'python': [], 'lua': []}
 ""let g:ale_linters = {'python': ['bandit', 'flake8', 'flakehell', 'jedils', 'mypy', 'prospector', 'pycodestyle', 'pydocstyle', 'pyflakes', 'pylama', 'pylint', 'pylsp', 'pyre', 'pyright', 'unimport', 'vulture']}
-""let g:ale_fix_on_save = 1
+"let g:ale_fix_on_save = 1
 "let g:ale_disable_lsp=1
 "let g:ale_sign_error = 'E'
 "let g:ale_sign_warning = 'W'
@@ -232,7 +254,7 @@ vmap <C-_> <Plug>NERDCommenterToggle<CR>gv
 "nnoremap ]r :ALENextWrap<CR>
 "nnoremap [r :ALEPreviousWrap<CR>
 "nnoremap ]rd :ALEDetail<CR>
-"let g:ale_lua_stylua_executable="/Users/abiten/.cargo/bin/stylua"   
+"let g:ale_lua_stylua_executable="/Users/abiten/.cargo/bin/stylua"
 ""let g:ale_python_pyre_executable = $CONDA_PREFIX.'/bin/python'
 ""let g:ale_python_pylint_options = " --generated-members=numpy.* ,torch.* ,cv2.* , cv.*"
 "let g:ale_set_highlights =0
@@ -257,9 +279,6 @@ nnoremap <silent> <leader>B :lua require'dap'.set_breakpoint(vim.fn.input('Break
 nnoremap <silent> <leader>lp :lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>
 nnoremap <silent> <leader>dr :lua require'dap'.repl.open()<CR>
 nnoremap <silent> <leader>dl :lua require'dap'.run_last()<CR>
-function! Run_dapui()
-        lua require'dapui'.open()
-endfunction
 nnoremap <leader>do :lua require'dapui'.open()<CR>
 nnoremap <leader>dc :lua require'dapui'.close()<CR>
 nnoremap <leader>dt :lua require'dapui'.toggle()<CR>
@@ -268,33 +287,40 @@ nnoremap <leader>dt :lua require'dapui'.toggle()<CR>
 "nnoremap <leader>si <Plug>VimspectorStepInto<CR>
 " for normal mode - the word under the cursor
 "nmap <Leader>di <Plug>VimspectorBalloonEval
-"autocmd BufDelete <buffer> lua require('lsp').DetachBufferFromClients(tonumber(vim.fn.expand("<abuf>")))
+"au BufDelete * lua require('lsp').DetachBufferFromClients(tonumber(vim.fn.expand("<abuf>")))
+"autocmd BufDelete * lua require('lsp').DetachBufferFromClients(bufnr)))
 "au BufDelete <buffer> * lua vim.lsp.stop_client(vim.lsp.buf_get_clients())
 "------------------------------------------------------------------------------
 " Vim-slime configuration
 "------------------------------------------------------------------------------
 " always use tmux
 let g:slime_target = 'tmux'
-"let g:slime_target = "vimterminal"
-let g:slime_paste_file = "$HOME/.slime_paste"
+"let g:slime_target = "neovim"
+"let g:slime_paste_file = "$HOME/.slime_paste"
 " or maybe...
-let g:slime_paste_file = tempname()
-let g:slime_default_config = {"socket_name": get(split($TMUX, ","), 0), "target_pane": ":.2"}
+"let g:slime_paste_file = tempname()
+"let g:slime_default_config = {"socket_name": get(split($TMUX, ","), 0), "target_pane": ":.2"}
 
 " fix paste issues in ipython
 let g:slime_python_ipython = 1
 
 " always send text to the top-right pane in the current tmux tab without asking
-let g:slime_default_config = {
-                        \ 'socket_name': get(split($TMUX, ','), 0),
-                        \ 'target_pane': '{top-right}' }
-let g:slime_dont_ask_default = 1
+"let g:slime_default_config = {
+                        "\ 'socket_name': get(split($TMUX, ','), 0),
+                        "\ 'target_pane': '{top-right}' }
+"let g:slime_dont_ask_default = 1
 
+xmap <c-c><c-c> <Plug>SlimeRegionSend
+nmap <c-c><c-c> <Plug>SlimeParagraphSend
+nmap <c-c>v     <Plug>SlimeConfig
+"nmap <c-c>o    call SlimeOverrideConfig()
+"function SlimeOverrideConfig()
+  "let b:slime_config = {}
+  "let b:slime_config["slime_target"] = input("slime_target: ", "neovim")
+"endfunction
 "------------------------------------------------------------------------------
 " ipython-cell configuration
 "------------------------------------------------------------------------------
-" Keyboard mappings. <Leader> is \ (backslash) by default
-
 " map <Leader>s to start IPython
 nnoremap <Leader>s :SlimeSend1 ipython --matplotlib<CR>
 
@@ -368,10 +394,10 @@ let g:UltiSnipsJumpBackwardTrigger="<s-Tab>"
 " Terminal Settings
 if has("nvim")
         tnoremap <silent> <Esc> <C-\><C-n>`.$
-        tnoremap <A-h> <C-\><C-n><C-w>h
+        tnoremap <A-Left> <C-\><C-n><C-w>h
         tnoremap <A-j> <C-\><C-n><C-w>j
         tnoremap <A-k> <C-\><C-n><C-w>k
-        tnoremap <A-l> <C-\><C-n><C-w>l
+        tnoremap <A-Right> <C-\><C-n><C-w>l
         autocmd BufEnter term://* startinsert
 endif
 
@@ -409,3 +435,10 @@ autocmd BufReadPre *.ipynb silent %!xdg-open "%"
 "nnoremap <silent> gh <cmd>lua require'lspsaga.provider'.lsp_finder()<CR>
 "-- or use command LspSagaFinder
 "nnoremap <silent> gh :Lspsaga lsp_finder<CR>
+"set updatetime=100
+"autocmd CursorHold * lua require('echo-diagnostics').echo_line_diagnostic()
+
+augroup highlight_yank
+    autocmd!
+    au TextYankPost * silent! lua vim.highlight.on_yank { higroup='IncSearch', timeout=400 }
+augroup END
