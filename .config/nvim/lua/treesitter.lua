@@ -1,4 +1,4 @@
-require'nvim-tree'.setup{open_on_setup = true}
+require 'nvim-tree'.setup { open_on_setup = true }
 
 require("nvim-treesitter.configs").setup({
     -- One of "all", "maintained" (parsers with maintainers), or a list of languages
@@ -8,7 +8,7 @@ require("nvim-treesitter.configs").setup({
     sync_install = false,
 
     -- List of parsers to ignore installing
-    ignore_install = {"javascript"},
+    ignore_install = { "javascript" },
 
     highlight = {
         -- `false` will disable the whole extension
@@ -16,6 +16,15 @@ require("nvim-treesitter.configs").setup({
         additional_vim_regex_highlighting = false
     },
     textobjects = {
+        swap = {
+            enable = true,
+            swap_next = {
+                ["<c-l>"] = "@parameter.inner",
+            },
+            swap_previous = {
+                ["<c-h>"] = "@parameter.inner",
+            },
+        },
         select = {
             enable = true,
             -- Automatically jump forward to textobj, similar to targets.vim
@@ -50,4 +59,3 @@ require("nvim-treesitter.configs").setup({
         }
     }
 })
-

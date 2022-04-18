@@ -2,7 +2,7 @@
 <!-- vim-markdown-toc Marked -->
 
 * [Install vim/nvim](#install-vim/nvim)
-        * [Configurations](#configurations)
+* [Configurations](#configurations)
 * [Vim Basics](#vim-basics)
 
 <!-- vim-markdown-toc -->
@@ -22,7 +22,6 @@ cp -r .config/nvim ~/.config/
 Run with the native python not **without any envrionment**: 
 ```bash
 /usr/bin/python3 -m pip install --user --upgrade pynvim
-
 ```
 ```bash
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
@@ -31,11 +30,14 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
 ```
 ```bash
 
-sudo apt install npm clangd ripgrep python3-autopep8 flake8 black isort python3.8-venv pycodestyle mypy pylint
+sudo apt install npm clangd ripgrep python3-autopep8 flake8 black isort python3-venv pycodestyle mypy pylint
 ```
+For ubuntu 18.04
+sudo apt install npm clang python-autopep8 flake8 isort python3-venv pycodestyle mypy pylint
+Might want to check this: https://stackoverflow.com/questions/23393707/how-to-update-npm
+Unfortunately, you have to install ripgrep manually, check here: https://github.com/BurntSushi/ripgrep/releases
 
 Launch nvim and run :PlugInstall to install all the plugins.
-
 
 We have to install Meslo font otherwise everything will look weird: https://github.com/andreberg/Meslo-Font
 
