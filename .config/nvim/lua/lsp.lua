@@ -270,11 +270,11 @@ null_ls.setup({
     sources = {
         -- Python
         null_ls.builtins.formatting.autopep8,
-        null_ls.builtins.formatting.isort
+        null_ls.builtins.formatting.isort,
         -- null_ls.builtins.diagnostics.flake8
         -- null_ls.builtins.formatting.black,
         -- null_ls.builtins.formatting.luaformat,
-        -- null_ls.builtins.formatting.prettier,
+         null_ls.builtins.formatting.prettier,
     },
     on_attach = require "lsp-format".on_attach
     -- function()
@@ -290,16 +290,9 @@ require 'lspconfig'.racket_langserver.setup {}
 -- end
 -- end
 
--- vim.diagnostic.config({
--- underline = false,
--- virtual_text = false,
--- signs = true,
--- update_in_insert = false
--- })
--- vim.diagnostic.disable()
-
 vim.diagnostic.config({
     virtual_text = false,
+    underline = false,
     --underline = {
     ---- do not underline text when severity is low (info or hint).
     --severity = {min = vim.diagnostic.severity.warn}
@@ -311,26 +304,6 @@ vim.diagnostic.config({
     }
 })
 
---function PrintDiagnostics(opts, bufnr, line_nr, client_id)
---bufnr = bufnr or 0
---line_nr = line_nr or (vim.api.nvim_win_get_cursor(0)[1] - 1)
---opts = opts or {['lnum'] = line_nr}
-
---local line_diagnostics = vim.diagnostic.get(bufnr, opts)
---if vim.tbl_isempty(line_diagnostics) then return end
-
---local diagnostic_message = ""
---for i, diagnostic in ipairs(line_diagnostics) do
---diagnostic_message = diagnostic_message .. string.format("%d: %s", i, diagnostic.message or "")
---print(diagnostic_message)
---if i ~= #line_diagnostics then
---diagnostic_message = diagnostic_message .. "\n"
---end
---end
---vim.api.nvim_echo({{diagnostic_message, "Normal"}}, false, {})
---end
-
---vim.cmd [[ autocmd! CursorHold * lua PrintDiagnostics() ]]
 vim.api.nvim_create_autocmd("CursorHold", {
     buffer = bufnr,
     callback = function()
@@ -346,7 +319,7 @@ vim.api.nvim_create_autocmd("CursorHold", {
     end
 })
 
-local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+local signs = { Error = "", Warn = "", Hint = "", Info = "" }
 for type, icon in pairs(signs) do
     local hl = "DiagnosticSign" .. type
     vim.fn.sign_define(hl, { text = icon,
@@ -379,3 +352,24 @@ end
 -- map(0, "n", "gk", "<cmd>Lspsaga diagnostic_jump_prev<cr>", {silent = true, noremap = true})
 -- map(0, "n", "<C-u>", "<cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1, '<c-u>')<cr>", {})
 -- map(0, "n", "<C-d>", "<cmd>lua require('lspsaga.action').smart_scroll_with_saga(1, '<c-d>')<cr>", {})
+
+--function PrintDiagnostics(opts, bufnr, line_nr, client_id)
+--bufnr = bufnr or 0
+--line_nr = line_nr or (vim.api.nvim_win_get_cursor(0)[1] - 1)
+--opts = opts or {['lnum'] = line_nr}
+
+--local line_diagnostics = vim.diagnostic.get(bufnr, opts)
+--if vim.tbl_isempty(line_diagnostics) then return end
+
+--local diagnostic_message = ""
+--for i, diagnostic in ipairs(line_diagnostics) do
+--diagnostic_message = diagnostic_message .. string.format("%d: %s", i, diagnostic.message or "")
+--print(diagnostic_message)
+--if i ~= #line_diagnostics then
+--diagnostic_message = diagnostic_message .. "\n"
+--end
+--end
+--vim.api.nvim_echo({{diagnostic_message, "Normal"}}, false, {})
+--end
+
+--vim.cmd [[ autocmd! CursorHold * lua PrintDiagnostics() ]]

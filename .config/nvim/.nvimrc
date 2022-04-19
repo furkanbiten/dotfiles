@@ -62,7 +62,7 @@ Plug 'nathom/filetype.nvim'
 Plug 'luukvbaal/stabilize.nvim'
 "Plug 'karb94/neoscroll.nvim'
 "Plug 'dstein64/nvim-scrollview'
-
+Plug 'j-hui/fidget.nvim'
 "Themes
 "Plug 'catppuccin/nvim', {'as': 'catppuccin'}
 "Plug 'marko-cerovac/material.nvim'
@@ -77,11 +77,9 @@ call plug#end()
 set completeopt=menu,menuone,noselect
 "let g:python3_host_prog = $CONDA_PREFIX.'/bin/python'
 let g:python3_host_prog = '/usr/bin/python3'
-let g:conjure#client#scheme#stdio#command = "scheme"
 
+let g:conjure#client#scheme#stdio#command = "scheme"
 noremap s <Plug>Lightspeed_omni_s
-" If you want :UltiSnipsEdit to split your window.
-"let g:UltiSnipsEditSplit="vertical"
 "------------------------------------------------------------------------------
 " Vim specific commands
 "------------------------------------------------------------------------------
@@ -95,28 +93,17 @@ noremap <silent> <leader>qa :qall<CR>
 
 "nnoremap <c-h> :SidewaysLeft<cr>
 "nnoremap <c-l> :SidewaysRight<cr>
-map <C-c> <Esc>
-map jj <ESC>
+map <C-c> <ESC>
+"map jj <ESC>
 nnoremap <leader>u :UndotreeToggle<CR>
-
-"let g:scrollview_current_only = 1
-"let g:scrollview_winblend = 0
-"set signcolumn=number
-
-" set the font
-"set guifont=Lucida_Console:h9:cDEFAULT
-
-" visual selection copied to clipboard
-set guioptions=at
-" enable modelines
-"set modeline
-"set modelines=5
 
 syntax enable
 filetype on
 filetype detect
 filetype indent on
 "set filename-display absolute
+" visual selection copied to clipboard
+set guioptions=at
 set clipboard=unnamedplus
 set encoding=utf-8
 set tabstop=4
@@ -141,6 +128,7 @@ set nowritebackup     " really don't create backup files?
 set noswapfile        " for real, don't create backup files
 " Hide highlighted terms
 nnoremap <leader><space> :nohlsearch<CR>
+nnoremap <leader>) ciw(<c-r>")<esc>
 "set foldenable
 "set foldlevelstart=10
 "set foldnestmax=10
@@ -178,6 +166,33 @@ nnoremap <C-Up> <C-W><C-K>
 nnoremap <C-Left> <C-W><C-H>
 nnoremap <C-Right> <C-W><C-L>
 
+" Terminal Settings
+if has("nvim")
+    tnoremap <silent> <Esc> <C-\><C-n>`.$
+    tnoremap <A-Left> <C-\><C-n><C-w>h
+    tnoremap <A-j> <C-\><C-n><C-w>j
+    tnoremap <A-k> <C-\><C-n><C-w>k
+    tnoremap <A-Right> <C-\><C-n><C-w>l
+    autocmd BufEnter term://* startinsert
+endif
+
+nnoremap <A-j> :m .+1<CR>==
+nnoremap <A-k> :m .-2<CR>==
+inoremap <A-j> <Esc>:m .+1<CR>==gi
+inoremap <A-k> <Esc>:m .-2<CR>==gi
+vnoremap <A-j> :m '>+1<CR>gv=gv
+vnoremap <A-k> :m '<-2<CR>gv=gv
+
+vnoremap il <ESC>^vg_
+
+""""""""""""""""""""""
+"  Plug Shortcuts "
+""""""""""""""""""""""
+nnoremap <silent><leader>pi :PlugInstall<CR>
+nnoremap <silent><leader>ps :PlugStatus<CR>
+nnoremap <silent><leader>pc :PlugClean<CR>
+nnoremap <silent><leader>pu :PlugUpdate<CR>
+
 "------------------------------------------------------------------------------
 " Telescope keybindings configuration
 "------------------------------------------------------------------------------
@@ -185,7 +200,6 @@ noremap <C-F> :Telescope current_buffer_fuzzy_find fuzzy=false case_mode=ignore_
 noremap <leader>fa :Telescope live_grep<CR>
 noremap <leader>ff :Telescope find_files<CR>
 noremap <leader>fm :Telescope keymaps<CR>
-
 
 """"""""""""""""""""""""
 "  Bufferlines Keymap  "
@@ -213,11 +227,6 @@ noremap <leader>o :FloatermNew --wintype=split --height=0.3<CR>
 let g:floaterm_keymap_toggle = '<leader>t'
 let g:floaterm_keymap_kill = '<leader>k'
 
-"------------------------------------------------------------------------------
-" Farr keybindings configuration
-"------------------------------------------------------------------------------
-nnoremap <silent> <leader>r  :Farr<cr>
-vnoremap <silent> <leader>r  :Farr<cr>
 
 "------------------------------------------------------------------------------
 " Gruvbox-material colorscheme configuration
@@ -225,7 +234,7 @@ vnoremap <silent> <leader>r  :Farr<cr>
 set t_Co=256
 " Important!!
 if has('termguicolors')
-        set termguicolors
+    set termguicolors
 endif
 "colorscheme kanagawa
 colorscheme nightfly
@@ -237,25 +246,6 @@ colorscheme nightfly
 "------------------------------------------------------------------------------
 nmap <C-_> <Plug>NERDCommenterToggle
 vmap <C-_> <Plug>NERDCommenterToggle<CR>gv
-
-"------------------------------------------------------------------------------
-" Ale configuration so that we can lint and see the errors
-"------------------------------------------------------------------------------
-"let g:ale_fixers = {'python': ['autopep8', 'isort'], 'lua': ['lua-format'], '*': ['remove_trailing_lines', 'trim_whitespace']}
-"let g:ale_linters = {'python': [], 'lua': []}
-""let g:ale_linters = {'python': ['bandit', 'flake8', 'flakehell', 'jedils', 'mypy', 'prospector', 'pycodestyle', 'pydocstyle', 'pyflakes', 'pylama', 'pylint', 'pylsp', 'pyre', 'pyright', 'unimport', 'vulture']}
-"let g:ale_fix_on_save = 1
-"let g:ale_disable_lsp=1
-"let g:ale_sign_error = 'E'
-"let g:ale_sign_warning = 'W'
-"nmap <leader>af :ALEFix<CR>
-"nnoremap ]r :ALENextWrap<CR>
-"nnoremap [r :ALEPreviousWrap<CR>
-"nnoremap ]rd :ALEDetail<CR>
-"let g:ale_lua_stylua_executable="/Users/abiten/.cargo/bin/stylua"
-""let g:ale_python_pyre_executable = $CONDA_PREFIX.'/bin/python'
-""let g:ale_python_pylint_options = " --generated-members=numpy.* ,torch.* ,cv2.* , cv.*"
-"let g:ale_set_highlights =0
 
 "------------------------------------------------------------------------------
 " Some Lua stuff for treesitter and nvim-dap: THE debugger.
@@ -331,16 +321,6 @@ let g:UltiSnipsJumpForwardTrigger="<Tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-Tab>"
 
 
-" Terminal Settings
-if has("nvim")
-        tnoremap <silent> <Esc> <C-\><C-n>`.$
-        tnoremap <A-Left> <C-\><C-n><C-w>h
-        tnoremap <A-j> <C-\><C-n><C-w>j
-        tnoremap <A-k> <C-\><C-n><C-w>k
-        tnoremap <A-Right> <C-\><C-n><C-w>l
-        autocmd BufEnter term://* startinsert
-endif
-
 let g:context_nvim_no_redraw = 1
 au User NvimGdbQuery GdbLopenBacktrace
 "au User NvimGdbQuery GdbCreateWatch locals()
@@ -366,6 +346,10 @@ augroup highlight_yank
     autocmd!
     au TextYankPost * silent! lua vim.highlight.on_yank { higroup='IncSearch', timeout=400 }
 augroup END
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"  BELOW THIS POINT IS THE GRAVEYARD! (TREAD CAREFULLY!)  "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
 "------------------------------------------------------------------------------
@@ -425,3 +409,27 @@ augroup END
 "endfunction
 
 
+"------------------------------------------------------------------------------
+" Ale configuration so that we can lint and see the errors
+"------------------------------------------------------------------------------
+"let g:ale_fixers = {'python': ['autopep8', 'isort'], 'lua': ['lua-format'], '*': ['remove_trailing_lines', 'trim_whitespace']}
+"let g:ale_linters = {'python': [], 'lua': []}
+""let g:ale_linters = {'python': ['bandit', 'flake8', 'flakehell', 'jedils', 'mypy', 'prospector', 'pycodestyle', 'pydocstyle', 'pyflakes', 'pylama', 'pylint', 'pylsp', 'pyre', 'pyright', 'unimport', 'vulture']}
+"let g:ale_fix_on_save = 1
+"let g:ale_disable_lsp=1
+"let g:ale_sign_error = 'E'
+"let g:ale_sign_warning = 'W'
+"nmap <leader>af :ALEFix<CR>
+"nnoremap ]r :ALENextWrap<CR>
+"nnoremap [r :ALEPreviousWrap<CR>
+"nnoremap ]rd :ALEDetail<CR>
+"let g:ale_lua_stylua_executable="/Users/abiten/.cargo/bin/stylua"
+""let g:ale_python_pyre_executable = $CONDA_PREFIX.'/bin/python'
+""let g:ale_python_pylint_options = " --generated-members=numpy.* ,torch.* ,cv2.* , cv.*"
+"let g:ale_set_highlights =0
+
+"------------------------------------------------------------------------------
+" Farr keybindings configuration
+"------------------------------------------------------------------------------
+"nnoremap <silent> <leader>r  :Farr<cr>
+"vnoremap <silent> <leader>r  :Farr<cr>
