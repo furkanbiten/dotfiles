@@ -1,3 +1,5 @@
+local parsers = require("nvim-treesitter.parsers")
+local enabled_list = { "clojure", "fennel", "commonlisp", "query", "scheme" }
 require 'nvim-tree'.setup { open_on_setup = true }
 
 require("nvim-treesitter.configs").setup({
@@ -9,22 +11,35 @@ require("nvim-treesitter.configs").setup({
 
     -- List of parsers to ignore installing
     ignore_install = { "javascript" },
-
+    rainbow = {
+        enable = true,
+        -- Enable only for lisp like languages
+        disable = vim.tbl_filter(
+            function(p)
+                local disable = true
+                for _, lang in pairs(enabled_list) do
+                    if p == lang then disable = false end
+                end
+                return disable
+            end,
+            parsers.available_parsers()
+        )
+    },
     highlight = {
         -- `false` will disable the whole extension
         enable = true,
         additional_vim_regex_highlighting = false
     },
     textobjects = {
-        swap = {
-            enable = true,
-            swap_next = {
-                ["<c-l>"] = "@parameter.inner",
-            },
-            swap_previous = {
-                ["<c-h>"] = "@parameter.inner",
-            },
-        },
+        --swap = {
+            --enable = true,
+            --swap_next = {
+                ----["<c-l>"] = "@parameter.inner",
+            --},
+            --swap_previous = {
+                ----["<c-h>"] = "@parameter.inner",
+            --},
+        --},
         select = {
             enable = true,
             -- Automatically jump forward to textobj, similar to targets.vim

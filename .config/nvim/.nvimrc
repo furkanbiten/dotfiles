@@ -1,17 +1,18 @@
 call plug#begin()
 Plug 'aluriak/nerdcommenter'
-"Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'junegunn/gv.vim'
 Plug 'mbbill/undotree'
-"Plug 'AndrewRadev/sideways.vim'
+Plug 'AndrewRadev/sideways.vim'
+Plug 'AndrewRadev/splitjoin.vim'
 "Plug 'wellle/context.vim'
 Plug 'wellle/targets.vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'voldikss/vim-floaterm'
+Plug 'preservim/tagbar'
 "Plug 'puremourning/vimspector'
 Plug 'jpalardy/vim-slime'
 "Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }
@@ -23,7 +24,7 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'simeji/winresizer'
 Plug 'Olical/conjure'
 "Plug 'junegunn/rainbow_parentheses.vim'
-"Plug 'p00f/nvim-ts-rainbow'
+Plug 'p00f/nvim-ts-rainbow'
 Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh' }
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'folke/trouble.nvim'
@@ -60,8 +61,6 @@ Plug 'jose-elias-alvarez/null-ls.nvim'
 Plug 'lewis6991/impatient.nvim'
 Plug 'nathom/filetype.nvim'
 Plug 'luukvbaal/stabilize.nvim'
-"Plug 'karb94/neoscroll.nvim'
-"Plug 'dstein64/nvim-scrollview'
 Plug 'j-hui/fidget.nvim'
 "Themes
 "Plug 'catppuccin/nvim', {'as': 'catppuccin'}
@@ -91,8 +90,8 @@ inoremap <C-k> <C-o>d$
 noremap <silent> <leader>w :w<CR>
 noremap <silent> <leader>qa :qall<CR>
 
-"nnoremap <c-h> :SidewaysLeft<cr>
-"nnoremap <c-l> :SidewaysRight<cr>
+nnoremap <c-h> :SidewaysLeft<cr>
+nnoremap <c-l> :SidewaysRight<cr>
 map <C-c> <ESC>
 "map jj <ESC>
 nnoremap <leader>u :UndotreeToggle<CR>
@@ -129,22 +128,11 @@ set noswapfile        " for real, don't create backup files
 " Hide highlighted terms
 nnoremap <leader><space> :nohlsearch<CR>
 nnoremap <leader>) ciw(<c-r>")<esc>
-"set foldenable
-"set foldlevelstart=10
-"set foldnestmax=10
+set foldenable
+set foldlevelstart=10
+set foldnestmax=10
 "nnoremap <space> za
 "set foldmethod=indent
-"let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowToggle
-"autocmd syntax scheme call :RainbowToggle<CR>
-"function! s:ActivateRainbowParens() abort
-    "RainbowToggle
-"endfunction
-"augroup rainbow_lisp
-  "autocmd!
-  "autocmd FileType lisp,clojure,scheme RainbowParenthesesActivate
-  "autocmd FileType lisp,clojure,scheme RainbowParenthesesActivate
-"augroup END
-" Keybindings for using buffers in Vim
 "------------------------------------------------------------------------------
 " To open a new empty buffer
 " This replaces :tabnew which I used to bind to this mapping
@@ -153,9 +141,7 @@ nmap <C-T> :enew<cr>
 nmap <Tab> :bnext<CR>
 " Move to the previous buffer
 nmap <s-Tab> :bprevious<CR>
-" Close the current buffer and move to the previous one
-" This replicates the idea of closing a tab,
-" however be warned it will close without saving anything!
+" Close the current buffer and move to the previous one. This replicates the idea of closing a tab, however be warned it will close without saving anything!
 noremap <leader>q :bp <BAR> bd! #<CR>
 " Show all open buffers and their status
 nmap <leader>l :ls<CR>
@@ -219,6 +205,22 @@ nnoremap <silent><leader>6 <Cmd>BufferLineGoToBuffer 6<CR>
 nnoremap <silent><leader>7 <Cmd>BufferLineGoToBuffer 7<CR>
 nnoremap <silent><leader>8 <Cmd>BufferLineGoToBuffer 8<CR>
 nnoremap <silent><leader>9 <Cmd>BufferLineGoToBuffer 9<CR>
+
+""""""""""""""""""""""
+"  Split/Join Lines  "
+""""""""""""""""""""""
+"nmap sj :SplitjoinSplit<cr>
+"nmap sk :SplitjoinJoin<cr>
+nmap <Leader>j :SplitjoinJoin<cr>
+nmap <Leader>s :SplitjoinSplit<cr>
+
+"""""""""""""""""""""""
+"  Ultisnips keymaps  "
+"""""""""""""""""""""""
+"let g:UltiSnipsExpandTrigger="<Tab>"
+let g:UltiSnipsJumpForwardTrigger="<Tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-Tab>"
+
 
 "------------------------------------------------------------------------------
 " Floaterm keybindings configuration
@@ -305,35 +307,23 @@ nmap <c-x>v     <Plug>SlimeConfig
 nmap <Leader>h <Plug>SlimeLineSend
 xmap <Leader>h <Plug>SlimeRegionSend
 " map <Leader>s to start IPython
-nnoremap <Leader>s :SlimeSend1 ipython --matplotlib<CR>
+"nnoremap <Leader>s :SlimeSend1 ipython --matplotlib<CR>
 " map <Leader>d to start debug mode
 nnoremap <Leader>d :SlimeSend1 %debug<CR>
-"nmap <c-c>o    call SlimeOverrideConfig()
-"function SlimeOverrideConfig()
-  "let b:slime_config = {}
-  "let b:slime_config["slime_target"] = input("slime_target: ", "neovim")
-"endfunction
-"""""""""""""""""""""""
-"  Ultisnips keymaps  "
-"""""""""""""""""""""""
-"let g:UltiSnipsExpandTrigger="<Tab>"
-let g:UltiSnipsJumpForwardTrigger="<Tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-Tab>"
 
-
-let g:context_nvim_no_redraw = 1
+"let g:context_nvim_no_redraw = 1
 au User NvimGdbQuery GdbLopenBacktrace
 "au User NvimGdbQuery GdbCreateWatch locals()
 "au User NvimGdbQuery call nvim_buf_set_lines(5, 0, -1, 0, split(GdbCustomCommand("locals()"), "\n"))
 "au  User NvimGdbQuery echo GdbCustomCommand('locals()')
-let g:gitgutter_sign_added = '▋'
-let g:gitgutter_sign_modified = '▐'
-let g:gitgutter_sign_removed = '▋'
-let g:gitgutter_sign_removed_first_line = '▋'
-let g:gitgutter_sign_modified_removed = '▐_'
-highlight GitGutterAdd    guifg=#009900 ctermfg=2
-highlight GitGutterChange guifg=#bbbb00 ctermfg=3
-highlight GitGutterDelete guifg=#ff2222 ctermfg=1
+"let g:gitgutter_sign_added = '▋'
+"let g:gitgutter_sign_modified = '▐'
+"let g:gitgutter_sign_removed = '▋'
+"let g:gitgutter_sign_removed_first_line = '▋'
+"let g:gitgutter_sign_modified_removed = '▐_'
+"highlight GitGutterAdd    guifg=#009900 ctermfg=2
+"highlight GitGutterChange guifg=#bbbb00 ctermfg=3
+"highlight GitGutterDelete guifg=#ff2222 ctermfg=1
 autocmd BufReadPre *.png silent %!xdg-open "%"
 autocmd BufReadPre *.eps silent %!xdg-open "%"
 autocmd BufReadPre *.jpg silent %!xdg-open "%"
@@ -347,11 +337,15 @@ augroup highlight_yank
     au TextYankPost * silent! lua vim.highlight.on_yank { higroup='IncSearch', timeout=400 }
 augroup END
 
+nnoremap <leader>xx <cmd>TroubleToggle<cr>
+nnoremap <leader>xw <cmd>TroubleToggle workspace_diagnostics<cr>
+nnoremap <leader>xd <cmd>TroubleToggle document_diagnostics<cr>
+nnoremap <leader>xq <cmd>TroubleToggle quickfix<cr>
+nnoremap <leader>xl <cmd>TroubleToggle loclist<cr>
+nnoremap gR <cmd>TroubleToggle lsp_references<cr>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "  BELOW THIS POINT IS THE GRAVEYARD! (TREAD CAREFULLY!)  "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-
 "------------------------------------------------------------------------------
 " ipython-cell configuration
 "------------------------------------------------------------------------------
