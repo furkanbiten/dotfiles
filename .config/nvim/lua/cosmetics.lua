@@ -1,4 +1,17 @@
-require"fidget".setup{}
+-- require('Comment').setup()
+--require"fidget".setup{}
+--require("toggleterm").setup{}
+--function _G.set_terminal_keymaps()
+  --local opts = {noremap = true}
+  --vim.api.nvim_buf_set_keymap(0, 't', '<esc>', [[<C-\><C-n>]], opts)
+  --vim.api.nvim_buf_set_keymap(0, 't', 'jk', [[<C-\><C-n>]], opts)
+  ----vim.api.nvim_buf_set_keymap(0, 't', '<C-h>', [[<C-\><C-n><C-W>h]], opts)
+  ----vim.api.nvim_buf_set_keymap(0, 't', '<C-j>', [[<C-\><C-n><C-W>j]], opts)
+  ----vim.api.nvim_buf_set_keymap(0, 't', '<C-k>', [[<C-\><C-n><C-W>k]], opts)
+  ----vim.api.nvim_buf_set_keymap(0, 't', '<C-l>', [[<C-\><C-n><C-W>l]], opts)
+--end
+---- if you only want these mappings for toggle term use term://*toggleterm#* instead
+--vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
 require'trouble'.setup {}
 require'bufferline'.setup {}
 -- require('feline').setup{}
@@ -17,7 +30,7 @@ require('lualine').setup {
                 --   'nvim_lsp', 'nvim_diagnostic', 'coc', 'ale', 'vim_lsp'.
                 -- or a function that returns a table as such:
                 --   { error=error_cnt, warn=warn_cnt, info=info_cnt, hint=hint_cnt }
-                sources = {'ale'},
+                --sources = {'nvim_lsp'},
 
                 -- Displays diagnostics for the defined severity types
                 ections = {'error', 'warn', 'info', 'hint'}

@@ -12,18 +12,15 @@ require("lsp_signature").setup(signature_config)
 ----------------------
 --  Linting Config  --
 ----------------------
-
 require("lint").linters_by_ft = { python = { "flake8", "pycodestyle" } }
 local pycodestyle = require("lint.linters.pycodestyle")
 pycodestyle.args = {
     "--format=%(path)s:%(row)d:%(col)d:%(code)s:%(text)s", "--ignore=E223,E501",
     "-"
 }
-
 ---------------------------------------
 --  Autocompletion library nvim-cmp  --
 ---------------------------------------
-
 local cmp_helper = {}
 local cmp = require 'cmp'
 local lspkind = require('lspkind')
@@ -66,6 +63,7 @@ cmp.setup({
     sources = cmp.config.sources({
         { name = 'nvim_lsp' }, -- { name = 'vsnip' }, -- For vsnip users.
         { name = 'path' },
+        -- { name = 'conjure' },
         { name = 'nvim_lua' }, -- { name = 'luasnip' }, -- For luasnip users.
         { name = 'ultisnips' } -- For ultisnips users.
         -- { name = 'snippy' }, -- For snippy users.
@@ -131,9 +129,7 @@ cmp.setup.cmdline(':', {
 -- })
 
 -- Setup lspconfig.
-local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp
-.protocol
-.make_client_capabilities())
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 local lsp_installer = require "nvim-lsp-installer"
@@ -150,7 +146,7 @@ vim.api.nvim_set_keymap('n', '<space>q',
 require("aerial").setup({
     on_attach = function(bufnr)
         -- Toggle the aerial window with <leader>a
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>a',
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>at',
             '<cmd>AerialToggle!<CR>', {})
         -- Jump forwards/backwards with '{' and '}'
         vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>ap',
@@ -274,7 +270,7 @@ null_ls.setup({
         -- null_ls.builtins.diagnostics.flake8
         -- null_ls.builtins.formatting.black,
         -- null_ls.builtins.formatting.luaformat,
-         null_ls.builtins.formatting.prettier,
+        null_ls.builtins.formatting.prettier,
     },
     on_attach = require "lsp-format".on_attach
     -- function()
@@ -327,31 +323,6 @@ for type, icon in pairs(signs) do
         --numhl = hl
     })
 end
-
---vim.cmd [[
-  --highlight! DiagnosticLineNrError guibg=#51202A guifg=#FF0000 gui=bold
-  --highlight! DiagnosticLineNrWarn guibg=#51412A guifg=#FFA500 gui=bold
-  --highlight! DiagnosticLineNrInfo guibg=#1E535D guifg=#00FFFF gui=bold
-  --highlight! DiagnosticLineNrHint guibg=#1E205D guifg=#0000FF gui=bold
-
-  --sign define DiagnosticSignError text= texthl=DiagnosticSignError linehl= numhl=DiagnosticLineNrError
-  --sign define DiagnosticSignWarn text= texthl=DiagnosticSignWarn linehl= numhl=DiagnosticLineNrWarn
-  --sign define DiagnosticSignInfo text= texthl=DiagnosticSignInfo linehl= numhl=DiagnosticLineNrInfo
-  --sign define DiagnosticSignHint text= texthl=DiagnosticSignHint linehl= numhl=DiagnosticLineNrHint
---]]
-
---local saga = require('lspsaga')
---saga.init_lsp_saga()
--- local map = vim.api.nvim_buf_set_keymap
--- map(0, "n", "gr", "<cmd>Lspsaga rename<cr>", {silent = true, noremap = true})
--- map(0, "n", "gx", "<cmd>Lspsaga code_action<cr>", {silent = true, noremap = true})
--- map(0, "x", "gx", ":<c-u>Lspsaga range_code_action<cr>", {silent = true, noremap = true})
--- map(0, "n", "K",  "<cmd>Lspsaga hover_doc<cr>", {silent = true, noremap = true})
--- map(0, "n", "go", "<cmd>Lspsaga show_line_diagnostics<cr>", {silent = true, noremap = true})
--- map(0, "n", "gj", "<cmd>Lspsaga diagnostic_jump_next<cr>", {silent = true, noremap = true})
--- map(0, "n", "gk", "<cmd>Lspsaga diagnostic_jump_prev<cr>", {silent = true, noremap = true})
--- map(0, "n", "<C-u>", "<cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1, '<c-u>')<cr>", {})
--- map(0, "n", "<C-d>", "<cmd>lua require('lspsaga.action').smart_scroll_with_saga(1, '<c-d>')<cr>", {})
 
 --function PrintDiagnostics(opts, bufnr, line_nr, client_id)
 --bufnr = bufnr or 0
