@@ -22,7 +22,8 @@ noremap <C-F> :Telescope current_buffer_fuzzy_find fuzzy=false case_mode=ignore_
 noremap <leader>fa :Telescope live_grep<CR>
 noremap <leader>ff :Telescope find_files<CR>
 noremap <leader>fm :Telescope keymaps<CR>
-
+noremap <leader>fr :lua require("telescope").extensions.live_grep_raw.live_grep_raw()<CR>
+"noremap <leader>fl :lua require("telescope.builtin").lsp_references()<CR>
 """"""""""""""""""""""""
 "  Bufferlines Keymap  "
 """"""""""""""""""""""""
@@ -74,9 +75,13 @@ if has('termguicolors')
 endif
 "colorscheme kanagawa
 colorscheme nightfly
+"colorscheme nightfox
 "colorscheme material
 "let g:material_style = "deep ocean"
 "let g:material_style = "darker"
+"hi CursorLine term=bold cterm=bold guibg=Grey40
+set cursorline
+hi CursorLine   cterm=NONE ctermbg=darkred ctermfg=white
 "------------------------------------------------------------------------------
 " Commenter configuration so that we can use toggle comment
 "------------------------------------------------------------------------------
@@ -118,8 +123,8 @@ nnoremap <leader>dt :lua require'dapui'.toggle()<CR>
 " Vim-slime configuration
 "------------------------------------------------------------------------------
 " always use tmux
-let g:slime_target = 'tmux'
-"let g:slime_target = "neovim"
+"let g:slime_target = 'tmux'
+let g:slime_target = "neovim"
 "let g:slime_paste_file = "$HOME/.slime_paste"
 " or maybe...
 "let g:slime_paste_file = tempname()
@@ -129,9 +134,9 @@ let g:slime_target = 'tmux'
 let g:slime_python_ipython = 1
 
 " always send text to the top-right pane in the current tmux tab without asking
-let g:slime_default_config = {
-                        \ 'socket_name': get(split($TMUX, ','), 0),
-                        \ 'target_pane': '{top-right}' }
+"let g:slime_default_config = {
+                        "\ 'socket_name': get(split($TMUX, ','), 0),
+                        "\ 'target_pane': '{top-right}' }
 "let g:slime_dont_ask_default = 1
 
 xmap <c-x><c-x> <Plug>SlimeRegionSend
@@ -154,13 +159,15 @@ nnoremap <leader>xd <cmd>TroubleToggle document_diagnostics<cr>
 nnoremap <leader>xq <cmd>TroubleToggle quickfix<cr>
 nnoremap <leader>xl <cmd>TroubleToggle loclist<cr>
 nnoremap gR <cmd>TroubleToggle lsp_references<cr>
+nnoremap <leader>xqq :lua ToggleTroubleAuto()<cr>
 
 "let g:toggleterm_terminal_mapping = '<C-t>'
 "nnoremap <silent><c-t> <Cmd>exe v:count1 . "ToggleTerm"<CR>
 "inoremap <silent><c-t> <Esc><Cmd>exe v:count1 . "ToggleTerm"<CR>
 "let g:context_nvim_no_redraw = 1
-au User NvimGdbQuery GdbLopenBacktrace
+au User NvimGdbQuery :belowright GdbLopenBacktrace
 "au User NvimGdbQuery GdbCreateWatch locals()
-"au User NvimGdbQuery call nvim_buf_set_lines(5, 0, -1, 0, split(GdbCustomCommand("locals()"), "\n"))
+"au User NvimGdbQuery call nvim_buf_set_lines(bufnr(), 0, -1, 0, split(GdbCustomCommand("locals()"), "\n"))
 "au  User NvimGdbQuery echo GdbCustomCommand('locals()')
-
+let w:nvimgdb_termwin_command = "belowright vnew"
+let w:nvimgdb_codewin_command = "vnew"

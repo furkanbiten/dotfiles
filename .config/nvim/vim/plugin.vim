@@ -29,7 +29,7 @@ Plug 'rcarriga/nvim-dap-ui'
 Plug 'theHamsta/nvim-dap-virtual-text'
 "Plug 'puremourning/vimspector'
 """""""""""""""""""""""
-"  Optimized plugins  "
+"  Optimization plugins  "
 """""""""""""""""""""""
 Plug 'lewis6991/impatient.nvim'
 Plug 'nathom/filetype.nvim'
@@ -39,8 +39,10 @@ Plug 'nathom/filetype.nvim'
 Plug 'luukvbaal/stabilize.nvim'
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'folke/trouble.nvim'
+"Plug 'folke/lsp-colors.nvim'
 Plug 'akinsho/bufferline.nvim'
 Plug 'nvim-lualine/lualine.nvim'
+Plug 'kyazdani42/nvim-web-devicons'
 "Plug 'wellle/context.vim'
 "Plug 'j-hui/fidget.nvim'
 """""""""""""
@@ -49,7 +51,7 @@ Plug 'nvim-lualine/lualine.nvim'
 Plug 'aluriak/nerdcommenter'
 Plug 'tpope/vim-eunuch' " useful linux commands from vim, e.g. move, rename, delete, unlink, etc. 
 Plug 'tpope/vim-obsession', {'on': 'Obsession'} " Save session with running Obsession
-Plug 'tpope/vim-fugitive' " Run git commands 
+"Plug 'tpope/vim-fugitive' " Run git commands 
 Plug 'tpope/vim-surround' " Surrond any text objects with (), [], {}, <>, ...
 Plug 'junegunn/gv.vim', {'on': 'GV'} " Check git diffs, blames
 Plug 'mbbill/undotree', {'on': 'UndotreeToggle'} " Visual control over undo 
@@ -64,21 +66,22 @@ Plug 'honza/vim-snippets'
 Plug 'mzlogin/vim-markdown-toc'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'simeji/winresizer'
-Plug 'kyazdani42/nvim-web-devicons'
 Plug 'ggandor/lightspeed.nvim', 
 Plug 'kyazdani42/nvim-tree.lua'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-rg.nvim'
 Plug 'lewis6991/gitsigns.nvim'
-Plug 'stevearc/aerial.nvim'
+"Plug 'stevearc/aerial.nvim'
 "Plug 'akinsho/toggleterm.nvim'
 Plug 'voldikss/vim-floaterm'
 "Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }
+"Plug 'kevinhwang91/nvim-bqf'
 """"""""""""""""""""""""""""
 "  Scheme related plugins  "
 """"""""""""""""""""""""""""
 " can be commented with no worries.
-Plug 'guns/vim-sexp'
+Plug 'guns/vim-sexp', {'for': [ 'clojure', 'fennel', 'commonlisp', 'query', 'scheme']}
 Plug 'Olical/conjure', {'for': [ 'clojure', 'fennel', 'commonlisp', 'query', 'scheme']}
 Plug 'p00f/nvim-ts-rainbow', {'for': [ 'clojure', 'fennel', 'commonlisp', 'query', 'scheme' ]}
 "Plug 'wlangstroth/vim-racket'
@@ -90,6 +93,7 @@ Plug 'p00f/nvim-ts-rainbow', {'for': [ 'clojure', 'fennel', 'commonlisp', 'query
 """"""""""""
 Plug 'rebelot/kanagawa.nvim'
 Plug 'bluz71/vim-nightfly-guicolors'
+Plug 'EdenEast/nightfox.nvim' " Vim-Plug
 "Plug 'catppuccin/nvim', {'as': 'catppuccin'}
 "Plug 'marko-cerovac/material.nvim'
 "Plug 'colepeters/spacemacs-theme.vim'

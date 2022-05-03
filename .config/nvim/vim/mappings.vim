@@ -7,10 +7,14 @@ let maplocalleader=","
 "  Vim native mapping for frequently used mappings  "
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 map <C-c> <ESC>
+ino <C-c> <ESC>
 "map jj <ESC>
 inoremap <C-k> <C-o>d$
 noremap <silent> <leader>w :w<CR>
-noremap <silent> <leader>qa :qall<CR>
+noremap <silent> <leader>qa :qall!<CR>
+noremap <silent> <leader>qw :q<CR>
+" Close the current buffer and move to the previous one. This replicates the idea of closing a tab, however be warned it will close without saving anything!
+noremap <leader>qq :bp <BAR> bd! #<CR>
 " To open a new empty buffer
 " This replaces :tabnew which I used to bind to this mapping
 nmap <leader>n :enew<cr>
@@ -18,8 +22,6 @@ nmap <leader>n :enew<cr>
 nmap <Tab> :bnext<CR>
 " Move to the previous buffer
 nmap <s-Tab> :bprevious<CR>
-" Close the current buffer and move to the previous one. This replicates the idea of closing a tab, however be warned it will close without saving anything!
-noremap <leader>qb :bp <BAR> bd! #<CR>
 " Show all open buffers and their status
 nmap <leader>l :ls<CR>
 " Moving between splits with arrow keys, sorry Vim, I don't deserve you :(
@@ -47,4 +49,5 @@ vnoremap <A-Down> :m '>+1<CR>gv=gv
 vnoremap <A-Up> :m '<-2<CR>gv=gv
 
 vnoremap il <ESC>^vg_
-
+nnoremap <leader><space> :nohlsearch<CR>
+nnoremap <leader>) ciw(<c-r>")<esc>

@@ -18,13 +18,13 @@ dap.configurations.python = {
             return vim.split(args_string, " +")
         end,
         pythonPath = os.getenv("CONDA_PREFIX") .. "/bin/python",
-        console = "externalTerminal"
+        console = "internalConsole"
     }
 }
--- dap.defaults.fallback.external_terminal = {
--- command = '/usr/bin/x-terminal-emulator';
--- args = {'-e'};
--- }
+ --dap.defaults.fallback.external_terminal = {
+ --command = '/usr/local/bin/alacritty';
+ --args = {'-e'};
+ --}
 
 require("dapui").setup({
     sidebar = {
