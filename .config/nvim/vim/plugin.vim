@@ -49,6 +49,7 @@ Plug 'kyazdani42/nvim-web-devicons'
 "  Utility "
 """""""""""""
 Plug 'aluriak/nerdcommenter'
+" Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-eunuch' " useful linux commands from vim, e.g. move, rename, delete, unlink, etc. 
 Plug 'tpope/vim-obsession', {'on': 'Obsession'} " Save session with running Obsession
 "Plug 'tpope/vim-fugitive' " Run git commands 
@@ -92,8 +93,10 @@ Plug 'p00f/nvim-ts-rainbow', {'for': [ 'clojure', 'fennel', 'commonlisp', 'query
 "  Themes  "
 """"""""""""
 Plug 'rebelot/kanagawa.nvim'
+Plug 'kjssad/quantum.vim'
 Plug 'bluz71/vim-nightfly-guicolors'
-Plug 'EdenEast/nightfox.nvim' " Vim-Plug
+"Plug 'iandwelker/rose-pine-vim'
+"Plug 'EdenEast/nightfox.nvim' " Vim-Plug
 "Plug 'catppuccin/nvim', {'as': 'catppuccin'}
 "Plug 'marko-cerovac/material.nvim'
 "Plug 'colepeters/spacemacs-theme.vim'

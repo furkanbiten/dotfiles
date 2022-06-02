@@ -49,7 +49,7 @@ autocmd BufReadPre *.eps silent %!xdg-open "%"
 autocmd BufReadPre *.jpg silent %!xdg-open "%"
 autocmd BufReadPre *.bmp silent %!xdg-open "%"
 autocmd BufReadPre *.ipynb silent %!xdg-open "%"
-autocmd InsertLeave * silent :w!
+"autocmd InsertLeave * silent :w!
 "autocmd QuickFixCmdPre * :lua ToggleTroubleAuto()<CR>
 "autocmd WinEnter * if &buftype == 'quickfix' | :lua ToggleTroubleAuto() | endif
 "autocmd BufWinEnter quickfix silent :lua ToggleTroubleAuto()

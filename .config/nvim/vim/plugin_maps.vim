@@ -73,6 +73,9 @@ set t_Co=256
 if has('termguicolors')
     set termguicolors
 endif
+"colorscheme quantum
+"let g:background  = '#181d20'
+"set background=dark     " dark theme
 "colorscheme kanagawa
 colorscheme nightfly
 "colorscheme nightfox
@@ -80,6 +83,7 @@ colorscheme nightfly
 "let g:material_style = "deep ocean"
 "let g:material_style = "darker"
 "hi CursorLine term=bold cterm=bold guibg=Grey40
+highlight Normal guibg='#181d20' guifg=white
 set cursorline
 hi CursorLine   cterm=NONE ctermbg=darkred ctermfg=white
 "------------------------------------------------------------------------------
@@ -97,7 +101,7 @@ lua require('lsp')
 lua require('cosmetics')
 "au  InsertLeave * lua require('lint').try_lint()
 au  BufWritePre * lua require('lint').try_lint()
-au  TextChanged * lua require('lint').try_lint()
+"au  TextChanged * lua require('lint').try_lint()
 au FileType dap-repl lua require('dap.ext.autocompl').attach()
 nnoremap <silent> <F9> :lua require'dap'.continue()<CR>
 nnoremap <silent> <F8> :lua require'dap'.step_over()<CR>
