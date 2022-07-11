@@ -28,6 +28,11 @@ local cmp = require 'cmp'
 local lspkind = require('lspkind')
 local cmp_ultisnips_mappings = require("cmp_nvim_ultisnips.mappings")
 cmp.setup({
+    enabled = function ()
+    return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
+      or require("cmp_dap").is_dap_buffer()
+  end,
+
     formatting = {
         format = lspkind.cmp_format({
             mode = 'symbol_text', -- show only symbol annotations
@@ -66,8 +71,9 @@ cmp.setup({
         { name = 'nvim_lsp' }, -- { name = 'vsnip' }, -- For vsnip users.
         { name = 'path' },
         { name = 'omni' },
+        { name = 'dap' },
         -- { name = 'conjure' },
-        { name = 'nvim_lua' }, -- { name = 'luasnip' }, -- For luasnip users.
+        --{ name = 'nvim_lua' }, -- { name = 'luasnip' }, -- For luasnip users.
         { name = 'ultisnips' } -- For ultisnips users.
         -- { name = 'snippy' }, -- For snippy users.
     },

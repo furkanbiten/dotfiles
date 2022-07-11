@@ -27,6 +27,7 @@ Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh' }
 Plug 'mfussenegger/nvim-dap'
 Plug 'rcarriga/nvim-dap-ui'
 Plug 'theHamsta/nvim-dap-virtual-text'
+Plug 'rcarriga/cmp-dap'
 "Plug 'puremourning/vimspector'
 """""""""""""""""""""""
 "  Optimization plugins  "
@@ -51,7 +52,7 @@ Plug 'kyazdani42/nvim-web-devicons'
 Plug 'aluriak/nerdcommenter'
 " Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-eunuch' " useful linux commands from vim, e.g. move, rename, delete, unlink, etc. 
-Plug 'tpope/vim-obsession', {'on': 'Obsession'} " Save session with running Obsession
+"Plug 'tpope/vim-obsession', {'on': 'Obsession'} " Save session with running Obsession
 "Plug 'tpope/vim-fugitive' " Run git commands 
 Plug 'tpope/vim-surround' " Surrond any text objects with (), [], {}, <>, ...
 Plug 'junegunn/gv.vim', {'on': 'GV'} " Check git diffs, blames
@@ -82,19 +83,18 @@ Plug 'voldikss/vim-floaterm'
 "  Scheme related plugins  "
 """"""""""""""""""""""""""""
 " can be commented with no worries.
-Plug 'guns/vim-sexp', {'for': [ 'clojure', 'fennel', 'commonlisp', 'query', 'scheme']}
-Plug 'Olical/conjure', {'for': [ 'clojure', 'fennel', 'commonlisp', 'query', 'scheme']}
-Plug 'p00f/nvim-ts-rainbow', {'for': [ 'clojure', 'fennel', 'commonlisp', 'query', 'scheme' ]}
-"Plug 'wlangstroth/vim-racket'
+"Plug 'guns/vim-sexp', {'for': [ 'clojure', 'fennel', 'commonlisp', 'query', 'scheme']}
+"Plug 'Olical/conjure', {'for': [ 'clojure', 'fennel', 'commonlisp', 'query', 'scheme']}
+"Plug 'p00f/nvim-ts-rainbow', {'for': [ 'clojure', 'fennel', 'commonlisp', 'query', 'scheme' ]}
 "Plug 'tpope/vim-sexp-mappings-for-regular-people'
 "Plug 'junegunn/rainbow_parentheses.vim'
-" Plug 'PaterJason/cmp-conjure'
 """"""""""""
 "  Themes  "
 """"""""""""
 Plug 'rebelot/kanagawa.nvim'
 Plug 'kjssad/quantum.vim'
 Plug 'bluz71/vim-nightfly-guicolors'
+Plug 'tanvirtin/monokai.nvim'
 "Plug 'iandwelker/rose-pine-vim'
 "Plug 'EdenEast/nightfox.nvim' " Vim-Plug
 "Plug 'catppuccin/nvim', {'as': 'catppuccin'}

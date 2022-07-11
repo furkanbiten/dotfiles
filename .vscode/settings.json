@@ -1,0 +1,11 @@
+{
+    "python.linting.enabled": true,
+    "files.autoSave": "afterDelay",
+    "files.hotExit": "off",
+    // "terminal.external.osxExec": "iTerm.app",
+    "terminal.integrated.defaultProfile.osx": "/usr/local/bin/zsh",
+    "terminal.integrated.fontFamily": "MesloLGS NF",
+    "terminal.explorerKind": "external",
+    "telemetry.telemetryLevel": "off",
+    "code-runner.enableAppInsights": false
+}
