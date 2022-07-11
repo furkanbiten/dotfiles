@@ -1,0 +1,24 @@
+// Place your key bindings in this file to override the defaultsauto[]
+[
+    {
+        "key": "ctrl+tab",
+        "command": "-workbench.action.quickOpenPreviousRecentlyUsedEditorInGroup",
+        "when": "panelFocus"
+    },
+    {
+        "key": "ctrl+shift+tab",
+        "command": "-workbench.action.quickOpenLeastRecentlyUsedEditorInGroup",
+        "when": "panelFocus"
+    },
+    {
+        "key": "tab",
+        "command": "workbench.action.nextPanelView",
+        "when": "panelFocus"
+
+    },
+    {
+        "key": "shift+tab",
+        "command": "workbench.action.previousPanelView",
+        "when": "panelFocus"
+    }
+]
