@@ -21,6 +21,7 @@ dap.configurations.python = {
         console = "internalConsole"
     }
 }
+require('dap-python').setup(os.getenv("CONDA_PREFIX").."/bin/python")
  --dap.defaults.fallback.external_terminal = {
  --command = '/usr/local/bin/alacritty';
  --args = {'-e'};
