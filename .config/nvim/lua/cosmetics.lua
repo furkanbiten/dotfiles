@@ -1,3 +1,4 @@
+require("nvim-autopairs").setup {}
 require 'trouble'.setup {}
 require 'bufferline'.setup {}
 require('lualine').setup {

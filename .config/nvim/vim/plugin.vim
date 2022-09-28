@@ -61,7 +61,8 @@ Plug 'mbbill/undotree', {'on': 'UndotreeToggle'} " Visual control over undo
 Plug 'AndrewRadev/sideways.vim'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'wellle/targets.vim'
-Plug 'jiangmiao/auto-pairs'
+Plug 'windwp/nvim-autopairs'
+"Plug 'jiangmiao/auto-pairs'
 Plug 'preservim/tagbar', {'on': 'TagbarToggle'}
 Plug 'jpalardy/vim-slime'
 Plug 'SirVer/ultisnips'

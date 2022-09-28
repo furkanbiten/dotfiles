@@ -141,7 +141,6 @@ cmp.setup.cmdline(':', {
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-local lsp_installer = require "nvim-lsp-installer"
 local opts = { noremap = true, silent = true }
 vim.api.nvim_set_keymap('n', '<space>e',
     '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
@@ -169,6 +168,18 @@ vim.api.nvim_set_keymap('n', '<space>q',
             --{})
     --end
 --})
+local lspconfig = require('lspconfig')
+
+local function buffer_augroup(group, bufnr, cmds)
+  vim.api.nvim_create_augroup(group, { clear = false })
+  vim.api.nvim_clear_autocmds({ group = group, buffer = bufnr })
+  for _, cmd in ipairs(cmds) do
+    local event = cmd.event
+    cmd.event = nil
+    vim.api.nvim_create_autocmd(event, vim.tbl_extend("keep", { group = group, buffer = bufnr }, cmd))
+  end
+end
+
 
 -- require("lsp-format").setup {}
 local function on_attach(client, bufnr)
@@ -224,6 +235,14 @@ local function on_attach(client, bufnr)
       augroup END
     ]]
     end
+
+    local detach = function()
+        vim.lsp.buf_detach_client(bufnr, client.id)
+    end
+    buffer_augroup("entropitor:lsp:closing", bufnr, {
+        { event = "BufDelete", callback = detach },
+    })
+
     --require'illuminate'.on_attach(client)
     -- client.resolved_capabilities.document_formatting = false
     -- require "lsp-format".on_attach(client)
@@ -252,6 +271,11 @@ local enhance_server_opts = {
     end
 }
 
+------------------------------------------------------------------------
+--                           LSP INSTALLER                            --
+------------------------------------------------------------------------
+
+local lsp_installer = require "nvim-lsp-installer"
 lsp_installer.on_server_ready(function(server)
     -- Specify the default options which we'll use to setup all servers
     local opts = {
