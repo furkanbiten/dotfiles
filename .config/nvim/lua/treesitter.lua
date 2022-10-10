@@ -31,15 +31,15 @@ require("nvim-treesitter.configs").setup({
         additional_vim_regex_highlighting = false
     },
     textobjects = {
-        --swap = {
-            --enable = true,
-            --swap_next = {
-                ----["<c-l>"] = "@parameter.inner",
-            --},
-            --swap_previous = {
-                ----["<c-h>"] = "@parameter.inner",
-            --},
-        --},
+        swap = {
+            enable = true,
+            swap_next = {
+                ["<c-l>"] = "@parameter.inner",
+            },
+            swap_previous = {
+                ["<c-h>"] = "@parameter.inner",
+            },
+        },
         select = {
             enable = true,
             -- Automatically jump forward to textobj, similar to targets.vim

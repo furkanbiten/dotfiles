@@ -3,8 +3,8 @@
 """"""""""""
 let g:conjure#client#scheme#stdio#command = "scheme"
 noremap s <Plug>Lightspeed_omni_s
-nnoremap <c-h> :SidewaysLeft<cr>
-nnoremap <c-l> :SidewaysRight<cr>
+"nnoremap <c-h> :SidewaysLeft<cr>
+"nnoremap <c-l> :SidewaysRight<cr>
 nnoremap <leader>u :UndotreeToggle<CR>
 
 """"""""""""""""""""""
@@ -43,6 +43,7 @@ nnoremap <silent><leader>7 <Cmd>BufferLineGoToBuffer 7<CR>
 nnoremap <silent><leader>8 <Cmd>BufferLineGoToBuffer 8<CR>
 nnoremap <silent><leader>9 <Cmd>BufferLineGoToBuffer 9<CR>
 
+"map <C-_> gc
 """"""""""""""""""""""
 "  Split/Join Lines  "
 """"""""""""""""""""""
@@ -89,8 +90,9 @@ hi CursorLine   cterm=NONE ctermbg=darkred ctermfg=white
 "------------------------------------------------------------------------------
 " Commenter configuration so that we can use toggle comment
 "------------------------------------------------------------------------------
-nmap <C-_> <Plug>NERDCommenterToggle
-vmap <C-_> <Plug>NERDCommenterToggle<CR>gv
+"nmap <C-_> <Plug>NERDCommenterToggle
+"vmap <C-_> <Plug>NERDCommenterToggle<CR>gv
+vmap <C-0> <Plug>(comment_toggle_linewise_visual)<CR>gv
 
 "------------------------------------------------------------------------------
 " Some Lua stuff for treesitter and nvim-dap: THE debugger.

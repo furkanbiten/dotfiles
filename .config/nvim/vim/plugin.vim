@@ -50,7 +50,8 @@ Plug 'kyazdani42/nvim-web-devicons'
 """""""""""""
 "  Utility "
 """""""""""""
-Plug 'aluriak/nerdcommenter'
+"Plug 'aluriak/nerdcommenter'
+Plug 'numToStr/Comment.nvim'
 " Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-eunuch' " useful linux commands from vim, e.g. move, rename, delete, unlink, etc. 
 "Plug 'tpope/vim-obsession', {'on': 'Obsession'} " Save session with running Obsession
@@ -58,7 +59,7 @@ Plug 'tpope/vim-eunuch' " useful linux commands from vim, e.g. move, rename, del
 Plug 'tpope/vim-surround' " Surrond any text objects with (), [], {}, <>, ...
 Plug 'junegunn/gv.vim', {'on': 'GV'} " Check git diffs, blames
 Plug 'mbbill/undotree', {'on': 'UndotreeToggle'} " Visual control over undo 
-Plug 'AndrewRadev/sideways.vim'
+"Plug 'AndrewRadev/sideways.vim'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'wellle/targets.vim'
 Plug 'windwp/nvim-autopairs'

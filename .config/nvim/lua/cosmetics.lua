@@ -1,3 +1,17 @@
+require('Comment').setup({    toggler = {
+        ---Line-comment toggle keymap
+        line = '<C-_>',
+        ---Block-comment toggle keymap
+        --block = '<C-_>',
+    },
+    ---LHS of operator-pending mappings in NORMAL and VISUAL mode
+    opleader = {
+        ---Line-comment keymap
+        line = '<C-_>',
+        ---Block-comment keymap
+        block = 'gb',
+    }})
+vim.keymap.set('x', '<C-_>', '<Plug>(comment_toggle_linewise_visual)gv')
 require("nvim-autopairs").setup {}
 require 'trouble'.setup {}
 require 'bufferline'.setup {}
