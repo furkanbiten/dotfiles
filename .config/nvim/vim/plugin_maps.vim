@@ -77,8 +77,8 @@ endif
 "colorscheme quantum
 "let g:background  = '#181d20'
 "set background=dark     " dark theme
-"colorscheme kanagawa
-colorscheme nightfly
+colorscheme kanagawa
+" colorscheme nightfly
 "colorscheme nightfox
 "colorscheme material
 "let g:material_style = "deep ocean"
