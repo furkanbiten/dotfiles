@@ -5,7 +5,7 @@
 #shift + cmd - m : mpv $(pbpaste)
 
 # focus window
-hyper - r : yabai -m window --focus recent
+hyper - t : yabai -m window --focus recent
 hyper - left: yabai -m window --focus west
 hyper - down: yabai -m window --focus south
 hyper - up: yabai -m window --focus north
@@ -62,13 +62,13 @@ ctrl + cmd - 3  : yabai -m window --display 3 && yabai -m display --focus 3
 shift + alt - 0 : yabai -m space --balance
 
 # make floating window fill screen
-shift + alt - up     : yabai -m window --grid 1:1:0:0:1:1
+hyper - u     : yabai -m window --grid 1:1:0:0:1:1
 
 # make floating window fill left-half of screen
-shift + alt - left   : yabai -m window --grid 1:2:0:0:1:1
+hyper - 0x21  : yabai -m window --grid 1:2:0:0:1:1
 
 # make floating window fill right-half of screen
-shift + alt - right  : yabai -m window --grid 1:2:1:0:1:1
+hyper - 0x1E : yabai -m window --grid 1:2:1:0:1:1
 
 # create desktop, move window and follow focus - uses jq for parsing json (brew install jq)
 # shift + cmd - n : yabai -m space --create && \
@@ -111,41 +111,41 @@ ctrl + alt - l : yabai -m window --insert east
 ctrl + alt - i : yabai -m window --insert stack
 
 # rotate tree
-alt - r : yabai -m space --rotate 90
+hyper - r : yabai -m space --rotate 90
 
 # mirror tree y-axis
-alt - y : yabai -m space --mirror y-axis
+hyper - y : yabai -m space --mirror y-axis
 
 # mirror tree x-axis
-alt - x : yabai -m space --mirror x-axis
+hyper - x : yabai -m space --mirror x-axis
 
 # toggle desktop offset
-alt - a : yabai -m space --toggle padding --toggle gap
+hyper - a : yabai -m space --toggle padding --toggle gap
 
 # toggle window parent zoom
-alt - d : yabai -m window --toggle zoom-parent
+hyper - d : yabai -m window --toggle zoom-parent
 
 # toggle window fullscreen zoom
-alt - f : yabai -m window --toggle zoom-fullscreen
+hyper - f : yabai -m window --toggle zoom-fullscreen
 
 # toggle window native fullscreen
 shift + alt - f : yabai -m window --toggle native-fullscreen
 
 # toggle window split type
-alt - e : yabai -m window --toggle split
+hyper - e : yabai -m window --toggle split
 
 # float / unfloat window and restore position
-# alt - t : yabai -m window --toggle float && /tmp/yabai-restore/$(yabai -m query --windows --window | jq -re '.id').restore 2>/dev/null || true
-alt - t : yabai -m window --toggle float --grid 4:4:1:1:2:2
+# hyper - t : yabai -m window --toggle float && /tmp/yabai-restore/$(yabai -m query --windows --window | jq -re '.id').restore 2>/dev/null || true
+hyper - l : yabai -m window --toggle float --grid 4:4:1:1:2:2
 
 # toggle sticky (show on all spaces)
-alt - s : yabai -m window --toggle sticky
+hyper - s : yabai -m window --toggle sticky
 
 # toggle topmost (keep above other windows)
-alt - o : yabai -m window --toggle topmost
+hyper - o : yabai -m window --toggle topmost
 
 # toggle picture-in-picture
-alt - p : yabai -m window --toggle border --toggle pip
+#hyper - p : yabai -m window --toggle border --toggle pip
 
 # change layout of desktop
 ctrl + alt - a : yabai -m space --layout bsp
