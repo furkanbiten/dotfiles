@@ -1,0 +1,11 @@
+#AutoRaise config file
+pollMillis=50
+delay=1
+focusDelay=0
+warpX=0.0
+warpY=0.0
+scale=1.0
+altTaskSwitcher=true
+ignoreSpaceChanged=false
+ignoreApps="App1,App2"
+mouseDelta=0.1
