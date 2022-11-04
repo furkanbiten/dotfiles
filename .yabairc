@@ -14,6 +14,9 @@ yabai -m space 6 --label six
 yabai -m space 9 --label nine
 
 # float system preferences. Most of these just diable Yabai form resizing them.
+# yabai -m rule --add app="^Slack" sticky=on layer=above manage=off
+# yabai -m rule --add app="^Microsoft Teams" sticky=on layer=above manage=off
+# yabai -m rule --add app="^Microsoft Outlook" sticky=on layer=above manage=off
 yabai -m rule --add app="^System Preferences$" sticky=on layer=above manage=off
 yabai -m rule --add app="^Karabiner-Elements$" sticky=on layer=above manage=off
 yabai -m rule --add app="^Karabiner-EventViewer$" sticky=on layer=above manage=off
@@ -37,6 +40,9 @@ yabai -m rule --add app="^CiscoSparkHelper$" manage=off
 yabai -m rule --add app="^Logi Options$" manage=off
 yabai -m rule --add app="^Cisco Webex Start$" manage=off
 yabai -m rule --add app="^Private Internet Access$" manage=off
+# specific space settings
+yabai -m config --space three  layout stack
+yabai -m config --space four layout float
 
 #find ~/Library/Parallels/Applications\ Menus/ -maxdepth 3 -type f | awk -F'/' '{ print $NF; }' | awk '{$1=$1};1' | sort | uniq | tr "\n" "\0" | xargs -0 -I{} yabai -m rule --add app="^{}\$" title=".*" manage=on
 
@@ -110,7 +116,7 @@ limelight &>/dev/null &
 # yabai -m signal --add event=application_terminated action="terminal-notifier -message 'application_terminated'"
 
 ## If I close the active window, focus on any other visible window.
-yabai -m signal --add event=window_destroyed action="bash /Users/abiten/Desktop/scripts/window-focus-on-destroy.sh"
+yabai -m signal --add event=window_destroyed action="bash ~/.config/scripts/window-focus-on-destroy.sh"
 # yabai -m signal --add event=space_changed action="export CUR_ACTIVE_APP=\"iTerm2\""
 
 echo "yabai configuration loaded.."
