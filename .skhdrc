@@ -1,8 +1,5 @@
 # open terminal
-#cmd - return : /Applications/Alacritty.app/Contents/MacOS/alacritty  &> /dev/null
-
-# open mpv with url from clipboard
-#shift + cmd - m : mpv $(pbpaste)
+hyper - return : open -n /Applications/Alacritty.app
 
 # focus window
 hyper - t : yabai -m window --focus recent
@@ -15,16 +12,16 @@ hyper - n: yabai -m window --focus stack.next
 
 # swap window
 shift + alt - x : yabai -m window --swap recent
-shift + alt - left : yabai -m window --swap west
-shift + alt - down : yabai -m window --swap south
-shift + alt - up : yabai -m window --swap north
-shift + alt - right : yabai -m window --swap east
+shift + alt - a : yabai -m window --swap west
+shift + alt - s : yabai -m window --swap south
+shift + alt - w : yabai -m window --swap north
+shift + alt - d : yabai -m window --swap east
 
 # move window
-shift + cmd - left : yabai -m window --warp west
-shift + cmd - down : yabai -m window --warp south
-shift + cmd - up : yabai -m window --warp north
-shift + cmd - right : yabai -m window --warp east
+shift + cmd - a : yabai -m window --warp west
+shift + cmd - s : yabai -m window --warp south
+shift + cmd - w : yabai -m window --warp north
+shift + cmd - d : yabai -m window --warp east
 
 # send window to desktop and follow focus
 #shift + cmd - x : yabai -m window --space recent && yabai -m space --focus recent
@@ -42,20 +39,20 @@ hyper - 9 : yabai -m window --space  9 && skhd -k "ctrl - 9"
 hyper - 0 : yabai -m window --space 10 && skhd -k "ctrl - 0"
 
 # focus monitor
-ctrl + alt - x  : yabai -m display --focus recent
-ctrl + alt - z  : yabai -m display --focus prev
-ctrl + alt - c  : yabai -m display --focus next
-ctrl + alt - 1  : yabai -m display --focus 1
-ctrl + alt - 2  : yabai -m display --focus 2
-ctrl + alt - 3  : yabai -m display --focus 3
+ctrl + shift - x  : yabai -m display --focus recent
+ctrl + shift - z  : yabai -m display --focus prev
+ctrl + shift - c  : yabai -m display --focus next
+ctrl + shift - 1  : yabai -m display --focus 1
+ctrl + shift - 2  : yabai -m display --focus 2
+ctrl + shift - 3  : yabai -m display --focus 3
 
 # send window to monitor and follow focus
 hyper - m  : yabai -m window --display recent && yabai -m display --focus recent
 hyper - z  : yabai -m window --display prev && yabai -m display --focus prev
 hyper - c  : yabai -m window --display next && yabai -m display --focus next
-ctrl + cmd - 1  : yabai -m window --display 1 && yabai -m display --focus 1
-ctrl + cmd - 2  : yabai -m window --display 2 && yabai -m display --focus 2
-ctrl + cmd - 3  : yabai -m window --display 3 && yabai -m display --focus 3
+hyper - a  : yabai -m window --display 1 && yabai -m display --focus 1
+hyper - s  : yabai -m window --display 2 && yabai -m display --focus 2
+hyper - d  : yabai -m window --display 3 && yabai -m display --focus 3
 
 
 # balance size of windows
@@ -92,16 +89,16 @@ shift + ctrl - w : yabai -m window --move rel:0:-20
 shift + ctrl - d : yabai -m window --move rel:20:0
 
 # increase window size
-shift + alt - a : yabai -m window --resize left:-20:0
-shift + alt - s : yabai -m window --resize bottom:0:20
-shift + alt - w : yabai -m window --resize top:0:-20
-shift + alt - d : yabai -m window --resize right:20:0
+shift + ctrl + alt - a : yabai -m window --resize left:-20:0
+shift + ctrl + alt - s : yabai -m window --resize bottom:0:20
+shift + ctrl + alt - w : yabai -m window --resize top:0:-20
+shift + ctrl + alt - d : yabai -m window --resize right:20:0
 
 # decrease window size
-shift + cmd - a : yabai -m window --resize left:20:0
-shift + cmd - s : yabai -m window --resize bottom:0:-20
-shift + cmd - w : yabai -m window --resize top:0:20
-shift + cmd - d : yabai -m window --resize right:-20:0
+shift + ctrl + cmd - a : yabai -m window --resize left:20:0
+shift + ctrl + cmd - s : yabai -m window --resize bottom:0:-20
+shift + ctrl + cmd - w : yabai -m window --resize top:0:20
+shift + ctrl + cmd - d : yabai -m window --resize right:-20:0
 
 # set insertion point in focused container
 ctrl + alt - h : yabai -m window --insert west
@@ -120,10 +117,10 @@ hyper - y : yabai -m space --mirror y-axis
 hyper - x : yabai -m space --mirror x-axis
 
 # toggle desktop offset
-hyper - a : yabai -m space --toggle padding --toggle gap
+hyper - i : yabai -m space --toggle padding --toggle gap
 
 # toggle window parent zoom
-hyper - d : yabai -m window --toggle zoom-parent
+hyper - b : yabai -m window --toggle zoom-parent
 
 # toggle window fullscreen zoom
 hyper - f : yabai -m window --toggle zoom-fullscreen
@@ -139,10 +136,10 @@ hyper - e : yabai -m window --toggle split
 hyper - l : yabai -m window --toggle float --grid 4:4:1:1:2:2
 
 # toggle sticky (show on all spaces)
-hyper - s : yabai -m window --toggle sticky
+#hyper - k : yabai -m window --toggle sticky
 
 # toggle topmost (keep above other windows)
-hyper - o : yabai -m window --toggle topmost
+#hyper - o : yabai -m window --toggle topmost
 
 # toggle picture-in-picture
 #hyper - p : yabai -m window --toggle border --toggle pip
