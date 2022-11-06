@@ -22,30 +22,6 @@ dap.configurations.python = {
     }
 }
 require('dap-python').setup(os.getenv("CONDA_PREFIX").."/bin/python")
- --dap.defaults.fallback.external_terminal = {
- --command = '/usr/local/bin/alacritty';
- --args = {'-e'};
- --}
-
-require("dapui").setup({
-    layouts = {
-        -- You can change the order of elements in the layouts
-        elements = {
-            -- Provide as ID strings or tables with "id" and "size" keys
-            {
-                id = "scopes",
-                size = 0.25 -- Can be float or integer > 1
-            }, -- { id = "breakpoints", size = 0.0 },
-            {id = "stacks", size = 0.25}
-            -- { id = "watches", size = 0.0 },
-        },
-        size = 40,
-        position = "left", -- Can be "left", "right", "top", "bottom"
-        elements = {"repl"},
-        size = 20,
-        position = "bottom" -- Can be "left", "right", "top", "bottom"
-    }
-})
 require("nvim-dap-virtual-text").setup()
 
 vim.fn.sign_define("DapBreakpoint",
@@ -64,7 +40,7 @@ require("dapui").setup({
   },
   -- Expand lines larger than the window
   -- Requires >= 0.7
-  expand_lines = vim.fn.has("nvim-0.7"),
+  -- expand_lines = vim.fn.has("nvim-0.7"),
   -- Layouts define sections of the screen to place windows.
   -- The position can be "left", "right", "top" or "bottom".
   -- The size specifies the height/width depending on position. It can be an Int

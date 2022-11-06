@@ -223,7 +223,7 @@ local function on_attach(client, bufnr)
         '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
     --require("aerial").on_attach(client, bufnr)
     -- Highlight symbols under the cursor
-    if client.resolved_capabilities.document_highlight then
+    if client.server_capabilities.document_highlight then
         vim.cmd [[
       hi! LspReferenceRead guibg=#1d3b53
       hi! LspReferenceText guibg=#1d3b53

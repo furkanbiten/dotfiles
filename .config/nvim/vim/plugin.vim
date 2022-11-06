@@ -96,9 +96,9 @@ Plug 'voldikss/vim-floaterm'
 "  Themes  "
 """"""""""""
 Plug 'rebelot/kanagawa.nvim'
-" Plug 'kjssad/quantum.vim'
-" Plug 'bluz71/vim-nightfly-guicolors'
-" Plug 'tanvirtin/monokai.nvim'
+Plug 'kjssad/quantum.vim'
+Plug 'bluz71/vim-nightfly-guicolors'
+Plug 'tanvirtin/monokai.nvim'
 "Plug 'iandwelker/rose-pine-vim'
 "Plug 'EdenEast/nightfox.nvim' " Vim-Plug
 "Plug 'catppuccin/nvim', {'as': 'catppuccin'}
