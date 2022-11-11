@@ -55,6 +55,12 @@ hyper - s  : yabai -m window --display 2 && yabai -m display --focus 2
 hyper - d  : yabai -m window --display 3 && yabai -m display --focus 3
 
 
+
+hyper - tab : yabai -m window --focus stack.next || yabai -m window --focus next || yabai -m window --focus first
+
+hyper - b : yabai -m window --stack north
+
+
 # balance size of windows
 shift + alt - 0 : yabai -m space --balance
 
