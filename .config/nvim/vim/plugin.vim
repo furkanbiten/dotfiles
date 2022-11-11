@@ -19,6 +19,7 @@ Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 Plug 'mfussenegger/nvim-lint'
 Plug 'lukas-reineke/lsp-format.nvim'
 Plug 'jose-elias-alvarez/null-ls.nvim'
+" Plug 'chipsenkbeil/distant.nvim'
 "Plug 'dense-analysis/ale'
 """""""""""""""
 "  Debuggers  "
@@ -45,31 +46,27 @@ Plug 'folke/trouble.nvim'
 Plug 'akinsho/bufferline.nvim'
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
+" Plug 'joeytwiddle/sexy_scroller.vim'
 "Plug 'wellle/context.vim'
 "Plug 'j-hui/fidget.nvim'
 """""""""""""
 "  Utility "
 """""""""""""
-"Plug 'aluriak/nerdcommenter'
 Plug 'numToStr/Comment.nvim'
-" Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-eunuch' " useful linux commands from vim, e.g. move, rename, delete, unlink, etc. 
 "Plug 'tpope/vim-obsession', {'on': 'Obsession'} " Save session with running Obsession
-"Plug 'tpope/vim-fugitive' " Run git commands 
+Plug 'tpope/vim-fugitive' " Run git commands 
 Plug 'tpope/vim-surround' " Surrond any text objects with (), [], {}, <>, ...
 Plug 'junegunn/gv.vim', {'on': 'GV'} " Check git diffs, blames
 Plug 'mbbill/undotree', {'on': 'UndotreeToggle'} " Visual control over undo 
-"Plug 'AndrewRadev/sideways.vim'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'wellle/targets.vim'
 Plug 'windwp/nvim-autopairs'
-"Plug 'jiangmiao/auto-pairs'
-Plug 'preservim/tagbar', {'on': 'TagbarToggle'}
 Plug 'jpalardy/vim-slime'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-Plug 'mzlogin/vim-markdown-toc'
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+" Plug 'mzlogin/vim-markdown-toc'
+" Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'simeji/winresizer'
 Plug 'ggandor/lightspeed.nvim', 
 Plug 'kyazdani42/nvim-tree.lua'
@@ -78,7 +75,7 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-rg.nvim'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'nvim-pack/nvim-spectre'
-"Plug 'stevearc/aerial.nvim'
+Plug 'stevearc/aerial.nvim'
 "Plug 'akinsho/toggleterm.nvim'
 Plug 'voldikss/vim-floaterm'
 "Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }
