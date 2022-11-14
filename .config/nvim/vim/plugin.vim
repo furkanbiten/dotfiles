@@ -3,7 +3,8 @@ call plug#begin()
 "  Language Server Protocol(LSP) related stuff  "
 """""""""""""""""""""""""""""""""""""
 Plug 'neovim/nvim-lspconfig'
-Plug 'williamboman/nvim-lsp-installer'
+Plug 'williamboman/mason.nvim'
+Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
@@ -19,8 +20,6 @@ Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 Plug 'mfussenegger/nvim-lint'
 Plug 'lukas-reineke/lsp-format.nvim'
 Plug 'jose-elias-alvarez/null-ls.nvim'
-" Plug 'chipsenkbeil/distant.nvim'
-"Plug 'dense-analysis/ale'
 """""""""""""""
 "  Debuggers  "
 """""""""""""""
@@ -52,10 +51,13 @@ Plug 'kyazdani42/nvim-web-devicons'
 """""""""""""
 "  Utility "
 """""""""""""
+Plug 'rmagatti/auto-session'
+Plug 'rmagatti/session-lens'
+Plug 'Pocco81/auto-save.nvim'
 Plug 'numToStr/Comment.nvim'
 Plug 'tpope/vim-eunuch' " useful linux commands from vim, e.g. move, rename, delete, unlink, etc. 
 "Plug 'tpope/vim-obsession', {'on': 'Obsession'} " Save session with running Obsession
-Plug 'tpope/vim-fugitive' " Run git commands 
+" Plug 'tpope/vim-fugitive' " Run git commands 
 Plug 'tpope/vim-surround' " Surrond any text objects with (), [], {}, <>, ...
 Plug 'junegunn/gv.vim', {'on': 'GV'} " Check git diffs, blames
 Plug 'mbbill/undotree', {'on': 'UndotreeToggle'} " Visual control over undo 
@@ -72,7 +74,8 @@ Plug 'ggandor/lightspeed.nvim',
 Plug 'kyazdani42/nvim-tree.lua'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
-Plug 'nvim-telescope/telescope-rg.nvim'
+" Plug 'nvim-telescope/telescope-rg.nvim'
+Plug 'nvim-telescope/telescope-live-grep-args.nvim'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'nvim-pack/nvim-spectre'
 Plug 'stevearc/aerial.nvim'

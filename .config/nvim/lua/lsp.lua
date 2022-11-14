@@ -6,7 +6,7 @@ local signature_config = {
     debug = true,
     hint_enable = false,
     handler_opts = { border = "single" },
-    toggle_key="<M-Tab>",
+    toggle_key = "<M-Tab>",
     timer_interval = 2000,
     max_width = 80
 }
@@ -28,10 +28,10 @@ local cmp = require 'cmp'
 local lspkind = require('lspkind')
 local cmp_ultisnips_mappings = require("cmp_nvim_ultisnips.mappings")
 cmp.setup({
-    enabled = function ()
-    return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
-      or require("cmp_dap").is_dap_buffer()
-  end,
+    enabled = function()
+        return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
+            or require("cmp_dap").is_dap_buffer()
+    end,
 
     formatting = {
         format = lspkind.cmp_format({
@@ -137,6 +137,10 @@ cmp.setup.cmdline(':', {
 -- sources = cmp.config.sources({{name = 'path'}}, {{name = 'cmdline'}})
 -- })
 
+------------------------------------------------------------------------
+--                             LSP CONFIG                             --
+------------------------------------------------------------------------
+
 -- Setup lspconfig.
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 capabilities.textDocument.completion.completionItem.snippetSupport = true
@@ -169,17 +173,17 @@ require("aerial").setup({
     end
 })
 local lspconfig = require('lspconfig')
+lspconfig.racket_langserver.setup{}
 
 local function buffer_augroup(group, bufnr, cmds)
-  vim.api.nvim_create_augroup(group, { clear = false })
-  vim.api.nvim_clear_autocmds({ group = group, buffer = bufnr })
-  for _, cmd in ipairs(cmds) do
-    local event = cmd.event
-    cmd.event = nil
-    vim.api.nvim_create_autocmd(event, vim.tbl_extend("keep", { group = group, buffer = bufnr }, cmd))
-  end
+    vim.api.nvim_create_augroup(group, { clear = false })
+    vim.api.nvim_clear_autocmds({ group = group, buffer = bufnr })
+    for _, cmd in ipairs(cmds) do
+        local event = cmd.event
+        cmd.event = nil
+        vim.api.nvim_create_autocmd(event, vim.tbl_extend("keep", { group = group, buffer = bufnr }, cmd))
+    end
 end
-
 
 -- require("lsp-format").setup {}
 local function on_attach(client, bufnr)
@@ -213,15 +217,14 @@ local function on_attach(client, bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>D',
         '<cmd>lua vim.lsp.buf.type_definition()<CR>',
         opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>rn',
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>rn',
         '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>ca',
         '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr',
         '<cmd>lua require("telescope.builtin").lsp_references() <CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>f',
-        '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-    --require("aerial").on_attach(client, bufnr)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gf',
+        '<cmd>lua vim.lsp.buf.format{async=True}<CR>', opts)
     -- Highlight symbols under the cursor
     if client.server_capabilities.document_highlight then
         vim.cmd [[
@@ -244,81 +247,12 @@ local function on_attach(client, bufnr)
     })
 
     --require'illuminate'.on_attach(client)
+    --require("aerial").on_attach(client, bufnr)
     -- client.resolved_capabilities.document_formatting = false
     -- require "lsp-format".on_attach(client)
 end
 
-local enhance_server_opts = {
-    ["pylsp"] = function(opts)
-        opts.settings = {
-            pyls = {
-                plugins = {
-                    pydocstyle = { enabled = false },
-                    pycodestyle = { maxLineLength = 120 }
-                }
-            }
-        }
-    end,
-    -- Provide settings that should only apply to the "eslintls" server
-    ["pyright"] = function(opts)
-        opts.handlers = {
-            ['textDocument/publishDiagnostics'] = function(...) end
-        }
-        opts.settings = {
-            -- cmd = os.getenv("CONDA_PREFIX")..'/bin/python',
-            python = { analysis = { typeCheckingMode = "off" } }
-        }
-    end
-}
-
-------------------------------------------------------------------------
---                           LSP INSTALLER                            --
-------------------------------------------------------------------------
-
-local lsp_installer = require "nvim-lsp-installer"
-lsp_installer.on_server_ready(function(server)
-    -- Specify the default options which we'll use to setup all servers
-    local opts = {
-        on_attach = on_attach,
-        capabilities = capabilities
-        -- autostart = false,
-        -- handlers = {
-        --     ['textDocument/publishDiagnostics'] = function(...) end
-        -- },
-    }
-    if enhance_server_opts[server.name] then
-        -- Enhance the default opts with the server-specific ones
-        enhance_server_opts[server.name](opts)
-    end
-
-    server:setup(opts)
-end)
-
-local null_ls = require("null-ls")
-null_ls.setup({
-    sources = {
-        -- Python
-        null_ls.builtins.formatting.autopep8,
-        null_ls.builtins.formatting.isort,
-        -- null_ls.builtins.diagnostics.flake8
-        -- null_ls.builtins.formatting.black,
-        -- null_ls.builtins.formatting.luaformat,
-        null_ls.builtins.formatting.prettier,
-    },
-    on_attach = require "lsp-format".on_attach
-    -- function()
-    -- vim.cmd([[ command! Format execute 'lua vim.lsp.buf.formatting()' ]])
-    -- require "lsp-format".on_attach
-    -- end,
-})
-require 'lspconfig'.racket_langserver.setup {}
--- function DetachBufferFromClients(bufnr)
--- local clients = vim.lsp.buf_get_clients(bufnr)
--- for client_id, _ in pairs(clients) do
--- vim.lsp.buf_detach_client(bufnr, client_id)
--- end
--- end
-
+--Cosmetics of LSP
 vim.diagnostic.config({
     virtual_text = false,
     underline = false,
@@ -357,6 +291,56 @@ for type, icon in pairs(signs) do
     })
 end
 
+------------------------------------------------------------------------
+--                           LSP INSTALLER                            --
+------------------------------------------------------------------------
+require("mason").setup()
+require("mason-lspconfig").setup({
+    ensure_installed = { 'sumneko_lua', 'pyright', 'vimls', 'yamlls', 'jsonls' },
+})
+require("mason-lspconfig").setup_handlers {
+    -- The first entry (without a key) will be the default handler
+    -- and will be called for each installed server that doesn't have
+    -- a dedicated handler.
+    function(server_name) -- default handler (optional)
+        require("lspconfig")[server_name].setup {
+            on_attach = on_attach,
+            capabilities = capabilities
+        }
+    end,
+
+    ['pyright'] = function()
+        lspconfig.pyright.setup {
+            on_attach = on_attach,
+            capabilities = capabilities,
+            settings = {
+                -- cmd = os.getenv("CONDA_PREFIX")..'/bin/python',
+                python = { analysis = { typeCheckingMode = "off" } }
+            },
+            -- handlers = {
+            --     ['textDocument/publishDiagnostics'] = function(...) end
+            -- }
+        }
+    end
+}
+
+local null_ls = require("null-ls")
+null_ls.setup({
+    sources = {
+        -- Python
+        -- null_ls.builtins.formatting.autopep8,
+        null_ls.builtins.formatting.isort,
+        -- null_ls.builtins.diagnostics.flake8
+        null_ls.builtins.formatting.black,
+        -- null_ls.builtins.formatting.luaformat,
+        -- null_ls.builtins.formatting.prettier,
+    },
+    on_attach = require "lsp-format".on_attach
+    -- function()
+    -- vim.cmd([[ command! Format execute 'lua vim.lsp.buf.formatting()' ]])
+    -- require "lsp-format".on_attach
+    -- end,
+})
 --function PrintDiagnostics(opts, bufnr, line_nr, client_id)
 --bufnr = bufnr or 0
 --line_nr = line_nr or (vim.api.nvim_win_get_cursor(0)[1] - 1)

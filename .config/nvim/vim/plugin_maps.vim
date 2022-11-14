@@ -1,3 +1,11 @@
+"""""""""
+"  LUA  "
+"""""""""
+lua require('dap_config')
+lua require('treesitter')
+lua require('lsp')
+lua require('cosmetics')
+
 """"""""""""
 "  Extras  "
 """"""""""""
@@ -22,7 +30,7 @@ noremap <C-F> :Telescope current_buffer_fuzzy_find fuzzy=false case_mode=ignore_
 noremap <leader>fa :Telescope live_grep<CR>
 noremap <leader>ff :Telescope find_files<CR>
 noremap <leader>fm :Telescope keymaps<CR>
-noremap <leader>fr :lua require("telescope").extensions.live_grep_raw.live_grep_raw()<CR>
+" noremap <leader>fr :lua require("telescope").extensions.live_grep_raw.live_grep_args()<CR>
 "noremap <leader>fl :lua require("telescope.builtin").lsp_references()<CR>
 """"""""""""""""""""""""
 "  Bufferlines Keymap  "
@@ -47,8 +55,6 @@ nnoremap <silent><leader>9 <Cmd>BufferLineGoToBuffer 9<CR>
 """"""""""""""""""""""
 "  Split/Join Lines  "
 """"""""""""""""""""""
-"nmap sj :SplitjoinSplit<cr>
-"nmap sk :SplitjoinJoin<cr>
 nmap <Leader>j :SplitjoinJoin<cr>
 nmap <Leader>s :SplitjoinSplit<cr>
 
@@ -103,6 +109,7 @@ lua require('lsp')
 lua require('cosmetics')
 "au  InsertLeave * lua require('lint').try_lint()
 au  BufWritePre * lua require('lint').try_lint()
+nnoremap <silent> <leader>l :lua require('lint').try_lint()
 "au  TextChanged * lua require('lint').try_lint()
 "au FileType dap-repl lua require('dap.ext.autocompl').attach()
 nnoremap <silent> <F9> :lua require'dap'.continue()<CR>
@@ -141,8 +148,8 @@ let g:slime_python_ipython = 1
 
 " always send text to the top-right pane in the current tmux tab without asking
 "let g:slime_default_config = {
-                        "\ 'socket_name': get(split($TMUX, ','), 0),
-                        "\ 'target_pane': '{top-right}' }
+                        " \ 'socket_name': get(split($TMUX, ','), 0),
+                        " \ 'target_pane': '{top-right}' }
 "let g:slime_dont_ask_default = 1
 
 xmap <c-x><c-x> <Plug>SlimeRegionSend

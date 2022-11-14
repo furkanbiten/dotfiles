@@ -44,11 +44,11 @@ augroup highlight_yank
     au TextYankPost * silent! lua vim.highlight.on_yank { higroup='IncSearch', timeout=400 }
 augroup END
 
-autocmd BufReadPre *.png silent %!xdg-open "%"
-autocmd BufReadPre *.eps silent %!xdg-open "%"
-autocmd BufReadPre *.jpg silent %!xdg-open "%"
-autocmd BufReadPre *.bmp silent %!xdg-open "%"
-autocmd BufReadPre *.ipynb silent %!xdg-open "%"
+" autocmd BufReadPre *.png silent %!xdg-open "%"
+" autocmd BufReadPre *.eps silent %!xdg-open "%"
+" autocmd BufReadPre *.jpg silent %!xdg-open "%"
+" autocmd BufReadPre *.bmp silent %!xdg-open "%"
+" autocmd BufReadPre *.ipynb silent %!xdg-open "%"
 "autocmd InsertLeave * silent :w!
 "autocmd QuickFixCmdPre * :lua ToggleTroubleAuto()<CR>
 "autocmd WinEnter * if &buftype == 'quickfix' | :lua ToggleTroubleAuto() | endif

@@ -17,13 +17,13 @@ noremap <silent> <leader>qw :q<CR>
 noremap <leader>qq :bp <BAR> bd! #<CR>
 " To open a new empty buffer
 " This replaces :tabnew which I used to bind to this mapping
-nmap <leader>n :enew<cr>
+" nmap <leader>n :enew<cr>
 " Move to the next buffer
 nmap <Tab> :bnext<CR>
 " Move to the previous buffer
 nmap <s-Tab> :bprevious<CR>
 " Show all open buffers and their status
-nmap <leader>l :ls<CR>
+" nmap <leader>l :ls<CR>
 " Moving between splits with arrow keys, sorry Vim, I don't deserve you :(
 nnoremap <C-Down> <C-W><C-J>
 nnoremap <C-Up> <C-W><C-K>
