@@ -17,6 +17,7 @@ Plug 'ray-x/lsp_signature.nvim'
 Plug 'onsails/lspkind-nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+Plug 'nvim-treesitter/nvim-treesitter-context'
 Plug 'mfussenegger/nvim-lint'
 Plug 'lukas-reineke/lsp-format.nvim'
 Plug 'jose-elias-alvarez/null-ls.nvim'
@@ -51,6 +52,7 @@ Plug 'kyazdani42/nvim-web-devicons'
 """""""""""""
 "  Utility "
 """""""""""""
+Plug 'pechorin/any-jump.vim'
 Plug 'rmagatti/auto-session'
 Plug 'rmagatti/session-lens'
 Plug 'Pocco81/auto-save.nvim'
