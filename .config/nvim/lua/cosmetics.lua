@@ -1,7 +1,7 @@
 require("auto-save").setup {}
 vim.api.nvim_set_keymap("n", "<leader>as", ":ASToggle<CR>", {})
 require("auto-session").setup {
-    log_level = "error",
+    -- log_level = "error",
 
     cwd_change_handling = {
         restore_upcoming_session = true, -- already the default, no need to specify like this, only here as an example
@@ -20,14 +20,14 @@ require("aerial").setup({
             '<cmd>AerialToggle!<CR>', {})
         -- Jump forwards/backwards with '{' and '}'
         -- vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>ap',
-            -- '<cmd>AerialPrev<CR>', {})
+        -- '<cmd>AerialPrev<CR>', {})
         -- vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>an',
-            -- '<cmd>AerialNext<CR>', {})
+        -- '<cmd>AerialNext<CR>', {})
         -- Jump up the tree with '[[' or ']]'
         -- vim.api.nvim_buf_set_keymap(bufnr, 'n', '[[', '<cmd>AerialPrevUp<CR>',
-            -- {})
+        -- {})
         -- vim.api.nvim_buf_set_keymap(bufnr, 'n', ']]', '<cmd>AerialNextUp<CR>',
-            -- {})
+        -- {})
     end
 })
 
