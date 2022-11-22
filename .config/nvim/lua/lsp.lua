@@ -155,23 +155,6 @@ vim.api.nvim_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>',
 vim.api.nvim_set_keymap('n', '<space>q',
     '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
 
-require("aerial").setup({
-    on_attach = function(bufnr)
-        -- Toggle the aerial window with <leader>a
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>at',
-            '<cmd>AerialToggle!<CR>', {})
-        -- Jump forwards/backwards with '{' and '}'
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>ap',
-            '<cmd>AerialPrev<CR>', {})
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>an',
-            '<cmd>AerialNext<CR>', {})
-        -- Jump up the tree with '[[' or ']]'
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', '[[', '<cmd>AerialPrevUp<CR>',
-            {})
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', ']]', '<cmd>AerialNextUp<CR>',
-            {})
-    end
-})
 local lspconfig = require('lspconfig')
 lspconfig.racket_langserver.setup{}
 

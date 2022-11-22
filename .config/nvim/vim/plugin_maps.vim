@@ -51,12 +51,27 @@ nnoremap <silent><leader>7 <Cmd>BufferLineGoToBuffer 7<CR>
 nnoremap <silent><leader>8 <Cmd>BufferLineGoToBuffer 8<CR>
 nnoremap <silent><leader>9 <Cmd>BufferLineGoToBuffer 9<CR>
 
-"map <C-_> gc
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                            AnyJump keybindings                             "
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Normal mode: Jump to definition under cursor
+nnoremap <leader>aj :AnyJump<CR>
+
+" Visual mode: jump to selected text in visual mode
+xnoremap <leader>aj :AnyJumpVisual<CR>
+
+" Normal mode: open previous opened file (after jump)
+nnoremap <leader>ab :AnyJumpBack<CR>
+
+" Normal mode: open last closed search window again
+nnoremap <leader>al :AnyJumpLastResults<CR>
+
 """"""""""""""""""""""
 "  Split/Join Lines  "
 """"""""""""""""""""""
-nmap <Leader>j :SplitjoinJoin<cr>
-nmap <Leader>s :SplitjoinSplit<cr>
+" nmap <Leader>j :SplitjoinJoin<cr>
+" nmap <Leader>s :SplitjoinSplit<cr>
 
 """""""""""""""""""""""
 "  Ultisnips keymaps  "
@@ -103,10 +118,6 @@ vmap <C-0> <Plug>(comment_toggle_linewise_visual)<CR>gv
 "------------------------------------------------------------------------------
 " Some Lua stuff for treesitter and nvim-dap: THE debugger.
 "------------------------------------------------------------------------------
-lua require('dap_config')
-lua require('treesitter')
-lua require('lsp')
-lua require('cosmetics')
 "au  InsertLeave * lua require('lint').try_lint()
 au  BufWritePre * lua require('lint').try_lint()
 nnoremap <silent> <leader>l :lua require('lint').try_lint()

@@ -7,10 +7,11 @@ require("nvim-treesitter.configs").setup({
     -- ensure_installed = "maintained",
 
     -- Install languages synchronously (only applied to `ensure_installed`)
-    sync_install = false,
+    sync_install = true,
 
+    ensure_installed = { "python", "lua", "yaml", "json", "bash", "vim"},
     -- List of parsers to ignore installing
-    ignore_install = { "javascript" },
+    -- ignore_install = { "javascript" },
     rainbow = {
         enable = true,
         -- Enable only for lisp like languages

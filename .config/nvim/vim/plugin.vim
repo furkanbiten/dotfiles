@@ -59,11 +59,11 @@ Plug 'Pocco81/auto-save.nvim'
 Plug 'numToStr/Comment.nvim'
 Plug 'tpope/vim-eunuch' " useful linux commands from vim, e.g. move, rename, delete, unlink, etc. 
 "Plug 'tpope/vim-obsession', {'on': 'Obsession'} " Save session with running Obsession
-" Plug 'tpope/vim-fugitive' " Run git commands 
+Plug 'tpope/vim-fugitive' " Run git commands 
 Plug 'tpope/vim-surround' " Surrond any text objects with (), [], {}, <>, ...
 Plug 'junegunn/gv.vim', {'on': 'GV'} " Check git diffs, blames
 Plug 'mbbill/undotree', {'on': 'UndotreeToggle'} " Visual control over undo 
-Plug 'AndrewRadev/splitjoin.vim'
+" Plug 'AndrewRadev/splitjoin.vim'
 Plug 'wellle/targets.vim'
 Plug 'windwp/nvim-autopairs'
 Plug 'jpalardy/vim-slime'
