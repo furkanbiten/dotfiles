@@ -1,18 +1,22 @@
+require("telescope").setup {}
+
 require("auto-save").setup {}
 vim.api.nvim_set_keymap("n", "<leader>as", ":ASToggle<CR>", {})
-require("auto-session").setup {
-    log_level = "error",
 
-    cwd_change_handling = {
-        restore_upcoming_session = true, -- already the default, no need to specify like this, only here as an example
-        pre_cwd_changed_hook = nil, -- already the default, no need to specify like this, only here as an example
-        post_cwd_changed_hook = function() -- example refreshing the lualine status line _after_ the cwd changes
-            require("lualine").refresh() -- refresh lualine so the new session name is displayed in the status bar
-        end,
-    },
+require("persisted").setup {
+    autosave = true,
+    command = "VimLeavePre",
+    autoload = false
 }
-
-
+require('telescope').load_extension('persisted')
+-- vim.keymap.set({ "n" }, "<leader>sl",
+--     function()
+--         vim.cmd("silent! SessionLoad")
+--         -- reload lsp servers
+--         pcall(vim.cmd, "edit")
+--     end,
+--     { silent = true })
+--
 require("aerial").setup({
     on_attach = function(bufnr)
         -- Toggle the aerial window with <leader>a
@@ -20,14 +24,14 @@ require("aerial").setup({
             '<cmd>AerialToggle!<CR>', {})
         -- Jump forwards/backwards with '{' and '}'
         -- vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>ap',
-            -- '<cmd>AerialPrev<CR>', {})
+        -- '<cmd>AerialPrev<CR>', {})
         -- vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>an',
-            -- '<cmd>AerialNext<CR>', {})
+        -- '<cmd>AerialNext<CR>', {})
         -- Jump up the tree with '[[' or ']]'
         -- vim.api.nvim_buf_set_keymap(bufnr, 'n', '[[', '<cmd>AerialPrevUp<CR>',
-            -- {})
+        -- {})
         -- vim.api.nvim_buf_set_keymap(bufnr, 'n', ']]', '<cmd>AerialNextUp<CR>',
-            -- {})
+        -- {})
     end
 })
 
@@ -45,6 +49,7 @@ require('Comment').setup({ toggler = {
         block = 'gb',
     } })
 vim.keymap.set('x', '<C-_>', '<Plug>(comment_toggle_linewise_visual)gv')
+
 require("nvim-autopairs").setup {}
 require 'trouble'.setup {}
 require 'bufferline'.setup {}
@@ -68,7 +73,7 @@ require('lualine').setup {
                 ections = { 'error', 'warn', 'info', 'hint' }
 
             },
-            require('auto-session-library').current_session_name,
+            -- require('auto-session-library').current_session_name,
         }
     }
 }

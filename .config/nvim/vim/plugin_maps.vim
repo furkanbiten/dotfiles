@@ -6,6 +6,8 @@ lua require('treesitter')
 lua require('lsp')
 lua require('cosmetics')
 
+nnoremap <leader>t :NvimTreeToggle<CR>
+nnoremap <leader>sl :SessionLoad<CR>
 """"""""""""
 "  Extras  "
 """"""""""""
@@ -83,9 +85,9 @@ let g:UltiSnipsJumpBackwardTrigger="<s-Tab>"
 "------------------------------------------------------------------------------
 " Floaterm keybindings configuration
 "------------------------------------------------------------------------------
-noremap <leader>o :FloatermNew --wintype=split --height=0.3<CR>
-let g:floaterm_keymap_toggle = '<leader>t'
-let g:floaterm_keymap_kill = '<leader>k'
+" noremap <leader>o :FloatermNew --wintype=split --height=0.3<CR>
+" let g:floaterm_keymap_toggle = '<leader>t'
+" let g:floaterm_keymap_kill = '<leader>k'
 
 "------------------------------------------------------------------------------
 " Gruvbox-material colorscheme configuration
