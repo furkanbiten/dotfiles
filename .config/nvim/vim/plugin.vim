@@ -30,7 +30,6 @@ Plug 'mfussenegger/nvim-dap-python'
 Plug 'rcarriga/nvim-dap-ui'
 Plug 'theHamsta/nvim-dap-virtual-text'
 Plug 'rcarriga/cmp-dap'
-"Plug 'puremourning/vimspector'
 """""""""""""""""""""""
 "  Optimization plugins  "
 """""""""""""""""""""""
@@ -66,7 +65,6 @@ Plug 'tpope/vim-fugitive' " Run git commands
 Plug 'tpope/vim-surround' " Surrond any text objects with (), [], {}, <>, ...
 Plug 'junegunn/gv.vim', {'on': 'GV'} " Check git diffs, blames
 Plug 'mbbill/undotree', {'on': 'UndotreeToggle'} " Visual control over undo 
-" Plug 'AndrewRadev/splitjoin.vim'
 Plug 'wellle/targets.vim'
 Plug 'windwp/nvim-autopairs'
 Plug 'jpalardy/vim-slime'
@@ -84,6 +82,7 @@ Plug 'nvim-telescope/telescope-live-grep-args.nvim'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'nvim-pack/nvim-spectre'
 Plug 'stevearc/aerial.nvim'
+Plug 'tommcdo/vim-exchange'
 "Plug 'akinsho/toggleterm.nvim'
 " Plug 'voldikss/vim-floaterm'
 "Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }

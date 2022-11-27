@@ -6,7 +6,10 @@ vim.api.nvim_set_keymap("n", "<leader>as", ":ASToggle<CR>", {})
 require("persisted").setup {
     autosave = true,
     command = "VimLeavePre",
-    autoload = false
+    autoload = true,
+    function()
+      vim.cmd "NvimTreeClose"
+    end,
 }
 require('telescope').load_extension('persisted')
 -- vim.keymap.set({ "n" }, "<leader>sl",
