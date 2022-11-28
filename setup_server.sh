@@ -62,11 +62,12 @@ then
     tar zxf lua-5.4.4.tar.gz
     cd lua-5.4.4
     make all test
-    echo "alias lua="~/lua-5.4.4/src/lua""
+    echo "alias lua="~/lua-5.4.4/src/lua"" >> ~/.basrc
 else
     echo "Skipping lua installation"
 fi
 
+cd 
 if ! command -v nvim &> /dev/null
 then
     nvim_ver=$(nvim --version | grep "v[0-9]" | cut -f2 -d"v")
