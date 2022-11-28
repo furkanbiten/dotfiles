@@ -34,8 +34,9 @@ vercomp () {
 if ! command -v node &> /dev/null
 then
     curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.3/install.sh | bash
+    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.3/install.sh | zsh
     export NVM_DIR=$HOME/.nvm;
-    . $NVM_DIR/nvm.sh;
+    bash $NVM_DIR/nvm.sh | zsh $NVM_DIR/nvm.sh
     nvm install node;
 else
     echo "Skipping node installation"
@@ -62,7 +63,7 @@ then
     tar zxf lua-5.4.4.tar.gz
     cd lua-5.4.4
     make all test
-    echo "alias lua="~/lua-5.4.4/src/lua"" >> ~/.basrc
+    echo "alias lua="~/lua-5.4.4/src/lua"" >> ~/.bashrc
 else
     echo "Skipping lua installation"
 fi
