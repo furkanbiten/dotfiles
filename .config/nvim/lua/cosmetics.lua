@@ -146,13 +146,6 @@ require('ufo').setup({
 })
 local bufnr = vim.api.nvim_get_current_buf()
 require('ufo').setFoldVirtTextHandler(bufnr, handler)
-vim.keymap.set('n', 'fp', function()
-    local winid = require('ufo').peekFoldedLinesUnderCursor()
-    if not winid then
-        -- choose one of coc.nvim and nvim lsp
-        vim.lsp.buf.hover()
-    end
-end)
 
 
 function ToggleTroubleAuto()
