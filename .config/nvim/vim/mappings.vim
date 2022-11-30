@@ -15,6 +15,8 @@ noremap <silent> <leader>qa :qall!<CR>
 noremap <silent> <leader>qw :q<CR>
 " Close the current buffer and move to the previous one. This replicates the idea of closing a tab, however be warned it will close without saving anything!
 noremap <leader>qq :bp <BAR> bd! #<CR>
+" Quit window (,qw)
+noremap <leader>qw :q<CR> 
 " To open a new empty buffer
 " This replaces :tabnew which I used to bind to this mapping
 " nmap <leader>n :enew<cr>
@@ -34,10 +36,10 @@ nnoremap <C-Right> <C-W><C-L>
 " Terminal Settings
 if has("nvim")
     tnoremap <silent> <Esc> <C-\><C-n>`.$
-    tnoremap <A-Left> <C-\><C-n><C-w>h
+    tnoremap <A-h> <C-\><C-n><C-w>h
     tnoremap <A-j> <C-\><C-n><C-w>j
     tnoremap <A-k> <C-\><C-n><C-w>k
-    tnoremap <A-Right> <C-\><C-n><C-w>l
+    tnoremap <A-l> <C-\><C-n><C-w>l
     autocmd BufEnter term://* startinsert
 endif
 
@@ -51,3 +53,5 @@ vnoremap <A-Up> :m '<-2<CR>gv=gv
 vnoremap il <ESC>^vg_
 nnoremap <leader><space> :nohlsearch<CR>
 nnoremap <leader>) ciw(<c-r>")<esc>
+inoremap <C-q> <C-o>dw
+" inoremap <C-right> <C-o>e<right>

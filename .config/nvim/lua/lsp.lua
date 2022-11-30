@@ -14,12 +14,12 @@ require("lsp_signature").setup(signature_config)
 ----------------------
 --  Linting Config  --
 ----------------------
-require("lint").linters_by_ft = { python = { "flake8", "pycodestyle" } }
-local pycodestyle = require("lint.linters.pycodestyle")
-pycodestyle.args = {
-    "--format=%(path)s:%(row)d:%(col)d:%(code)s:%(text)s", "--ignore=E223,E501",
-    "-"
-}
+require("lint").linters_by_ft = { python = { "flake8" } }
+-- local pycodestyle = require("lint.linters.pycodestyle")
+-- pycodestyle.args = {
+--     "--format=%(path)s:%(row)d:%(col)d:%(code)s:%(text)s", "--ignore=E223,E501",
+--     "-"
+-- }
 ---------------------------------------
 --  Autocompletion library nvim-cmp  --
 ---------------------------------------

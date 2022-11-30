@@ -29,28 +29,21 @@ set nobackup          " don't create backup files
 set nowritebackup     " really don't create backup files?
 set noswapfile        " for real, don't create backup files
 " Hide highlighted terms
-set foldenable
-set foldlevelstart=10
-set foldnestmax=10
-"nnoremap <space> za
-"set foldmethod=indent
 set cursorline
 "set cursorcolumn
+set virtualedit=onemore
+
+" set foldmethod=syntax
+" set foldmethod=expr
+" set foldexpr=nvim_treesitter#foldexpr()
+" set foldtext=getline(v:foldstart).'...'.trim(getline(v:foldend))
+" set fillchars=fold:\\
+" set foldnestmax=3
+" set foldminlines=1
+" set foldtext=substitute(getline(v:foldstart),'\\t',repeat('\ ',&tabstop),'g').'...'.trim(getline(v:foldend))
 
 set updatetime=250
-"autocmd CursorHold * lua require('echo-diagnostics').echo_line_diagnostic()
 augroup highlight_yank
     autocmd!
     au TextYankPost * silent! lua vim.highlight.on_yank { higroup='IncSearch', timeout=400 }
 augroup END
-
-" autocmd BufReadPre *.png silent %!xdg-open "%"
-" autocmd BufReadPre *.eps silent %!xdg-open "%"
-" autocmd BufReadPre *.jpg silent %!xdg-open "%"
-" autocmd BufReadPre *.bmp silent %!xdg-open "%"
-" autocmd BufReadPre *.ipynb silent %!xdg-open "%"
-"autocmd InsertLeave * silent :w!
-"autocmd QuickFixCmdPre * :lua ToggleTroubleAuto()<CR>
-"autocmd WinEnter * if &buftype == 'quickfix' | :lua ToggleTroubleAuto() | endif
-"autocmd BufWinEnter quickfix silent :lua ToggleTroubleAuto()
-

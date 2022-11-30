@@ -41,26 +41,18 @@ Plug 'nathom/filetype.nvim'
 Plug 'luukvbaal/stabilize.nvim'
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'folke/trouble.nvim'
-"Plug 'folke/lsp-colors.nvim'
 Plug 'akinsho/bufferline.nvim'
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 " Plug 'mhinz/vim-startify'
 " Plug 'joeytwiddle/sexy_scroller.vim'
-"Plug 'wellle/context.vim'
-"Plug 'j-hui/fidget.nvim'
 """""""""""""
 "  Utility "
 """""""""""""
 Plug 'pechorin/any-jump.vim'
 Plug 'olimorris/persisted.nvim'
-" Plug 'jedrzejboczar/possession.nvim'
-" Plug 'rmagatti/auto-session'
-" Plug 'rmagatti/session-lens'
 Plug 'Pocco81/auto-save.nvim'
 Plug 'numToStr/Comment.nvim'
-Plug 'tpope/vim-eunuch' " useful linux commands from vim, e.g. move, rename, delete, unlink, etc. 
-"Plug 'tpope/vim-obsession', {'on': 'Obsession'} " Save session with running Obsession
 Plug 'tpope/vim-fugitive' " Run git commands 
 Plug 'tpope/vim-surround' " Surrond any text objects with (), [], {}, <>, ...
 Plug 'junegunn/gv.vim', {'on': 'GV'} " Check git diffs, blames
@@ -77,12 +69,13 @@ Plug 'ggandor/lightspeed.nvim',
 Plug 'kyazdani42/nvim-tree.lua'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
-" Plug 'nvim-telescope/telescope-rg.nvim'
 Plug 'nvim-telescope/telescope-live-grep-args.nvim'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'nvim-pack/nvim-spectre'
 Plug 'stevearc/aerial.nvim'
 Plug 'tommcdo/vim-exchange'
+Plug 'kevinhwang91/nvim-ufo'
+Plug 'kevinhwang91/promise-async'
 "Plug 'akinsho/toggleterm.nvim'
 " Plug 'voldikss/vim-floaterm'
 "Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }
@@ -100,9 +93,9 @@ Plug 'tommcdo/vim-exchange'
 "  Themes  "
 """"""""""""
 Plug 'rebelot/kanagawa.nvim'
-Plug 'kjssad/quantum.vim'
+" Plug 'kjssad/quantum.vim'
 Plug 'bluz71/vim-nightfly-guicolors'
-Plug 'tanvirtin/monokai.nvim'
+" Plug 'tanvirtin/monokai.nvim'
 "Plug 'iandwelker/rose-pine-vim'
 "Plug 'EdenEast/nightfox.nvim' " Vim-Plug
 "Plug 'catppuccin/nvim', {'as': 'catppuccin'}
