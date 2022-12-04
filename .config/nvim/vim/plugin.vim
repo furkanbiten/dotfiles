@@ -76,10 +76,11 @@ Plug 'stevearc/aerial.nvim'
 Plug 'tommcdo/vim-exchange'
 Plug 'kevinhwang91/nvim-ufo'
 Plug 'kevinhwang91/promise-async'
-"Plug 'akinsho/toggleterm.nvim'
+Plug 'mrjones2014/smart-splits.nvim'
+" Plug 'akinsho/toggleterm.nvim'
 " Plug 'voldikss/vim-floaterm'
-"Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }
-"Plug 'kevinhwang91/nvim-bqf'
+" Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }
+" Plug 'kevinhwang91/nvim-bqf'
 """"""""""""""""""""""""""""
 "  Scheme related plugins  "
 """"""""""""""""""""""""""""

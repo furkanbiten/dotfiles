@@ -7,7 +7,6 @@ lua require('lsp')
 lua require('cosmetics')
 
 nnoremap <leader>t :NvimTreeToggle<CR>
-nnoremap <leader>sl :SessionLoad<CR>
 """"""""""""
 "  Extras  "
 """"""""""""
@@ -69,12 +68,6 @@ nnoremap <leader>ab :AnyJumpBack<CR>
 " Normal mode: open last closed search window again
 nnoremap <leader>al :AnyJumpLastResults<CR>
 
-""""""""""""""""""""""
-"  Split/Join Lines  "
-""""""""""""""""""""""
-" nmap <Leader>j :SplitjoinJoin<cr>
-" nmap <Leader>s :SplitjoinSplit<cr>
-
 """""""""""""""""""""""
 "  Ultisnips keymaps  "
 """""""""""""""""""""""
@@ -83,14 +76,7 @@ let g:UltiSnipsJumpForwardTrigger="<Tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-Tab>"
 
 "------------------------------------------------------------------------------
-" Floaterm keybindings configuration
-"------------------------------------------------------------------------------
-" noremap <leader>o :FloatermNew --wintype=split --height=0.3<CR>
-" let g:floaterm_keymap_toggle = '<leader>t'
-" let g:floaterm_keymap_kill = '<leader>k'
-
-"------------------------------------------------------------------------------
-" Gruvbox-material colorscheme configuration
+" Colorscheme configuration
 "------------------------------------------------------------------------------
 set t_Co=256
 " Important!!
@@ -115,7 +101,6 @@ hi CursorLine   cterm=NONE ctermbg=darkred ctermfg=white
 "------------------------------------------------------------------------------
 "nmap <C-_> <Plug>NERDCommenterToggle
 "vmap <C-_> <Plug>NERDCommenterToggle<CR>gv
-vmap <C-0> <Plug>(comment_toggle_linewise_visual)<CR>gv
 
 "------------------------------------------------------------------------------
 " Some Lua stuff for treesitter and nvim-dap: THE debugger.
@@ -137,40 +122,47 @@ nnoremap <silent> <leader>dl :lua require'dap'.run_last()<CR>
 nnoremap <leader>do :lua require'dapui'.open()<CR>
 nnoremap <leader>dc :lua require'dapui'.close()<CR>
 nnoremap <leader>dt :lua require'dapui'.toggle()<CR>
-"let g:vimspector_enable_mappings = 'HUMAN'
-"let g:vimspector_base_dir=expand( '$HOME/.local/share/nvim/plugged/vimspector/configurations/.vimspector.json' )
-"nnoremap <leader>si <Plug>VimspectorStepInto<CR>
-" for normal mode - the word under the cursor
-"nmap <Leader>di <Plug>VimspectorBalloonEval
-"au BufDelete * lua require('lsp').DetachBufferFromClients(tonumber(vim.fn.expand("<abuf>")))
-"autocmd BufDelete * lua require('lsp').DetachBufferFromClients(bufnr)))
-"au BufDelete <buffer> * lua vim.lsp.stop_client(vim.lsp.buf_get_clients())
+
 "------------------------------------------------------------------------------
 " Vim-slime configuration
 "------------------------------------------------------------------------------
-" always use tmux
-"let g:slime_target = 'tmux'
-let g:slime_target = "neovim"
+function NeoConfig() abort
+    unlet b:slime_config
+    let g:slime_target = "neovim"
+    let b:slime_config = {"jobid": get(g:, "slime_last_channel", "")}
+endfunction
+
+function TmuxConfig() abort
+    unlet b:slime_config
+    let g:slime_target = "tmux"
+    let b:slime_config = {
+                        \ 'socket_name': get(split($TMUX, ','), 0),
+                        \ 'target_pane': '{top-right}' }
+endfunction
+
+nmap <leader>sn :call NeoConfig()<CR>
+nmap <leader>st :call TmuxConfig()<CR>
+let g:slime_target = 'tmux'
+" let g:slime_target = "neovim"
 "let g:slime_paste_file = "$HOME/.slime_paste"
 " or maybe...
 "let g:slime_paste_file = tempname()
 "let g:slime_default_config = {"socket_name": get(split($TMUX, ","), 0), "target_pane": ":.2"}
 
 " fix paste issues in ipython
-let g:slime_python_ipython = 1
-
+" let g:slime_python_ipython = 1
+let g:slime_bracketed_paste = 1
 " always send text to the top-right pane in the current tmux tab without asking
-"let g:slime_default_config = {
-                        " \ 'socket_name': get(split($TMUX, ','), 0),
-                        " \ 'target_pane': '{top-right}' }
-"let g:slime_dont_ask_default = 1
+let g:slime_default_config = {
+                        \ 'socket_name': get(split($TMUX, ','), 0),
+                        \ 'target_pane': '{top-right}' }
+let g:slime_dont_ask_default = 1
 
-xmap <c-x><c-x> <Plug>SlimeRegionSend
-nmap <c-x><c-x> <Plug>SlimeParagraphSend
-nmap <c-x>v     <Plug>SlimeConfig
+xmap <leader>ss <Plug>SlimeRegionSend
+nmap <leader>ss <Plug>SlimeParagraphSend
+nmap <leader>sv     <Plug>SlimeConfig
 " map <Leader>h to send the current line or current selection to IPython
-nmap <Leader>h <Plug>SlimeLineSend
-xmap <Leader>h <Plug>SlimeRegionSend
+nmap <Leader>sl <Plug>SlimeLineSend
 " map <Leader>s to start IPython
 "nnoremap <Leader>s :SlimeSend1 ipython --matplotlib<CR>
 " map <Leader>d to start debug mode
@@ -187,13 +179,9 @@ nnoremap <leader>xl <cmd>TroubleToggle loclist<cr>
 nnoremap gR <cmd>TroubleToggle lsp_references<cr>
 nnoremap <leader>xqq :lua ToggleTroubleAuto()<cr>
 
-"let g:toggleterm_terminal_mapping = '<C-t>'
-"nnoremap <silent><c-t> <Cmd>exe v:count1 . "ToggleTerm"<CR>
-"inoremap <silent><c-t> <Esc><Cmd>exe v:count1 . "ToggleTerm"<CR>
-"let g:context_nvim_no_redraw = 1
 au User NvimGdbQuery :belowright GdbLopenBacktrace
 "au User NvimGdbQuery GdbCreateWatch locals()
 "au User NvimGdbQuery call nvim_buf_set_lines(bufnr(), 0, -1, 0, split(GdbCustomCommand("locals()"), "\n"))
 "au  User NvimGdbQuery echo GdbCustomCommand('locals()')
-let w:nvimgdb_termwin_command = "belowright vnew"
+let w:nvimgdb_termwin_command = "right vnew"
 let w:nvimgdb_codewin_command = "vnew"
