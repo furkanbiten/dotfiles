@@ -7,13 +7,12 @@ lua require('lsp')
 lua require('cosmetics')
 
 nnoremap <leader>t :NvimTreeToggle<CR>
+let g:winresizer_start_key = '<C-T>'
 """"""""""""
 "  Extras  "
 """"""""""""
 let g:conjure#client#scheme#stdio#command = "scheme"
 noremap s <Plug>Lightspeed_omni_s
-"nnoremap <c-h> :SidewaysLeft<cr>
-"nnoremap <c-l> :SidewaysRight<cr>
 nnoremap <leader>u :UndotreeToggle<CR>
 
 """"""""""""""""""""""
@@ -71,7 +70,6 @@ nnoremap <leader>al :AnyJumpLastResults<CR>
 """""""""""""""""""""""
 "  Ultisnips keymaps  "
 """""""""""""""""""""""
-"let g:UltiSnipsExpandTrigger="<Tab>"
 let g:UltiSnipsJumpForwardTrigger="<Tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-Tab>"
 
@@ -83,32 +81,16 @@ set t_Co=256
 if has('termguicolors')
     set termguicolors
 endif
-"colorscheme quantum
-"let g:background  = '#181d20'
-"set background=dark     " dark theme
-"colorscheme kanagawa
 colorscheme nightfly
-"colorscheme nightfox
-"colorscheme material
-"let g:material_style = "deep ocean"
-"let g:material_style = "darker"
-"hi CursorLine term=bold cterm=bold guibg=Grey40
 highlight Normal guibg='#181d20' guifg=white
 set cursorline
 hi CursorLine   cterm=NONE ctermbg=darkred ctermfg=white
-"------------------------------------------------------------------------------
-" Commenter configuration so that we can use toggle comment
-"------------------------------------------------------------------------------
-"nmap <C-_> <Plug>NERDCommenterToggle
-"vmap <C-_> <Plug>NERDCommenterToggle<CR>gv
-
 "------------------------------------------------------------------------------
 " Some Lua stuff for treesitter and nvim-dap: THE debugger.
 "------------------------------------------------------------------------------
 "au  InsertLeave * lua require('lint').try_lint()
 au  BufWritePre * lua require('lint').try_lint()
 nnoremap <silent> <leader>l :lua require('lint').try_lint()
-"au  TextChanged * lua require('lint').try_lint()
 "au FileType dap-repl lua require('dap.ext.autocompl').attach()
 nnoremap <silent> <F9> :lua require'dap'.continue()<CR>
 nnoremap <silent> <F8> :lua require'dap'.step_over()<CR>
@@ -143,12 +125,6 @@ endfunction
 nmap <leader>sn :call NeoConfig()<CR>
 nmap <leader>st :call TmuxConfig()<CR>
 let g:slime_target = 'tmux'
-" let g:slime_target = "neovim"
-"let g:slime_paste_file = "$HOME/.slime_paste"
-" or maybe...
-"let g:slime_paste_file = tempname()
-"let g:slime_default_config = {"socket_name": get(split($TMUX, ","), 0), "target_pane": ":.2"}
-
 " fix paste issues in ipython
 " let g:slime_python_ipython = 1
 let g:slime_bracketed_paste = 1
@@ -161,11 +137,7 @@ let g:slime_dont_ask_default = 1
 xmap <leader>ss <Plug>SlimeRegionSend
 nmap <leader>ss <Plug>SlimeParagraphSend
 nmap <leader>sv     <Plug>SlimeConfig
-" map <Leader>h to send the current line or current selection to IPython
 nmap <Leader>sl <Plug>SlimeLineSend
-" map <Leader>s to start IPython
-"nnoremap <Leader>s :SlimeSend1 ipython --matplotlib<CR>
-" map <Leader>d to start debug mode
 nnoremap <Leader>d :SlimeSend1 %debug<CR>
 
 """"""""""""""""""""""

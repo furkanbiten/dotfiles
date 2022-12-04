@@ -40,11 +40,7 @@ cmp.setup({
         })
     },
     snippet = {
-        -- REQUIRED - you must specify a snippet engine
         expand = function(args)
-            -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-            -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-            -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
             vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
         end
     },
@@ -54,12 +50,6 @@ cmp.setup({
         ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
         ["<S-Tab>"] = cmp.mapping.select_prev_item(),
         ["<Tab>"] = cmp.mapping.select_next_item(),
-        -- ["<Tab>"] = cmp.mapping(function(fallback)
-        -- cmp_ultisnips_mappings.expand_or_jump_forwards(fallback)
-        -- end, {"i", "s" [> "c" (to enable the mapping in command mode) <] }),
-        -- ["<S-Tab>"] = cmp.mapping(function(fallback)
-        -- cmp_ultisnips_mappings.jump_backwards(fallback)
-        -- end, {"i", "s" [> "c" (to enable the mapping in command mode) <] }),
         ['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
         ['<C-e>'] = cmp.mapping({
             i = cmp.mapping.abort(),
@@ -72,10 +62,7 @@ cmp.setup({
         { name = 'path' },
         { name = 'omni' },
         { name = 'dap' },
-        -- { name = 'conjure' },
-        --{ name = 'nvim_lua' }, -- { name = 'luasnip' }, -- For luasnip users.
         { name = 'ultisnips' } -- For ultisnips users.
-        -- { name = 'snippy' }, -- For snippy users.
     },
         { { name = 'buffer' } }),
     experimental = { ghost_text = true },
@@ -129,14 +116,6 @@ cmp.setup.cmdline(':', {
     mapping = cmp.mapping.preset.cmdline(),
     sources = cmp.config.sources({ { name = 'path' } }, { { name = 'cmdline' } })
 })
--- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
--- cmp.setup.cmdline('/', {sources = {{name = 'buffer'}}})
-
--- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
--- cmp.setup.cmdline(':', {
--- sources = cmp.config.sources({{name = 'path'}}, {{name = 'cmdline'}})
--- })
-
 ------------------------------------------------------------------------
 --                             LSP CONFIG                             --
 ------------------------------------------------------------------------
@@ -235,11 +214,6 @@ local function on_attach(client, bufnr)
     buffer_augroup("entropitor:lsp:closing", bufnr, {
         { event = "BufDelete", callback = detach },
     })
-
-    --require'illuminate'.on_attach(client)
-    --require("aerial").on_attach(client, bufnr)
-    -- client.resolved_capabilities.document_formatting = false
-    -- require "lsp-format".on_attach(client)
 end
 
 --Cosmetics of LSP
@@ -289,9 +263,6 @@ require("mason-lspconfig").setup({
     ensure_installed = { 'sumneko_lua', 'pyright', 'vimls', 'yamlls', 'jsonls' },
 })
 require("mason-lspconfig").setup_handlers {
-    -- The first entry (without a key) will be the default handler
-    -- and will be called for each installed server that doesn't have
-    -- a dedicated handler.
     function(server_name) -- default handler (optional)
         require("lspconfig")[server_name].setup {
             on_attach = on_attach,

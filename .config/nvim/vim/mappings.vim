@@ -21,8 +21,6 @@ noremap <leader>qw :q<CR>
 nmap <Tab> :bnext<CR>
 " Move to the previous buffer
 nmap <s-Tab> :bprevious<CR>
-" Show all open buffers and their status
-" nmap <leader>l :ls<CR>
 " Moving between splits with arrow keys, sorry Vim, I don't deserve you :(
 nnoremap <C-Down> <C-W><C-J>
 nnoremap <C-Up> <C-W><C-K>

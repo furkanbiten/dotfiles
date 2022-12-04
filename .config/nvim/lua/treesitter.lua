@@ -3,12 +3,7 @@ local enabled_list = { "clojure", "fennel", "commonlisp", "query", "scheme" }
 require 'nvim-tree'.setup { open_on_setup = true }
 
 require("nvim-treesitter.configs").setup({
-    -- One of "all", "maintained" (parsers with maintainers), or a list of languages
-    -- ensure_installed = "maintained",
-
-    -- Install languages synchronously (only applied to `ensure_installed`)
     sync_install = true,
-
     ensure_installed = { "python", "lua", "yaml", "json", "bash", "vim"},
     -- List of parsers to ignore installing
     -- ignore_install = { "javascript" },
