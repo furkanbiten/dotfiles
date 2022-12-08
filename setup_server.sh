@@ -31,12 +31,12 @@ vercomp () {
 }
 
 
+cd 
 if ! command -v node &> /dev/null
 then
     curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.3/install.sh | bash
-    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.3/install.sh | zsh
     export NVM_DIR=$HOME/.nvm;
-    bash $NVM_DIR/nvm.sh | zsh $NVM_DIR/nvm.sh
+    . $NVM_DIR/nvm.sh;
     nvm install node;
 else
     echo "Skipping node installation"
@@ -69,7 +69,7 @@ else
 fi
 
 cd 
-if ! command -v nvim &> /dev/null
+if command -v nvim &> /dev/null
 then
     nvim_ver=$(nvim --version | grep "v[0-9]" | cut -f2 -d"v")
     vercomp "$nvim_ver" 0.8.0
@@ -81,12 +81,17 @@ then
     echo "$op"
     if [[ "$op" == '<' ]]
     then
-        wget https://github.com/neovim/neovim/releases/download/v0.8.0/nvim-linux64.tar.gz
+        wget https://github.com/neovim/neovim/releases/download/v1.8.0/nvim-linux64.tar.gz
         tar xf nvim-linux64.tar.gz
         echo "alias nvim="~/nvim-linux64/bin/nvim"" >> ~/.bashrc
     else
         echo "Correct nvim version is already installed"
     fi
+else
+    wget https://github.com/neovim/neovim/releases/download/v1.8.0/nvim-linux64.tar.gz
+    tar xf nvim-linux64.tar.gz
+    echo "alias nvim="~/nvim-linux64/bin/nvim"" >> ~/.bashrc
+
 fi
 
 git clone https://github.com/furkanbiten/dotfiles
@@ -98,4 +103,3 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
 # getting tmux plugin manager
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 cp $HOME/dotfiles/.tmux.conf $HOME/
-
