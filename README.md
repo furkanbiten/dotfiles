@@ -7,6 +7,7 @@
 
 <!-- vim-markdown-toc -->
 # Install vim/nvim
+
 Apart from telescope, all the plugins works in Vim. The reason I moved to nvim is because of telescope plugin. 
 Telescope is simply beautiful. 
 Follow the instructions here: https://github.com/neovim/neovim/wiki/Installing-Neovim
