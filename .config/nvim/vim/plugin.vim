@@ -45,7 +45,7 @@ Plug 'akinsho/bufferline.nvim'
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 " Plug 'mhinz/vim-startify'
-" Plug 'joeytwiddle/sexy_scroller.vim'
+Plug 'psliwka/vim-smoothie'
 """""""""""""
 "  Utility "
 """""""""""""
@@ -71,12 +71,14 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-live-grep-args.nvim'
 Plug 'lewis6991/gitsigns.nvim'
-Plug 'nvim-pack/nvim-spectre'
 Plug 'stevearc/aerial.nvim'
-Plug 'tommcdo/vim-exchange'
+Plug 'mrjones2014/smart-splits.nvim'
+Plug 'rhysd/conflict-marker.vim'
 Plug 'kevinhwang91/nvim-ufo'
 Plug 'kevinhwang91/promise-async'
-Plug 'mrjones2014/smart-splits.nvim'
+" Plug 'tommcdo/vim-exchange'
+" Plug 'nvim-pack/nvim-spectre'
+" Plug 'akinsho/git-conflict.nvim', {'tag':'v1.0.0'}
 " Plug 'akinsho/toggleterm.nvim'
 " Plug 'voldikss/vim-floaterm'
 " Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }

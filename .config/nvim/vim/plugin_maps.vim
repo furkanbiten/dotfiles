@@ -26,7 +26,7 @@ nnoremap <silent><leader>pu :PlugUpdate<CR>
 "------------------------------------------------------------------------------
 " Telescope keybindings configuration
 "------------------------------------------------------------------------------
-noremap <C-F> :Telescope current_buffer_fuzzy_find fuzzy=false case_mode=ignore_case<CR>
+noremap <leader>fw :Telescope current_buffer_fuzzy_find fuzzy=false case_mode=ignore_case<CR>
 noremap <leader>fa :Telescope live_grep<CR>
 noremap <leader>ff :Telescope find_files<CR>
 noremap <leader>fm :Telescope keymaps<CR>

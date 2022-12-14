@@ -119,9 +119,14 @@ cmp.setup.cmdline(':', {
 ------------------------------------------------------------------------
 --                             LSP CONFIG                             --
 ------------------------------------------------------------------------
-
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+capabilities.textDocument.foldingRange = {
+  dynamicRegistration = false,
+  lineFoldingOnly = true,
+}
 -- Setup lspconfig.
-local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
+capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 local opts = { noremap = true, silent = true }
@@ -133,13 +138,13 @@ vim.api.nvim_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>',
     opts)
 vim.api.nvim_set_keymap('n', '<space>q',
     '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
-vim.keymap.set('n', 'K', function()
-    local winid = require('ufo').peekFoldedLinesUnderCursor()
-    if not winid then
-        -- choose one of coc.nvim and nvim lsp
-        vim.lsp.buf.hover()
-    end
-end)
+-- vim.keymap.set('n', 'K', function()
+--     local winid = require('ufo').peekFoldedLinesUnderCursor()
+--     if not winid then
+--         -- choose one of coc.nvim and nvim lsp
+--         vim.lsp.buf.hover()
+--     end
+-- end)
 
 local lspconfig = require('lspconfig')
 lspconfig.racket_langserver.setup{}
@@ -166,8 +171,8 @@ local function on_attach(client, bufnr)
         '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd',
         '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-    -- vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K',
-    --     '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K',
+        '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi',
         '<cmd>lua vim.lsp.buf.implementation()<CR>',
         opts)
@@ -258,6 +263,7 @@ end
 ------------------------------------------------------------------------
 --                           LSP INSTALLER                            --
 ------------------------------------------------------------------------
+
 require("mason").setup()
 require("mason-lspconfig").setup({
     ensure_installed = { 'sumneko_lua', 'pyright', 'vimls', 'yamlls', 'jsonls' },

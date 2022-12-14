@@ -1,3 +1,4 @@
+vim.opt.fillchars = { fold = " " }
 require("telescope").setup {}
 
 require("auto-save").setup {}
@@ -13,12 +14,15 @@ require("persisted").setup {
 }
 require('telescope').load_extension('persisted')
 require("aerial").setup({
+    manage_folds = true,
+    link_folds_to_tree = true,
     on_attach = function(bufnr)
         -- Toggle the aerial window with <leader>a
         vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>at',
             '<cmd>AerialToggle!<CR>', {})
     end
 })
+require('telescope').load_extension('aerial')
 
 require('Comment').setup({ toggler = {
     ---Line-comment toggle keymap
@@ -90,64 +94,40 @@ require("indent_blankline").setup {
 ------------------------------------------------------------------------
 --                          Folding setup (UFO)                       --
 ------------------------------------------------------------------------
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.foldingRange = {
-    dynamicRegistration = false,
-    lineFoldingOnly = true
-}
-local handler = function(virtText, lnum, endLnum, width, truncate)
-    local newVirtText = {}
-    -- local suffix = (' ... %d '):format(endLnum - lnum)
-    local suffix = ('  %d '):format(endLnum - lnum)
-    local sufWidth = vim.fn.strdisplaywidth(suffix)
-    local targetWidth = width - sufWidth
-    local curWidth = 0
-    for _, chunk in ipairs(virtText) do
-        local chunkText = chunk[1]
-        local chunkWidth = vim.fn.strdisplaywidth(chunkText)
-        if targetWidth > curWidth + chunkWidth then
-            table.insert(newVirtText, chunk)
-        else
-            chunkText = truncate(chunkText, targetWidth - curWidth)
-            local hlGroup = chunk[2]
-            table.insert(newVirtText, { chunkText, hlGroup })
-            chunkWidth = vim.fn.strdisplaywidth(chunkText)
-            -- str width returned from truncate() may less than 2nd argument, need padding
-            if curWidth + chunkWidth < targetWidth then
-                suffix = suffix .. (' '):rep(targetWidth - curWidth - chunkWidth)
-            end
-            break
-        end
-        curWidth = curWidth + chunkWidth
-    end
-    table.insert(newVirtText, { suffix, 'MoreMsg' })
-    return newVirtText
-end
+-- local handler = function(virtText, lnum, endLnum, width, truncate)
+--     local newVirtText = {}
+--     -- local suffix = (' ... %d '):format(endLnum - lnum)
+--     local suffix = ('  %d '):format(endLnum - lnum)
+--     local sufWidth = vim.fn.strdisplaywidth(suffix)
+--     local targetWidth = width - sufWidth
+--     local curWidth = 0
+--     for _, chunk in ipairs(virtText) do
+--         local chunkText = chunk[1]
+--         local chunkWidth = vim.fn.strdisplaywidth(chunkText)
+--         if targetWidth > curWidth + chunkWidth then
+--             table.insert(newVirtText, chunk)
+--         else
+--             chunkText = truncate(chunkText, targetWidth - curWidth)
+--             local hlGroup = chunk[2]
+--             table.insert(newVirtText, { chunkText, hlGroup })
+--             chunkWidth = vim.fn.strdisplaywidth(chunkText)
+--             -- str width returned from truncate() may less than 2nd argument, need padding
+--             if curWidth + chunkWidth < targetWidth then
+--                 suffix = suffix .. (' '):rep(targetWidth - curWidth - chunkWidth)
+--             end
+--             break
+--         end
+--         curWidth = curWidth + chunkWidth
+--     end
+--     table.insert(newVirtText, { suffix, 'MoreMsg' })
+--     return newVirtText
+-- end
 require('ufo').setup({
-    fold_virt_text_handler = handler
+--     close_fold_kinds = {'imports'},
+    -- fold_virt_text_handler = handler
 })
-local bufnr = vim.api.nvim_get_current_buf()
-require('ufo').setFoldVirtTextHandler(bufnr, handler)
-
-
-function ToggleTroubleAuto()
-    local buftype = "quickfix"
-    if vim.fn.getloclist(0, { filewinid = 1 }).filewinid ~= 0 then
-        buftype = "loclist"
-    end
-
-    local ok, trouble = pcall(require, "trouble")
-    if ok then
-        vim.api.nvim_win_close(0, false)
-        trouble.toggle(buftype)
-    else
-        local set = vim.opt_local
-        set.colorcolumn = ""
-        set.number = false
-        set.relativenumber = false
-        set.signcolumn = "no"
-    end
-end
+-- local bufnr = vim.api.nvim_get_current_buf()
+-- require('ufo').setFoldVirtTextHandler(bufnr, handler)
 
 ------------------------------------------------------------------------
 --                      Split Manager with Tmux                       --
@@ -212,3 +192,39 @@ vim.keymap.set('n', '<A-h>', require('smart-splits').resize_left)
 vim.keymap.set('n', '<A-j>', require('smart-splits').resize_down)
 vim.keymap.set('n', '<A-k>', require('smart-splits').resize_up)
 vim.keymap.set('n', '<A-l>', require('smart-splits').resize_right)
+
+
+function ToggleTroubleAuto()
+    local buftype = "quickfix"
+    if vim.fn.getloclist(0, { filewinid = 1 }).filewinid ~= 0 then
+        buftype = "loclist"
+    end
+
+    local ok, trouble = pcall(require, "trouble")
+    if ok then
+        vim.api.nvim_win_close(0, false)
+        trouble.toggle(buftype)
+    else
+        local set = vim.opt_local
+        set.colorcolumn = ""
+        set.number = false
+        set.relativenumber = false
+        set.signcolumn = "no"
+    end
+end
+
+-- require('git-conflict').setup({
+--     default_mappings = true, -- disable buffer local mapping created by this plugin
+--     disable_diagnostics = true, -- This will disable the diagnostics in a buffer whilst it is conflicted
+--     highlights = { -- They must have background color, otherwise the default color will be used
+--         incoming = 'DiffText',
+--         current = 'DiffAdd',
+--     }
+-- })
+-- vim.keymap.set('n', 'co', '<Plug>(git-conflict-ours)')
+-- vim.keymap.set('n', 'ct', '<Plug>(git-conflict-theirs)')
+-- vim.keymap.set('n', 'cb', '<Plug>(git-conflict-both)')
+-- vim.keymap.set('n', 'c0', '<Plug>(git-conflict-none)')
+-- vim.keymap.set('n', '[x', '<Plug>(git-conflict-prev-conflict)')
+-- vim.keymap.set('n', ']x', '<Plug>(git-conflict-next-conflict)')
+--

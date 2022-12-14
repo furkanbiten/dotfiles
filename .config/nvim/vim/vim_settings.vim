@@ -36,11 +36,14 @@ set virtualedit=onemore
 " set foldmethod=syntax
 " set foldmethod=expr
 " set foldexpr=nvim_treesitter#foldexpr()
-" set foldtext=getline(v:foldstart).'...'.trim(getline(v:foldend))
-" set fillchars=fold:\\
+" " set foldtext=getline(v:foldstart).'...'.trim(getline(v:foldend))
 " set foldnestmax=3
 " set foldminlines=1
+" set foldlevel=10
 " set foldtext=substitute(getline(v:foldstart),'\\t',repeat('\ ',&tabstop),'g').'...'.trim(getline(v:foldend))
+" set fillchars=fold:\\
+set foldlevel=99
+set nofoldenable
 
 set updatetime=250
 augroup highlight_yank
