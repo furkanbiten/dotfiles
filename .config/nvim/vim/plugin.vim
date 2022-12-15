@@ -25,20 +25,20 @@ Plug 'jose-elias-alvarez/null-ls.nvim'
 "  Debuggers  "
 """""""""""""""
 Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh' }
-Plug 'mfussenegger/nvim-dap'
-Plug 'mfussenegger/nvim-dap-python'
-Plug 'rcarriga/nvim-dap-ui'
-Plug 'theHamsta/nvim-dap-virtual-text'
-Plug 'rcarriga/cmp-dap'
+" Plug 'mfussenegger/nvim-dap'
+" Plug 'mfussenegger/nvim-dap-python'
+" Plug 'rcarriga/nvim-dap-ui'
+" Plug 'theHamsta/nvim-dap-virtual-text'
+" Plug 'rcarriga/cmp-dap'
 """""""""""""""""""""""
 "  Optimization plugins  "
 """""""""""""""""""""""
 Plug 'lewis6991/impatient.nvim'
 Plug 'nathom/filetype.nvim'
+Plug 'luukvbaal/stabilize.nvim'
 """""""""""""""
 "  Cosmetics  "
 """""""""""""""
-Plug 'luukvbaal/stabilize.nvim'
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'folke/trouble.nvim'
 Plug 'akinsho/bufferline.nvim'
@@ -51,7 +51,8 @@ Plug 'psliwka/vim-smoothie'
 """""""""""""
 Plug 'pechorin/any-jump.vim'
 Plug 'olimorris/persisted.nvim'
-Plug 'Pocco81/auto-save.nvim'
+" Plug 'Pocco81/auto-save.nvim'
+Plug 'furkanbiten/auto-save.nvim'
 Plug 'numToStr/Comment.nvim'
 Plug 'tpope/vim-fugitive' " Run git commands 
 Plug 'tpope/vim-surround' " Surrond any text objects with (), [], {}, <>, ...
@@ -65,7 +66,7 @@ Plug 'honza/vim-snippets'
 " Plug 'mzlogin/vim-markdown-toc'
 " Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'simeji/winresizer'
-Plug 'ggandor/lightspeed.nvim', 
+Plug 'ggandor/lightspeed.nvim',
 Plug 'kyazdani42/nvim-tree.lua'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
@@ -74,8 +75,8 @@ Plug 'lewis6991/gitsigns.nvim'
 Plug 'stevearc/aerial.nvim'
 Plug 'mrjones2014/smart-splits.nvim'
 Plug 'rhysd/conflict-marker.vim'
-Plug 'kevinhwang91/nvim-ufo'
-Plug 'kevinhwang91/promise-async'
+" Plug 'kevinhwang91/nvim-ufo'
+" Plug 'kevinhwang91/promise-async'
 " Plug 'tommcdo/vim-exchange'
 " Plug 'nvim-pack/nvim-spectre'
 " Plug 'akinsho/git-conflict.nvim', {'tag':'v1.0.0'}

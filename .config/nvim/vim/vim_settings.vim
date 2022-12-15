@@ -50,3 +50,9 @@ augroup highlight_yank
     autocmd!
     au TextYankPost * silent! lua vim.highlight.on_yank { higroup='IncSearch', timeout=400 }
 augroup END
+
+
+" augroup save_file
+"     autocmd!
+"     au TextChanged * silent!  call timer_start(20, { tid -> execute('w!')}, {'repeat':-1}) 
+" augroup END

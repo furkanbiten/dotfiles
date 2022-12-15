@@ -28,10 +28,10 @@ local cmp = require 'cmp'
 local lspkind = require('lspkind')
 local cmp_ultisnips_mappings = require("cmp_nvim_ultisnips.mappings")
 cmp.setup({
-    enabled = function()
-        return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
-            or require("cmp_dap").is_dap_buffer()
-    end,
+    -- enabled = function()
+    --     return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
+    --         or require("cmp_dap").is_dap_buffer()
+    -- end,
 
     formatting = {
         format = lspkind.cmp_format({
@@ -146,8 +146,6 @@ vim.api.nvim_set_keymap('n', '<space>q',
 --     end
 -- end)
 
-local lspconfig = require('lspconfig')
-lspconfig.racket_langserver.setup{}
 
 local function buffer_augroup(group, bufnr, cmds)
     vim.api.nvim_create_augroup(group, { clear = false })
@@ -264,6 +262,9 @@ end
 --                           LSP INSTALLER                            --
 ------------------------------------------------------------------------
 
+local lspconfig = require('lspconfig')
+lspconfig.racket_langserver.setup{}
+
 require("mason").setup()
 require("mason-lspconfig").setup({
     ensure_installed = { 'sumneko_lua', 'pyright', 'vimls', 'yamlls', 'jsonls' },
@@ -291,6 +292,7 @@ require("mason-lspconfig").setup_handlers {
     end
 }
 
+local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 local null_ls = require("null-ls")
 null_ls.setup({
     sources = {

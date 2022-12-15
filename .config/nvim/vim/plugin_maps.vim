@@ -1,7 +1,7 @@
 """""""""
 "  LUA  "
 """""""""
-lua require('dap_config')
+" lua require('dap_config')
 lua require('treesitter')
 lua require('lsp')
 lua require('cosmetics')

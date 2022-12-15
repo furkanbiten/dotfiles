@@ -1,7 +1,9 @@
 vim.opt.fillchars = { fold = " " }
 require("telescope").setup {}
 
-require("auto-save").setup {}
+require("auto-save").setup({
+    debounce_delay = 2500, -- saves the file at most every `debounce_delay` milliseconds
+})
 vim.api.nvim_set_keymap("n", "<leader>as", ":ASToggle<CR>", {})
 
 require("persisted").setup {
@@ -122,10 +124,10 @@ require("indent_blankline").setup {
 --     table.insert(newVirtText, { suffix, 'MoreMsg' })
 --     return newVirtText
 -- end
-require('ufo').setup({
---     close_fold_kinds = {'imports'},
+-- require('ufo').setup({
+    --     close_fold_kinds = {'imports'},
     -- fold_virt_text_handler = handler
-})
+-- })
 -- local bufnr = vim.api.nvim_get_current_buf()
 -- require('ufo').setFoldVirtTextHandler(bufnr, handler)
 
