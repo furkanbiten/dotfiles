@@ -8,7 +8,6 @@ hyper - up: yabai -m window --focus north
 hyper - right: yabai -m window --focus east
 # hyper - p : yabai -m window --focus stack.prev
 # hyper - n: yabai -m window --focus stack.next
-# hyper - e: yabai -m window --focus stack.recent
 
 # Focus toggle
 # by desktop
@@ -20,18 +19,15 @@ hyper - q : yabai -m window --focus stack.prev || yabai -m window --focus stack.
 hyper - e  : yabai -m display --focus next || yabai -m display --focus 1
 
 # focus monitor
-#hyper - w  : yabai -m display --focus prev
-#hyper - e  : yabai -m display --focus next
 shift + cmd - 1  : yabai -m display --focus 1
 shift + cmd - 2  : yabai -m display --focus 2
 shift + cmd - 3  : yabai -m display --focus 3
 
-# send window to desktop and follow focus
-#shift + cmd - x : yabai -m window --space recent && yabai -m space --focus recent
-#shift + cmd - z : yabai -m window --space prev && yabai -m space --focus prev
-#shift + cmd - c : yabai -m window --space next && yabai -m space --focus next
+# send window to next/previous desktop and follow focus
 hyper - s : id="$(yabai -m query --spaces --display | jq 'sort_by(.index) | reverse | .[map(."has-focus") | index(true) - 1].index')" && (yabai -m window --space next || yabai -m window --space first) && skhd -k "ctrl - $id"
-hyper - a : id="$(yabai -m query --spaces --display | jq 'sort_by(.index) | reverse | .[map(."has-focus") | index(true) + 1].index')" && (yabai -m window --space prev || yabai -m window --space last) && skhd -k "ctrl - $id"
+hyper - a : id="$(yabai -m query --spaces --display | jq 'sort_by(.index)  | .[map(."has-focus") | index(true) - 1].index')" && (yabai -m window --space prev || yabai -m window --space last) && skhd -k "ctrl - $id"
+
+# send window to desktop NUMBER and follow focus
 hyper - 1 : yabai -m window --space  1 && skhd -k "ctrl - 1"
 hyper - 2 : yabai -m window --space  2 && skhd -k "ctrl - 2"
 hyper - 3 : yabai -m window --space  3 && skhd -k "ctrl - 3"
@@ -41,13 +37,21 @@ hyper - 6 : yabai -m window --space  6 && skhd -k "ctrl - 6"
 hyper - 7 : yabai -m window --space  7 && skhd -k "ctrl - 7"
 hyper - 8 : yabai -m window --space  8 && skhd -k "ctrl - 8"
 hyper - 9 : yabai -m window --space  9 && skhd -k "ctrl - 9"
-hyper - 0 : yabai -m window --space 10 && skhd -k "ctrl - 0"
+
+# send window to desktop NUMBER but DO NOT follow focus
+hyper - f1 : yabai -m window --space 1
+hyper - f2 : yabai -m window --space 2
+hyper - f3 : yabai -m window --space 3
+hyper - f4 : yabai -m window --space 4
+hyper - f5 : yabai -m window --space 5
+hyper - f6 : yabai -m window --space 6
+hyper - f7 : yabai -m window --space 7
+hyper - f8 : yabai -m window --space 8
+hyper - f9 : yabai -m window --space 9
 
 # send window to monitor and follow focus
 hyper - d  : (yabai -m window --display prev && yabai -m display --focus prev) || (yabai -m window --display next && yabai -m display --focus next)
 #hyper - a  : yabai -m window --display 1 && yabai -m display --focus 1
-#hyper - s  : yabai -m window --display 2 && yabai -m display --focus 2
-#hyper - d  : yabai -m window --display 3 && yabai -m display --focus 3
 
 # swap window
 shift + alt - x : yabai -m window --swap recent
@@ -157,7 +161,7 @@ hyper - t : yabai -m window --toggle float --grid 4:4:1:1:2:2
 #hyper - o : yabai -m window --toggle topmost
 
 # toggle picture-in-picture
-#hyper - p : yabai -m window --toggle border --toggle pip
+hyper - p : yabai -m window --toggle border --toggle pip
 
 # change layout of desktop
 ctrl + alt - a : yabai -m space --layout bsp
