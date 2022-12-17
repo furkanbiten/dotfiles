@@ -1,7 +1,7 @@
 """""""""
 "  LUA  "
 """""""""
-" lua require('dap_config')
+lua require('dap_config')
 lua require('treesitter')
 lua require('lsp')
 lua require('cosmetics')
@@ -81,6 +81,10 @@ set t_Co=256
 if has('termguicolors')
     set termguicolors
 endif
+let g:onedark_config = {
+    \ 'style': 'deep',
+\}
+" colorscheme onedark
 colorscheme nightfly
 highlight Normal guibg='#181d20' guifg=white
 set cursorline

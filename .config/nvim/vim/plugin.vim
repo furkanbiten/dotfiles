@@ -18,18 +18,20 @@ Plug 'onsails/lspkind-nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 Plug 'nvim-treesitter/nvim-treesitter-context'
+Plug 'JoosepAlviste/nvim-ts-context-commentstring'
 Plug 'mfussenegger/nvim-lint'
 Plug 'lukas-reineke/lsp-format.nvim'
 Plug 'jose-elias-alvarez/null-ls.nvim'
+Plug 'jayp0521/mason-null-ls.nvim'
 """""""""""""""
 "  Debuggers  "
 """""""""""""""
 Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh' }
-" Plug 'mfussenegger/nvim-dap'
-" Plug 'mfussenegger/nvim-dap-python'
-" Plug 'rcarriga/nvim-dap-ui'
-" Plug 'theHamsta/nvim-dap-virtual-text'
-" Plug 'rcarriga/cmp-dap'
+Plug 'mfussenegger/nvim-dap'
+Plug 'mfussenegger/nvim-dap-python'
+Plug 'rcarriga/nvim-dap-ui'
+Plug 'theHamsta/nvim-dap-virtual-text'
+Plug 'rcarriga/cmp-dap'
 """""""""""""""""""""""
 "  Optimization plugins  "
 """""""""""""""""""""""
@@ -75,15 +77,17 @@ Plug 'lewis6991/gitsigns.nvim'
 Plug 'stevearc/aerial.nvim'
 Plug 'mrjones2014/smart-splits.nvim'
 Plug 'rhysd/conflict-marker.vim'
-" Plug 'kevinhwang91/nvim-ufo'
-" Plug 'kevinhwang91/promise-async'
+Plug 'kevinhwang91/nvim-ufo'
+Plug 'kevinhwang91/promise-async'
+Plug 'stevearc/dressing.nvim'
+Plug 'kevinhwang91/nvim-bqf'
+" Plug 'rcarriga/nvim-notify'
 " Plug 'tommcdo/vim-exchange'
 " Plug 'nvim-pack/nvim-spectre'
 " Plug 'akinsho/git-conflict.nvim', {'tag':'v1.0.0'}
 " Plug 'akinsho/toggleterm.nvim'
 " Plug 'voldikss/vim-floaterm'
 " Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }
-" Plug 'kevinhwang91/nvim-bqf'
 """"""""""""""""""""""""""""
 "  Scheme related plugins  "
 """"""""""""""""""""""""""""
@@ -99,6 +103,7 @@ Plug 'rhysd/conflict-marker.vim'
 Plug 'rebelot/kanagawa.nvim'
 " Plug 'kjssad/quantum.vim'
 Plug 'bluz71/vim-nightfly-guicolors'
+Plug 'navarasu/onedark.nvim'
 " Plug 'tanvirtin/monokai.nvim'
 "Plug 'iandwelker/rose-pine-vim'
 "Plug 'EdenEast/nightfox.nvim' " Vim-Plug
