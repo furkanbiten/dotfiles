@@ -1,6 +1,4 @@
 #!/usr/bin/env sh
-#YABAI STUFF
-
 # bsp or float (default: bsp)
 #yabai -m config layout bsp
 
@@ -38,22 +36,11 @@ yabai -m rule --add app="^Logi Options$" manage=off
 yabai -m rule --add app="^Cisco Webex Start$" manage=off
 yabai -m rule --add app="^Private Internet Access$" manage=off
 
-#find ~/Library/Parallels/Applications\ Menus/ -maxdepth 3 -type f | awk -F'/' '{ print $NF; }' | awk '{$1=$1};1' | sort | uniq | tr "\n" "\0" | xargs -0 -I{} yabai -m rule --add app="^{}\$" title=".*" manage=on
-
-# Cycle windows forwards and backwards but stops at ends
-# hyper - tab : yabai -m window --focus stack.prev || yabai -m window --focus prev || yabai -m window --focus last
-hyper - tab : yabai -m window --focus stack.next || yabai -m window --focus next || yabai -m window --focus first
-
-hyper - b : yabai -m window --stack north
-# hyper - right : yabai -m window --stack east
-# hyper - down : yabai -m window --stack south
-# hyper - left : yabai -m window --stack west
-
 # yabai -m config active_window_border_topmost on
-yabai -m config window_border on
-yabai -m config window_border_width 3
+# yabai -m config window_border on
+# yabai -m config window_border_width 3
 
-yabai -m config active_window_border_color   0xff85c1e9 
+# yabai -m config active_window_border_color   0xff85c1e9 
 # yabai -m config insert_window_border_color   0xff8E83B8
 # yabai -m config normal_window_border_color   0xff8E83B8
 # yabai -m config normal_window_border_color   0xff51425C
@@ -96,5 +83,3 @@ yabai -m config right_padding 2
 yabai -m config window_gap 10
 
 echo "yabai configuration loaded.."
-
-#END
