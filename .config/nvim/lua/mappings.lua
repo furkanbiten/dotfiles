@@ -1,4 +1,16 @@
-"-----------------------
+-- Functional wrapper for mapping custom keybindings
+local function map(mode, lhs, rhs, opts)
+	local options = { noremap = true }
+	if opts then
+		options = vim.tbl_extend("force", options, opts)
+	end
+	vim.api.nvim_set_keymap(mode, lhs, rhs, options)
+end
+
+local leader = ","
+map("n", leader .. "<Space>", ":nohlsearch<CR>", { silent = true })
+
+vim.cmd([["-----------------------
 " Vim specific commands
 "-----------------------
 let mapleader=","
@@ -7,7 +19,7 @@ let maplocalleader=","
 "  Vim native mapping for frequently used mappings  "
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 map <C-c> <ESC>
-ino <C-c> <ESC>
+inoremap <C-c> <ESC>
 "map jj <ESC>
 inoremap <C-k> <C-o>d$
 noremap <silent> <leader>w :w<CR>
@@ -47,7 +59,7 @@ vnoremap <A-w> :m '<-2<CR>gv=gv
 
 vnoremap <leader>se <ESC>^vg_
 nnoremap <leader>se ^vg_
-nnoremap  <silent> <leader><space> :nohlsearch<CR>
+" nnoremap  <silent> <leader><space> :nohlsearch<CR>
 nnoremap <leader>) ciw(<c-r>")<esc>
 " Delete word forward, counter of C-W in insert  
 inoremap <C-q> <C-o>dw
@@ -55,4 +67,4 @@ inoremap <C-q> <C-o>dw
 nnoremap <leader>rh <C-w>t <C-w>K<CR>
 " Rotate split vertically
 nnoremap <leader>rv <C-w>t <C-w>L<CR>
-" inoremap <C-right> <C-o>e<right>
+" inoremap <C-right> <C-o>e<right>]])
