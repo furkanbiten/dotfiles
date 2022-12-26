@@ -48,7 +48,6 @@ vim.o.writebackup = false
 vim.o.swapfile = false
 
 vim.cmd([[
-" set completeopt=menu,menuone,noselect
 syntax enable
 filetype on
 filetype detect

@@ -78,6 +78,14 @@ nnoremap <leader>td :TodoTelescope<CR>
 """"""""""""
 "  Extras  "
 """"""""""""
+nnoremap ct :ConflictMarkerThemselves<CR>
+nnoremap co :ConflictMarkerOurselves<CR>
+nnoremap cb :ConflictMarkerBoth<CR>
+nnoremap cB :ConflictMarkerBoth!<CR>
+nnoremap cn :ConflictMarkerNone<CR>
+nnoremap [x :ConflictMarkerPrevHunk<CR>
+nnoremap x] :ConflictMarkerNextHunk<CR>
+
 " set
 autocmd TermEnter term://*toggleterm#*
       \ tnoremap <silent><c-t> <Cmd>exe v:count1 . "ToggleTerm"<CR>
