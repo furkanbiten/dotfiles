@@ -68,7 +68,7 @@ require("packer").startup({
 		use({ "mfussenegger/nvim-lint", config = "require 'plugins.nvim-lint'" })
 		use({
 			"jose-elias-alvarez/null-ls.nvim",
-			event = "InsertCharPre",
+			event = "BufRead",
 			requires = { "lukas-reineke/lsp-format.nvim" },
 			config = "require 'plugins.null-ls'",
 		})
