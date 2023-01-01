@@ -6,17 +6,17 @@ hyper - left: yabai -m window --focus west
 hyper - down: yabai -m window --focus south
 hyper - up: yabai -m window --focus north
 hyper - right: yabai -m window --focus east
-# hyper - p : yabai -m window --focus stack.prev
-# hyper - n: yabai -m window --focus stack.next
 
 # Focus toggle
 # by desktop
+hyper - e : yabai -m window --focus prev || yabai -m window --focus last
 hyper - r : yabai -m window --focus next || yabai -m window --focus first
 # by stack
 hyper - w : yabai -m window --focus stack.next || yabai -m window --focus stack.first
 hyper - q : yabai -m window --focus stack.prev || yabai -m window --focus stack.last
 # by monitor
-hyper - e  : yabai -m display --focus next || yabai -m display --focus 1
+hyper - x  : yabai -m display --focus next || yabai -m display --focus first
+hyper - z  : yabai -m display --focus prev || yabai -m display --focus last
 
 # focus monitor
 shift + cmd - 1  : yabai -m display --focus 1
@@ -24,19 +24,19 @@ shift + cmd - 2  : yabai -m display --focus 2
 shift + cmd - 3  : yabai -m display --focus 3
 
 # send window to next/previous desktop and follow focus
-hyper - s : id="$(yabai -m query --spaces --display | jq 'sort_by(.index) | reverse | .[map(."has-focus") | index(true) - 1].index')" && (yabai -m window --space next || yabai -m window --space first) && skhd -k "ctrl - $id"
-hyper - a : id="$(yabai -m query --spaces --display | jq 'sort_by(.index)  | .[map(."has-focus") | index(true) - 1].index')" && (yabai -m window --space prev || yabai -m window --space last) && skhd -k "ctrl - $id"
+hyper - s : id_dis="$(yabai -m query --spaces | jq 'sort_by(.index) | reverse | .[map(."has-focus") | index(true) - 1].display')" && id="$(yabai -m query --spaces | jq 'sort_by(.index) | reverse | .[map(."has-focus") | index(true) - 1].index')" && (yabai -m window --space next || yabai -m window --space first) && yabai -m display --focus $id_dis && skhd -k "ctrl - $id"
+hyper - a : id_dis="$(yabai -m query --spaces | jq 'sort_by(.index) | .[map(."has-focus") | index(true) - 1].display')" && id="$(yabai -m query --spaces | jq 'sort_by(.index)  | .[map(."has-focus") | index(true) - 1].index')" && (yabai -m window --space prev || yabai -m window --space last) && yabai -m display --focus $id_dis && skhd -k "ctrl - $id"
 
 # send window to desktop NUMBER and follow focus
-hyper - 1 : yabai -m window --space  1 && skhd -k "ctrl - 1"
-hyper - 2 : yabai -m window --space  2 && skhd -k "ctrl - 2"
-hyper - 3 : yabai -m window --space  3 && skhd -k "ctrl - 3"
-hyper - 4 : yabai -m window --space  4 && skhd -k "ctrl - 4"
-hyper - 5 : yabai -m window --space  5 && skhd -k "ctrl - 5"
-hyper - 6 : yabai -m window --space  6 && skhd -k "ctrl - 6"
-hyper - 7 : yabai -m window --space  7 && skhd -k "ctrl - 7"
-hyper - 8 : yabai -m window --space  8 && skhd -k "ctrl - 8"
-hyper - 9 : yabai -m window --space  9 && skhd -k "ctrl - 9"
+hyper - 1 : id=1 && id_dis="$(yabai -m query --spaces | jq 'sort_by(.index) | .[0].display')" && yabai -m window --space $id && yabai -m display --focus $id_dis && skhd -k "ctrl - $id"
+hyper - 2 : id=2 && id_dis="$(yabai -m query --spaces | jq 'sort_by(.index) | .[1].display')" && yabai -m window --space $id && yabai -m display --focus $id_dis && skhd -k "ctrl - $id"
+hyper - 3 : id=3 && id_dis="$(yabai -m query --spaces | jq 'sort_by(.index) | .[2].display')" && yabai -m window --space $id && yabai -m display --focus $id_dis && skhd -k "ctrl - $id"
+hyper - 4 : id=4 && id_dis="$(yabai -m query --spaces | jq 'sort_by(.index) | .[3].display')" && yabai -m window --space $id && yabai -m display --focus $id_dis && skhd -k "ctrl - $id"
+hyper - 5 : id=5 && id_dis="$(yabai -m query --spaces | jq 'sort_by(.index) | .[4].display')" && yabai -m window --space $id && yabai -m display --focus $id_dis && skhd -k "ctrl - $id"
+hyper - 6 : id=6 && id_dis="$(yabai -m query --spaces | jq 'sort_by(.index) | .[5].display')" && yabai -m window --space $id && yabai -m display --focus $id_dis && skhd -k "ctrl - $id"
+hyper - 7 : id=7 && id_dis="$(yabai -m query --spaces | jq 'sort_by(.index) | .[6].display')" && yabai -m window --space $id && yabai -m display --focus $id_dis && skhd -k "ctrl - $id"
+hyper - 8 : id=8 && id_dis="$(yabai -m query --spaces | jq 'sort_by(.index) | .[7].display')" && yabai -m window --space $id && yabai -m display --focus $id_dis && skhd -k "ctrl - $id"
+hyper - 9 : id=9 && id_dis="$(yabai -m query --spaces | jq 'sort_by(.index) | .[8].display')" && yabai -m window --space $id && yabai -m display --focus $id_dis && skhd -k "ctrl - $id"
 
 # send window to desktop NUMBER but DO NOT follow focus
 hyper - f1 : yabai -m window --space 1
@@ -50,8 +50,8 @@ hyper - f8 : yabai -m window --space 8
 hyper - f9 : yabai -m window --space 9
 
 # send window to monitor and follow focus
-hyper - d  : (yabai -m window --display prev && yabai -m display --focus prev) || (yabai -m window --display next && yabai -m display --focus next)
-#hyper - a  : yabai -m window --display 1 && yabai -m display --focus 1
+hyper - c  : (yabai -m window --display prev && yabai -m display --focus prev) || (yabai -m window --display last && yabai -m display --focus last)
+hyper - d  : (yabai -m window --display next && yabai -m display --focus next) || (yabai -m window --display first && yabai -m display --focus first)
 
 # swap window
 shift + alt - x : yabai -m window --swap recent
@@ -81,7 +81,7 @@ shift + alt - 0 : yabai -m space --balance
 hyper - u     : yabai -m window --grid 1:1:0:0:1:1
 
 # make floating window fill left-half of screen
-hyper - 0x21  : yabai -m window --grid 1:2:0:0:1:1
+hyper - 0x21 : yabai -m window --grid 1:2:0:0:1:1
 
 # make floating window fill right-half of screen
 hyper - 0x1E : yabai -m window --grid 1:2:1:0:1:1
@@ -133,7 +133,7 @@ hyper - o : yabai -m space --rotate 90
 hyper - y : yabai -m space --mirror y-axis
 
 # mirror tree x-axis
-hyper - x : yabai -m space --mirror x-axis
+hyper - m : yabai -m space --mirror x-axis
 
 # toggle desktop offset
 hyper - i : yabai -m space --toggle padding --toggle gap
