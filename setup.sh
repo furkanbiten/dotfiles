@@ -96,6 +96,7 @@ then
         tar xf nvim-linux64.tar.gz
         rm nvim-linux64.tar.gz
         echo "alias nvim="~/nvim-linux64/bin/nvim"" >> ~/.bashrc
+    	echo "alias vim="~/nvim-linux64/bin/nvim"" >> ~/.bashrc
     else
         echo "Correct nvim version is already installed"
     fi
@@ -103,7 +104,7 @@ else
     wget https://github.com/neovim/neovim/releases/download/v0.8.0/nvim-linux64.tar.gz
     tar xf nvim-linux64.tar.gz
     echo "alias nvim="~/nvim-linux64/bin/nvim"" >> ~/.bashrc
-
+    echo "alias vim="~/nvim-linux64/bin/nvim"" >> ~/.bashrc
 fi
 
 cd $cwd
@@ -115,3 +116,10 @@ git clone --depth 1 https://github.com/wbthomason/packer.nvim\
 # getting tmux plugin manager
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 cp .tmux.conf $HOME/
+
+git clone --depth 1 https://github.com/wbthomason/packer.nvim\
+	 ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+
+git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --decorate --all"
+
+pip install nvitop
