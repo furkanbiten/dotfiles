@@ -41,7 +41,7 @@ require("packer").startup({
 		--------------------
 		use({
 			"hrsh7th/nvim-cmp",
-			event = "BufRead",
+			-- event = "BufRead",
 			config = "require 'plugins.nvim-cmp'",
 			requires = {
 				{ "hrsh7th/cmp-buffer", after = "nvim-cmp" },
