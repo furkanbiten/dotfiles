@@ -79,7 +79,7 @@ require("packer").startup({
 
 		use({
 			"nvim-treesitter/nvim-treesitter",
-			run = ":TSUpdate",
+			-- run = ":TSUpdate",
 			-- event = "BufWinEnter",
 			requires = {
 				{ "nvim-treesitter/nvim-treesitter-textobjects", after = "nvim-treesitter" },
