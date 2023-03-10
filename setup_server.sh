@@ -68,6 +68,7 @@ else
     echo "Skipping lua installation"
 fi
 
+cd
 if command -v nvim &> /dev/null
 then
     nvim_ver=$(nvim --version | grep "v[0-9]" | cut -f2 -d"v")
