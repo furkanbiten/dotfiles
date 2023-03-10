@@ -94,11 +94,11 @@ else
 
 fi
 
-cp -r dotfiles/.config/nvim ~/.config/
+cp -r .config/nvim ~/.config/
 
 git clone --depth 1 https://github.com/wbthomason/packer.nvim\
  ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 
 # getting tmux plugin manager
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-cp $HOME/dotfiles/.tmux.conf $HOME/
+cp .tmux.conf $HOME/
