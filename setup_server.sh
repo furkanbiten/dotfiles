@@ -68,7 +68,6 @@ else
     echo "Skipping lua installation"
 fi
 
-cd 
 if command -v nvim &> /dev/null
 then
     nvim_ver=$(nvim --version | grep "v[0-9]" | cut -f2 -d"v")
@@ -94,6 +93,7 @@ else
 
 fi
 
+cd -
 cp -r .config/nvim ~/.config/
 
 git clone --depth 1 https://github.com/wbthomason/packer.nvim\
