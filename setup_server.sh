@@ -30,7 +30,7 @@ vercomp () {
     return 0
 }
 
-
+cwd=$(pwd)
 cd 
 if ! command -v node &> /dev/null
 then
@@ -93,7 +93,7 @@ else
 
 fi
 
-cd -
+cd $cwd
 cp -r .config/nvim ~/.config/
 
 git clone --depth 1 https://github.com/wbthomason/packer.nvim\
