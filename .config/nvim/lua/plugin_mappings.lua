@@ -1,58 +1,58 @@
 -- Remaps for the refactoring operations currently offered by the plugin
 vim.api.nvim_set_keymap(
-	"v",
-	"<leader>re",
-	[[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function')<CR>]],
-	{ noremap = true, silent = true, expr = false }
+    "v",
+    "<leader>re",
+    [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function')<CR>]],
+    { noremap = true, silent = true, expr = false }
 )
 vim.api.nvim_set_keymap(
-	"v",
-	"<leader>rf",
-	[[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function To File')<CR>]],
-	{ noremap = true, silent = true, expr = false }
+    "v",
+    "<leader>rf",
+    [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function To File')<CR>]],
+    { noremap = true, silent = true, expr = false }
 )
 vim.api.nvim_set_keymap(
-	"v",
-	"<leader>rv",
-	[[ <Esc><Cmd>lua require('refactoring').refactor('Extract Variable')<CR>]],
-	{ noremap = true, silent = true, expr = false }
+    "v",
+    "<leader>rv",
+    [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Variable')<CR>]],
+    { noremap = true, silent = true, expr = false }
 )
 vim.api.nvim_set_keymap(
-	"v",
-	"<leader>ri",
-	[[ <Esc><Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]],
-	{ noremap = true, silent = true, expr = false }
+    "v",
+    "<leader>ri",
+    [[ <Esc><Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]],
+    { noremap = true, silent = true, expr = false }
 )
 
 -- Extract block doesn't need visual mode
 vim.api.nvim_set_keymap(
-	"n",
-	"<leader>rb",
-	[[ <Cmd>lua require('refactoring').refactor('Extract Block')<CR>]],
-	{ noremap = true, silent = true, expr = false }
+    "n",
+    "<leader>rb",
+    [[ <Cmd>lua require('refactoring').refactor('Extract Block')<CR>]],
+    { noremap = true, silent = true, expr = false }
 )
 vim.api.nvim_set_keymap(
-	"n",
-	"<leader>rbf",
-	[[ <Cmd>lua require('refactoring').refactor('Extract Block To File')<CR>]],
-	{ noremap = true, silent = true, expr = false }
+    "n",
+    "<leader>rbf",
+    [[ <Cmd>lua require('refactoring').refactor('Extract Block To File')<CR>]],
+    { noremap = true, silent = true, expr = false }
 )
 
 -- Inline variable can also pick up the identifier currently under the cursor without visual mode
 vim.api.nvim_set_keymap(
-	"n",
-	"<leader>ri",
-	[[ <Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]],
-	{ noremap = true, silent = true, expr = false }
+    "n",
+    "<leader>ri",
+    [[ <Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]],
+    { noremap = true, silent = true, expr = false }
 )
 -- load refactoring Telescope extension
 
 -- remap to open the Telescope refactoring menu in visual mode
 vim.api.nvim_set_keymap(
-	"v",
-	"<leader>rr",
-	"<Esc><cmd>lua require('telescope').extensions.refactoring.refactors()<CR>",
-	{ noremap = true }
+    "v",
+    "<leader>rr",
+    "<Esc><cmd>lua require('telescope').extensions.refactoring.refactors()<CR>",
+    { noremap = true }
 )
 
 vim.api.nvim_set_keymap("n", "<leader>mt", ":MinimapToggle<CR>", { noremap = true, silent = true, expr = false })
@@ -185,7 +185,7 @@ colorscheme nightfly
 " Some Lua stuff for treesitter and nvim-dap: THE debugger.
 "------------------------------------------------------------------------------
 "au  InsertLeave * lua require('lint').try_lint()
-au  BufWritePre * lua require('lint').try_lint()
+" au  BufWritePre * lua require('lint').try_lint()
 " nnoremap <silent> <leader>l :lua require('lint').try_lint()
 "au FileType dap-repl lua require('dap.ext.autocompl').attach()
 nnoremap <silent> <F9> :lua require'dap'.continue()<CR>
@@ -247,6 +247,7 @@ nnoremap <leader>xl <cmd>TroubleToggle loclist<cr>
 nnoremap gR <cmd>TroubleToggle lsp_references<cr>
 nnoremap <leader>xqq :lua ToggleTroubleAuto()<cr>
 
+au BufWritePre * lua vim.lsp.buf.format()
 au User NvimGdbQuery :belowright GdbLopenBacktrace
 "au User NvimGdbQuery GdbCreateWatch locals()
 "au User NvimGdbQuery call nvim_buf_set_lines(bufnr(), 0, -1, 0, split(GdbCustomCommand("locals()"), "\n"))
@@ -261,3 +262,4 @@ autocmd ColorScheme *  highlight Normal guibg='#181d20' guifg=white
 autocmd Colorscheme * highlight NvimTreeNormal guibg='#181d20' guifg=white
 augroup end
 ]])
+

@@ -69,6 +69,16 @@ else
 fi
 
 cd
+
+# Installing go
+wget https://go.dev/dl/go1.20.2.linux-amd64.tar.gz
+tar zxf go1.20.2.linux-amd64.tar.gz
+rm go1.20.2.linux-amd64.tar.gz
+echo "alias go="~/go/bin/go"">> ~/.bashrc
+~/go/bin/go install github.com/mattn/efm-langserver@latest
+echo "alias efm-langserver="~/go/bin/efm-langserver"">> ~/.bashrc
+
+
 if command -v nvim &> /dev/null
 then
     nvim_ver=$(nvim --version | grep "v[0-9]" | cut -f2 -d"v")

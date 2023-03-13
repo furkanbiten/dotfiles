@@ -30,7 +30,7 @@ require("packer").startup({
 			"williamboman/mason.nvim",
 			requires = {
 				{ "williamboman/mason-lspconfig.nvim" },
-				{ "jayp0521/mason-null-ls.nvim" },
+				-- { "jayp0521/mason-null-ls.nvim" },
 			},
 			config = "require 'plugins.mason'",
 		})
@@ -41,7 +41,7 @@ require("packer").startup({
 		--------------------
 		use({
 			"hrsh7th/nvim-cmp",
-			-- event = "BufRead",
+			event = "BufRead",
 			config = "require 'plugins.nvim-cmp'",
 			requires = {
 				{ "hrsh7th/cmp-buffer", after = "nvim-cmp" },
@@ -65,13 +65,13 @@ require("packer").startup({
 		------------------------------
 		--  Linting and formatting  --
 		------------------------------
-		use({ "mfussenegger/nvim-lint", config = "require 'plugins.nvim-lint'" })
-		use({
-			"jose-elias-alvarez/null-ls.nvim",
-			event = "BufRead",
-			requires = { "lukas-reineke/lsp-format.nvim" },
-			config = "require 'plugins.null-ls'",
-		})
+		-- use({ "mfussenegger/nvim-lint", config = "require 'plugins.nvim-lint'" })
+		-- use({
+		-- 	"jose-elias-alvarez/null-ls.nvim",
+		-- 	event = "BufRead",
+		-- 	requires = { "lukas-reineke/lsp-format.nvim" },
+		-- 	config = "require 'plugins.null-ls'",
+		-- })
 
 		------------------------------------
 		--  Treesitter and its utilities  --
@@ -79,7 +79,7 @@ require("packer").startup({
 
 		use({
 			"nvim-treesitter/nvim-treesitter",
-			-- run = ":TSUpdate",
+			run = ":TSUpdate",
 			-- event = "BufWinEnter",
 			requires = {
 				{ "nvim-treesitter/nvim-treesitter-textobjects", after = "nvim-treesitter" },
@@ -97,34 +97,34 @@ require("packer").startup({
 		--  Debuggers  --
 		-----------------
 		-- use({ "sakhnik/nvim-gdb"})
-		use({
-			"mfussenegger/nvim-dap",
-			-- STUPID cmp-dap depends on nvim-dap, and nvim-cmp depends on cmp-dap to be activated so we need nvim-dap to be loaded
-			-- IT IS A FUCKING STUPID CYCLE AND WE CAN NOT LAZY LOAD.
-			event = "BufRead",
-			config = "require 'dap.dap-config'",
-			-- keys = { "<leader>ld" },
-		})
-
-		use({ "mfussenegger/nvim-dap-python", config = "require 'dap.dap-python'", after = "nvim-dap" })
-		use({ "rcarriga/cmp-dap", after = { "nvim-dap", "nvim-cmp" } })
-		use({
-			"nvim-telescope/telescope-dap.nvim",
-			after = { "nvim-dap", "telescope.nvim" },
-			config = "require 'dap.telescope-dap'",
-		})
-		use({
-			"theHamsta/nvim-dap-virtual-text",
-			after = "nvim-dap",
-			config = "require 'dap.dap-virtual'",
-		})
-
-		use({
-			"rcarriga/nvim-dap-ui",
-			after = "nvim-dap",
-			config = "require 'dap.dap-ui'",
-		})
-
+		-- use({
+		-- 	"mfussenegger/nvim-dap",
+		-- 	-- STUPID cmp-dap depends on nvim-dap, and nvim-cmp depends on cmp-dap to be activated so we need nvim-dap to be loaded
+		-- 	-- IT IS A FUCKING STUPID CYCLE AND WE CAN NOT LAZY LOAD.
+		-- 	event = "BufRead",
+		-- 	config = "require 'dap.dap-config'",
+		-- 	-- keys = { "<leader>ld" },
+		-- })
+		--
+		-- use({ "mfussenegger/nvim-dap-python", config = "require 'dap.dap-python'", after = "nvim-dap" })
+		-- use({ "rcarriga/cmp-dap", after = { "nvim-dap", "nvim-cmp" } })
+		-- use({
+		-- 	"nvim-telescope/telescope-dap.nvim",
+		-- 	after = { "nvim-dap", "telescope.nvim" },
+		-- 	config = "require 'dap.telescope-dap'",
+		-- })
+		-- use({
+		-- 	"theHamsta/nvim-dap-virtual-text",
+		-- 	after = "nvim-dap",
+		-- 	config = "require 'dap.dap-virtual'",
+		-- })
+		--
+		-- use({
+		-- 	"rcarriga/nvim-dap-ui",
+		-- 	after = "nvim-dap",
+		-- 	config = "require 'dap.dap-ui'",
+		-- })
+		--
 		-----------------------
 		--  Some UI plugins  --
 		-----------------------
