@@ -61,6 +61,7 @@ if ! command -v lua &> /dev/null
 then
     curl -R -O http://www.lua.org/ftp/lua-5.4.4.tar.gz
     tar zxf lua-5.4.4.tar.gz
+    rm zxf lua-5.4.4.tar.gz
     cd lua-5.4.4
     make all test
     echo "alias lua="~/lua-5.4.4/src/lua"" >> ~/.bashrc
@@ -93,6 +94,7 @@ then
     then
         wget https://github.com/neovim/neovim/releases/download/v0.8.0/nvim-linux64.tar.gz
         tar xf nvim-linux64.tar.gz
+        rm nvim-linux64.tar.gz
         echo "alias nvim="~/nvim-linux64/bin/nvim"" >> ~/.bashrc
     else
         echo "Correct nvim version is already installed"
