@@ -45,7 +45,7 @@ require("smart-splits").setup({
 		"WinEnter",
 	},
 	-- enable or disable the tmux integration
-	tmux_integration = true,
+	tmux_integration = "tmux",
 })
 -- moving between splits
 vim.keymap.set("n", "<A-left>", require("smart-splits").move_cursor_left)
