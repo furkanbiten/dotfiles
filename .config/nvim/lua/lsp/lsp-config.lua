@@ -175,7 +175,7 @@ local languages = {
 }
 require("lspconfig").efm.setup({
     capabilities = capabilities,
-    cmd = { "/home/abiten/go/bin/efm-langserver" },
+    -- cmd = { "/home/abiten/go/bin/efm-langserver" },
     on_attach = on_attach,
     init_options = { documentFormatting = true },
     root_dir = vim.loop.cwd,
