@@ -92,7 +92,7 @@ then
     echo "$op"
     if [[ "$op" == '<' ]]
     then
-        wget https://github.com/neovim/neovim/releases/download/v0.8.0/nvim-linux64.tar.gz
+        wget https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz
         tar xf nvim-linux64.tar.gz
         rm nvim-linux64.tar.gz
         echo "alias nvim="~/nvim-linux64/bin/nvim"" >> ~/.bashrc
