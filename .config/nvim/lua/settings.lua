@@ -1,6 +1,6 @@
 vim.o.completeopt = "menu,menuone,noselect"
 vim.o.virtualedit = "onemore"
-vim.o.guioptions = "atI"
+-- vim.o.guioptions = "atI"
 vim.o.clipboard = "unnamedplus"
 vim.o.encoding = "utf-8"
 -- Sane splits

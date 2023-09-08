@@ -88,11 +88,11 @@ local function on_attach(client, bufnr)
         { event = "BufDelete", callback = detach },
     })
     -- if client.server_capabilities.document_formatting then
-    --     -- vim.api.nvim_create_autocmd("BufWritePost",
-    --     --     { command = "lua vim.lsp.buf.format({async=true})" })
-    --     -- vim.api.nvim_command([[augroup Format
-    --     -- autocmd! * <buffer>
-    --     -- autocmd BufWritePost <buffer> lua vim.lsp.buf.format()
+    --     vim.api.nvim_create_autocmd("BufWritePost",
+    --         { command = "lua vim.lsp.buf.format({async=true})" })
+    --     vim.api.nvim_command([[augroup Format
+    --     autocmd! * <buffer>
+    --     autocmd BufWritePost <buffer> lua vim.lsp.buf.format()
     --     -- augroup END]])
     --     vim.api.nvim_command([[augroup Format]])
     --     vim.api.nvim_command([[autocmd! * <buffer>]])
@@ -154,15 +154,36 @@ require("mason-lspconfig").setup_handlers({
             capabilities = capabilities,
             settings = {
                 -- cmd = os.getenv("CONDA_PREFIX")..'/bin/python',
-                python = { analysis = { typeCheckingMode = "off" } },
+                python = { analysis = { 
+                    -- autoSearchPaths = true,
+                    -- useLibraryCodeForTypes = true,
+                    diagnosticMode = 'openFilesOnly',
+                    typeCheckingMode = "off" } },
             },
             -- handlers = {
             --     ['textDocument/publishDiagnostics'] = function(...) end
             -- }
         })
     end,
-})
+    ["jedi_language_server"] = function()
+        require("lspconfig").jedi_language_server.setup({
+            on_attach = on_attach,
+            capabilities = capabilities,
+            -- settings = {
+            --     -- cmd = os.getenv("CONDA_PREFIX")..'/bin/python',
+            --     python = { analysis = { 
+            --         -- autoSearchPaths = true,
+            --         -- useLibraryCodeForTypes = true,
+            --         -- diagnosticMode = 'openFilesOnly',
+            --         typeCheckingMode = "off" } },
+            -- },
+            -- handlers = {
+            --     ['textDocument/publishDiagnostics'] = function(...) end
+            -- }
+        })
+    end,
 
+})
 local black = require("efm/black")
 local isort = require("efm/isort")
 local flake8 = require("efm/flake8")
@@ -202,3 +223,79 @@ require("lspconfig").yamlls.setup {
         },
     },
 }
+local ok, wf = pcall(require, "vim.lsp._watchfiles")
+if ok then
+ -- disable lsp watcher. Too slow on linux
+ wf._watchfunc = function()
+   return function() end
+ end
+end
+
+local FSWATCH_EVENTS = {
+  Created = 1,
+  Updated = 2,
+  Removed = 3,
+  -- Renamed
+  OwnerModified = 2,
+  AttributeModified = 2,
+  MovedFrom = 1,
+  MovedTo = 3
+  -- IsFile
+  -- IsDir
+  -- IsSymLink
+  -- Link
+  -- Overflow
+}
+
+--- @param data string
+--- @param opts table
+--- @param callback fun(path: string, event: integer)
+local function fswatch_output_handler(data, opts, callback)
+  local d = vim.split(data, '%s+')
+  local cpath = d[1]
+
+  for i = 2, #d do
+    if d[i] == 'IsDir' or d[i] == 'IsSymLink' or d[i] == 'PlatformSpecific' then
+      return
+    end
+  end
+
+  if opts.include_pattern and opts.include_pattern:match(cpath) == nil then
+    return
+  end
+
+  if opts.exclude_pattern and opts.exclude_pattern:match(cpath) ~= nil then
+    return
+  end
+
+  for i = 2, #d do
+    local e = FSWATCH_EVENTS[d[i]]
+    if e then
+      callback(cpath, e)
+    end
+  end
+end
+
+local function fswatch(path, opts, callback)
+  local obj = vim.system({
+    'fswatch',
+    '--recursive',
+    '--event-flags',
+    '--exclude', '/.git/',
+    path
+  }, {
+    stdout = function(_, data)
+      for line in vim.gsplit(data, '\n', { plain = true, trimempty = true }) do
+        fswatch_output_handler(line, opts, callback)
+      end
+    end
+  })
+
+  return function()
+    obj:kill(2)
+  end
+end
+
+if vim.fn.executable('fswatch') == 1 then
+  require('vim.lsp._watchfiles')._watchfunc = fswatch
+end

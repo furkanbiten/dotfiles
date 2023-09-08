@@ -36,9 +36,9 @@ require("packer").startup({
 		})
 
 		-- use({ "folke/neodev.nvim", config = "require 'plugins.neodev'" })
-		--------------------
-		--  Autocomplete  --
-		--------------------
+		-- --------------------
+		-- --  Autocomplete  --
+		-- --------------------
 		use({
 			"hrsh7th/nvim-cmp",
 			event = "BufRead",
@@ -62,17 +62,17 @@ require("packer").startup({
 			-- after = "nvim-cmp",
 			config = "require 'plugins.ultisnips'",
 		})
-		------------------------------
-		--  Linting and formatting  --
-		------------------------------
-		-- use({ "mfussenegger/nvim-lint", config = "require 'plugins.nvim-lint'" })
-		-- use({
-		-- 	"jose-elias-alvarez/null-ls.nvim",
-		-- 	event = "BufRead",
-		-- 	requires = { "lukas-reineke/lsp-format.nvim" },
-		-- 	config = "require 'plugins.null-ls'",
-		-- })
-
+		-- ------------------------------
+		-- --  Linting and formatting  --
+		-- ------------------------------
+		-- -- use({ "mfussenegger/nvim-lint", config = "require 'plugins.nvim-lint'" })
+		-- -- use({
+		-- -- 	"jose-elias-alvarez/null-ls.nvim",
+		-- -- 	event = "BufRead",
+		-- -- 	requires = { "lukas-reineke/lsp-format.nvim" },
+		-- -- 	config = "require 'plugins.null-ls'",
+		-- -- })
+		--
 		------------------------------------
 		--  Treesitter and its utilities  --
 		------------------------------------
@@ -93,38 +93,38 @@ require("packer").startup({
 		})
 
 		use({ "kyazdani42/nvim-tree.lua", cmd = "NvimTreeToggle", config = "require 'plugins.nvim-tree'" })
-		-----------------
-		--  Debuggers  --
-		-----------------
-		-- use({ "sakhnik/nvim-gdb"})
-		-- use({
-		-- 	"mfussenegger/nvim-dap",
-		-- 	-- STUPID cmp-dap depends on nvim-dap, and nvim-cmp depends on cmp-dap to be activated so we need nvim-dap to be loaded
-		-- 	-- IT IS A FUCKING STUPID CYCLE AND WE CAN NOT LAZY LOAD.
-		-- 	event = "BufRead",
-		-- 	config = "require 'dap.dap-config'",
-		-- 	-- keys = { "<leader>ld" },
-		-- })
-		--
-		-- use({ "mfussenegger/nvim-dap-python", config = "require 'dap.dap-python'", after = "nvim-dap" })
-		-- use({ "rcarriga/cmp-dap", after = { "nvim-dap", "nvim-cmp" } })
-		-- use({
-		-- 	"nvim-telescope/telescope-dap.nvim",
-		-- 	after = { "nvim-dap", "telescope.nvim" },
-		-- 	config = "require 'dap.telescope-dap'",
-		-- })
-		-- use({
-		-- 	"theHamsta/nvim-dap-virtual-text",
-		-- 	after = "nvim-dap",
-		-- 	config = "require 'dap.dap-virtual'",
-		-- })
-		--
-		-- use({
-		-- 	"rcarriga/nvim-dap-ui",
-		-- 	after = "nvim-dap",
-		-- 	config = "require 'dap.dap-ui'",
-		-- })
-		--
+		-- -----------------
+		-- --  Debuggers  --
+		-- -----------------
+		-- -- use({ "sakhnik/nvim-gdb"})
+		-- -- use({
+		-- -- 	"mfussenegger/nvim-dap",
+		-- -- 	-- STUPID cmp-dap depends on nvim-dap, and nvim-cmp depends on cmp-dap to be activated so we need nvim-dap to be loaded
+		-- -- 	-- IT IS A FUCKING STUPID CYCLE AND WE CAN NOT LAZY LOAD.
+		-- -- 	event = "BufRead",
+		-- -- 	config = "require 'dap.dap-config'",
+		-- -- 	-- keys = { "<leader>ld" },
+		-- -- })
+		-- --
+		-- -- use({ "mfussenegger/nvim-dap-python", config = "require 'dap.dap-python'", after = "nvim-dap" })
+		-- -- use({ "rcarriga/cmp-dap", after = { "nvim-dap", "nvim-cmp" } })
+		-- -- use({
+		-- -- 	"nvim-telescope/telescope-dap.nvim",
+		-- -- 	after = { "nvim-dap", "telescope.nvim" },
+		-- -- 	config = "require 'dap.telescope-dap'",
+		-- -- })
+		-- -- use({
+		-- -- 	"theHamsta/nvim-dap-virtual-text",
+		-- -- 	after = "nvim-dap",
+		-- -- 	config = "require 'dap.dap-virtual'",
+		-- -- })
+		-- --
+		-- -- use({
+		-- -- 	"rcarriga/nvim-dap-ui",
+		-- -- 	after = "nvim-dap",
+		-- -- 	config = "require 'dap.dap-ui'",
+		-- -- })
+		-- --
 		-----------------------
 		--  Some UI plugins  --
 		-----------------------
@@ -140,27 +140,27 @@ require("packer").startup({
 			event = "BufWinEnter",
 			config = "require 'plugins.telescope-config'",
 		})
-		-- Pretty indent colors
+		-- -- Pretty indent colors
 		use({
 			"lukas-reineke/indent-blankline.nvim",
 			config = "require 'plugins.indent'",
 			after = "nvim-treesitter",
 		})
-		-- Pretty icons
+		-- -- Pretty icons
 		use({ "kyazdani42/nvim-web-devicons", event = "BufRead" })
-		-- Smooth scrolling
+		-- -- Smooth scrolling
 		use({
 			"karb94/neoscroll.nvim",
 			event = "WinScrolled",
 			config = "require 'plugins.neoscroll'",
 		})
-		-- Dim the unused variable
-		use({
-			"zbirenbaum/neodim",
-			event = "BufRead",
-			after = "nvim-treesitter",
-			config = { "require 'plugins.neodim'" },
-		})
+		-- -- Dim the unused variable
+		-- use({
+		-- 	"zbirenbaum/neodim",
+		-- 	event = "BufRead",
+		-- 	after = "nvim-treesitter",
+		-- 	config = { "require 'plugins.neodim'" },
+		-- })
 		-- pretty rename window
 		use({ "stevearc/dressing.nvim", event = "BufRead" })
 		-- Pretty quickfix window
@@ -179,11 +179,11 @@ require("packer").startup({
 			config = "require 'plugins.minimap'",
 			cmd = "MinimapToggle",
 		})
-		use({
-			"folke/todo-comments.nvim",
-			config = "require 'plugins.todo'",
-			cmd = { "TodoQuickFix", "TodoLocList", "TodoTrouble", "TodoTelescope" },
-		})
+		-- use({
+		-- 	"folke/todo-comments.nvim",
+		-- 	config = "require 'plugins.todo'",
+		-- 	cmd = { "TodoQuickFix", "TodoLocList", "TodoTrouble", "TodoTelescope" },
+		-- })
 		use({
 			"folke/trouble.nvim",
 			cmd = { "TroubleToggle", "TroubleToggle document_diagnostics", "TroubleToggle lsp_references" },
@@ -238,11 +238,11 @@ require("packer").startup({
 			config = { "require 'plugins.persisted'" },
 			after = "telescope.nvim",
 		})
-		--use({
-		--	"rmagatti/session-lens",
-		--	requires = "rmagatti/auto-session",
-		--	config = "require 'plugins.autosession'",
-		--}) -- session management
+		-- use({
+		-- "rmagatti/session-lens",
+		-- requires = "rmagatti/auto-session",
+		-- config = "require 'plugins.autosession'",
+		-- }) -- session management
 		use({ "furkanbiten/auto-save.nvim", config = { "require 'plugins.autosave'" } })
 
 		-- Load by Event
