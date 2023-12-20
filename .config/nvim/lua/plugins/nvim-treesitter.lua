@@ -2,7 +2,7 @@ local parsers = require("nvim-treesitter.parsers")
 local enabled_list = { "clojure", "fennel", "commonlisp", "query", "scheme" }
 
 require("nvim-treesitter.configs").setup({
-	context_commentstring = {
+	ts_context_commentstring = {
 		enable = true,
 	},
 	sync_install = true,
