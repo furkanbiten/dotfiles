@@ -1,14 +1,15 @@
+-- TODO: Check the below option of completeopt
 vim.o.completeopt = "menu,menuone,noselect"
 vim.o.virtualedit = "onemore"
--- vim.o.guioptions = "atI"
 vim.o.clipboard = "unnamedplus"
 vim.o.encoding = "utf-8"
+
 -- Sane splits
 vim.o.splitright = true
 vim.o.splitbelow = true
 
 -- Permanent undo
-vim.o.undodir = os.getenv("HOME") .. "/.vimdid"
+vim.o.undodir = os.getenv("HOME") .. "/.vim/undodir"
 vim.o.undofile = true
 -- Use wide tabs
 vim.o.shiftwidth = 0
@@ -19,8 +20,6 @@ vim.o.expandtab = true
 -- Decent wildmenu
 vim.o.wildmenu = true
 vim.o.wildmode = "list:longest"
-vim.o.wildignore =
-	".hg,.svn,*~,*.png,*.jpg,*.gif,*.settings,Thumbs.db,*.min.js,*.swp,publish/*,intermediate/*,*.o,*.hi,Zend,vendor,*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite"
 
 -- Proper search
 vim.o.incsearch = true
@@ -40,33 +39,26 @@ vim.o.splitkeep = "topline"
 vim.o.termguicolors = true
 vim.o.number = true
 vim.o.relativenumber = true
-vim.o.lazyredraw = true
+--  Issues with noice plugin
+-- vim.o.lazyredraw = true
 
 -- No swap please
 vim.o.backup = false
 vim.o.writebackup = false
 vim.o.swapfile = false
 
+vim.o.colorcolumn = "80"
+vim.opt.spell = true
+
 vim.cmd([[
-syntax enable
-filetype on
-filetype detect
-filetype indent on
-" set foldmethod=syntax
-set foldmethod=expr
-set foldexpr=nvim_treesitter#foldexpr()
-set foldtext=getline(v:foldstart).'...'.trim(getline(v:foldend))
-" set foldnestmax=3
-" set foldminlines=1
-" set foldlevel=10
-set foldtext=substitute(getline(v:foldstart),'\\t',repeat('\ ',&tabstop),'g').'...'.trim(getline(v:foldend))
-set fillchars=fold:\ 
-set foldlevel=99
+"syntax enable
+"filetype on
+"filetype detect
+"filetype indent on
 
-set updatetime=250
-augroup highlight_yank
-    autocmd!
-    au TextYankPost * silent! lua vim.highlight.on_yank { higroup='IncSearch', timeout=400 }
-augroup END
-
+" set updatetime=250
+" augroup highlight_yank
+"     autocmd!
+"     au TextYankPost * silent! lua vim.highlight.on_yank { higroup='IncSearch', timeout=400 }
+" augroup END
 ]])

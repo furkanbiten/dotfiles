@@ -1,11 +1,10 @@
-vim.o.sessionoptions = "buffers,curdir,folds,help,tabpages,winsize,resize,winpos,terminal"
-require("persisted").setup({
-	autosave = true,
-	command = "VimLeavePre",
-	autoload = true,
-	function()
-		vim.cmd("NvimTreeClose")
-	end,
-})
-
-require("telescope").load_extension("persisted")
+return {
+    "olimorris/persisted.nvim",
+    lazy = false,
+    opts = {
+        autoload = true,
+        autosave = true,
+        use_git_branch = true,
+    },
+    config = true,
+}
