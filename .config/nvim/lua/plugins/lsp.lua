@@ -48,9 +48,10 @@ return {
             ensure_installed = {
                 "lua_ls",
                 "rust_analyzer",
-                "jedi_language_server",
+                "basedpyright",
+                -- "jedi_language_server",
                 "clangd",
-                "ruff",
+                -- "ruff",
                 "ruff_lsp",
                 "marksman"
             },
@@ -61,28 +62,19 @@ return {
                         capabilities = capabilities
                     }
                 end,
-                --
-                ["jedi_language_server"] = function()
-                    require("lspconfig").jedi_language_server.setup({
+                ["basedpyright"] = function()
+                    local lspconfig = require("lspconfig")
+                    lspconfig.basedpyright.setup {
                         capabilities = capabilities,
-                        -- settings = {
-                        --     -- cmd = os.getenv("CONDA_PREFIX")..'/bin/python',
-                        --     python = { analysis = {
-                        --         -- autoSearchPaths = true,
-                        --         -- useLibraryCodeForTypes = true,
-                        --         -- diagnosticMode = 'openFilesOnly',
-                        --         typeCheckingMode = "off" } },
-                        -- },
-                        handlers = {
-                            ['textDocument/publishDiagnostics'] = function(...) end
-                        }
-                    })
+                        settings = {
+                            basedpyright = {
+                                typeCheckingMode = "off",
+                                useLibraryCodeForTypes= "off",
+                                diagnosticMode = 'openFilesOnly',
+                            },
+                        },
+                    }
                 end,
-                -- ["pylyzer"] = function()
-                --     require 'lspconfig'.pylyzer.setup {
-                --         capabilities=capabilities
-                --     }
-                -- end,
                 ["lua_ls"] = function()
                     local lspconfig = require("lspconfig")
                     lspconfig.lua_ls.setup {
