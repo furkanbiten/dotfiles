@@ -1,6 +1,6 @@
 return {
     "danymat/neogen",
-    event="VeryLazy",
+    event = "VeryLazy",
     dependencies = {
         "nvim-treesitter/nvim-treesitter",
         "L3MON4D3/LuaSnip",
@@ -19,6 +19,5 @@ return {
         vim.keymap.set("n", "<leader>gt", function()
             neogen.generate({ type = "type" })
         end)
-
     end,
 }

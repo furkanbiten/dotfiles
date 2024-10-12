@@ -1,6 +1,6 @@
 return {
     "cshuaimin/ssr.nvim",
-    event="VeryLazy",
+    event = "VeryLazy",
     config = function()
         require("ssr").setup {
             border = "rounded",

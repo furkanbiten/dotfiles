@@ -1,7 +1,7 @@
 return {
     "numToStr/Comment.nvim",
-    dependencies={"JoosepAlviste/nvim-ts-context-commentstring"},
-    config =function ()
+    dependencies = { "JoosepAlviste/nvim-ts-context-commentstring" },
+    config = function()
         require("Comment").setup({
             pre_hook = function(ctx)
                 if vim.bo.filetype == "typescriptreact" then
@@ -37,7 +37,7 @@ return {
                 ---Block-comment keymap
                 block = "gb",
             },
+            vim.keymap.set("x", "<C-_>", "<Plug>(comment_toggle_linewise_visual)gv")
         })
-
     end
 }

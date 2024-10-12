@@ -41,7 +41,7 @@ return {
                     {
                         'diff',
                         symbols = { added = '+', modified = '~', removed = '-' }, -- Changes the symbols used by the diff.
-                        source = "b:gitsigns_status",                           -- A function that works as a data source for diff.
+                        source = "b:gitsigns_status",                             -- A function that works as a data source for diff.
                         -- It must return a table as such:
                         --   { added = add_count, modified = modified_count, removed = removed_count }
                         -- or nil on failure. count <= 0 won't be displayed.
