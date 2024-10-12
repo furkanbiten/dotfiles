@@ -12,7 +12,7 @@ vim.keymap.set({ "n", "v" }, "<leader>qa", ":qall!<CR>", { silent = true })
 -- it will close without saving anything!
 vim.keymap.set({ "n", "v" }, "<leader>qq", ":bp <BAR> bd! #<CR>", { silent = true })
 -- Quit window
-vim.keymap.set({ "n", "v" }, "<leader>qw", ":wq<CR>", { silent = true })
+vim.keymap.set({ "n", "v" }, "<leader>qw", ":q<CR>", { silent = true })
 -- Move to the next buffer
 vim.keymap.set({ "n", "v" }, "<Tab>", ":bnext<CR>", { silent = true })
 -- Move to the previous buffer
