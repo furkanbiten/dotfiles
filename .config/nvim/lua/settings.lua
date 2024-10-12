@@ -4,6 +4,7 @@ vim.o.virtualedit = "onemore"
 vim.o.clipboard = "unnamedplus"
 vim.o.encoding = "utf-8"
 
+vim.opt.termsync = true
 -- Sane splits
 vim.o.splitright = true
 vim.o.splitbelow = true
