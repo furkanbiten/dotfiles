@@ -91,7 +91,7 @@ return {
             }
         })
 
-        local import_luasnip, luasnip = pcall(require, 'luasnip')
+        local luasnip = require('luasnip')
         cmp.setup({
             snippet = {
                 expand = function(args)

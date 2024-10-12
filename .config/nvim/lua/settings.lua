@@ -49,16 +49,3 @@ vim.o.swapfile = false
 
 vim.o.colorcolumn = "80"
 vim.opt.spell = true
-
-vim.cmd([[
-"syntax enable
-"filetype on
-"filetype detect
-"filetype indent on
-
-" set updatetime=250
-" augroup highlight_yank
-"     autocmd!
-"     au TextYankPost * silent! lua vim.highlight.on_yank { higroup='IncSearch', timeout=400 }
-" augroup END
-]])
