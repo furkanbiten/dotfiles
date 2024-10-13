@@ -12,6 +12,14 @@ return {
                 dim = 0.18,
                 cleaning_interval = 1250,
             },
+            condition = function(buf)
+                local fn = vim.fn
+                local utils = require "auto-save.utils.data"
+                if utils.not_in(fn.getbufvar(buf, "&filetype"), { "harpoon" }) then
+                    return true
+                end
+                return false
+            end,
         })
         vim.api.nvim_set_keymap("n", "<leader>as", ":ASToggle<CR>", {})
     end
