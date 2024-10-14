@@ -1,5 +1,5 @@
 return {
-    "okuuva/auto-save.nvim",
+    "pocco81/auto-save.nvim",
     config = function()
         require("auto-save").setup({
             debounce_delay = 2500,     -- saves the file at most every `debounce_delay` milliseconds

@@ -11,6 +11,8 @@ vim.keymap.set({ "n", "v" }, "<leader>qa", ":qall!<CR>", { silent = true })
 -- This replicates the idea of closing a tab, however be warned
 -- it will close without saving anything!
 vim.keymap.set({ "n", "v" }, "<leader>qq", ":bp <BAR> bd! #<CR>", { silent = true })
+-- Quit all buffers except the current one
+vim.keymap.set({ "n", "v" }, "<leader>qb", ":%bd|e#<CR>", { silent = true })
 -- Quit window
 vim.keymap.set({ "n", "v" }, "<leader>qw", ":q<CR>", { silent = true })
 -- Move to the next buffer
