@@ -1,7 +1,7 @@
 return {
     {
         "mfussenegger/nvim-dap",
-        event="VeryLazy",
+        event = "VeryLazy",
         dependencies = {
             "leoluz/nvim-dap-go",
             "rcarriga/nvim-dap-ui",
@@ -9,6 +9,8 @@ return {
             "nvim-neotest/nvim-nio",
             "williamboman/mason.nvim",
             "mfussenegger/nvim-dap-python",
+            "jay-babu/mason-nvim-dap.nvim",
+            "jbyuki/one-small-step-for-vimkind",
         },
         config = function()
             local dap = require "dap"
@@ -17,6 +19,25 @@ return {
             require("dapui").setup()
             require("dap-go").setup()
             require("dap-python").setup("python")
+            require("mason-nvim-dap").setup({
+                handlers = {
+                    function(config)
+                        -- Keep original functionality
+                        require('mason-nvim-dap').default_setup(config)
+                    end,
+                    python = function(config)
+                        config.adapters = {
+                            type = "executable",
+                            command = "/usr/bin/python3",
+                            args = {
+                                "-m",
+                                "debugpy.adapter",
+                            },
+                        }
+                        require('mason-nvim-dap').default_setup(config) -- don't forget this!
+                    end,
+                },
+            })
             require("nvim-dap-virtual-text").setup {
                 -- This just tries to mitigate the chance that I leak tokens here. Probably won't stop it from happening...
                 display_callback = function(variable)
@@ -33,16 +54,30 @@ return {
                     return " " .. variable.value
                 end,
             }
+            dap.configurations.lua = {
+                {
+                    type = 'nlua',
+                    request = 'attach',
+                    name = "Attach to running Neovim instance",
+                }
+            }
 
-            -- Handled by nvim-dap-go
-            -- dap.adapters.go = {
-            --   type = "server",
-            --   port = "${port}",
-            --   executable = {
-            --     command = "dlv",
-            --     args = { "dap", "-l", "127.0.0.1:${port}" },
-            --   },
-            -- }
+            dap.adapters.nlua = function(callback, config)
+                callback({ type = 'server', host = config.host or "127.0.0.1", port = config.port or 8080 })
+            end
+            dap.configurations.lldb = {
+                {
+                    name = 'Launch',
+                    type = 'lldb',
+                    request = 'launch',
+                    program = function()
+                        return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+                    end,
+                    cwd = '${workspaceFolder}',
+                    stopOnEntry = false,
+                    args = {},
+                },
+            }
 
             vim.keymap.set("n", "<leader>b", dap.toggle_breakpoint)
             vim.keymap.set("n", "<leader>gb", dap.run_to_cursor)

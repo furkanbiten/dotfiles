@@ -1,3 +1,5 @@
+-- Hide deprecation warnings
+vim.g.deprecation_warnings = false
 -- TODO: Check the below option of completeopt
 vim.o.completeopt = "menu,menuone,noselect"
 vim.o.virtualedit = "onemore"
