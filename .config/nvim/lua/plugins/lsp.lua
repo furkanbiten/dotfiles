@@ -75,6 +75,15 @@ return {
                         capabilities = capabilities
                     }
                 end,
+                ["clangd"] = function()
+                    local lspconfig = require("lspconfig")
+                    lspconfig.clangd.setup {
+                        cmd = {
+                            "clangd",
+                            "--fallback-style=webkit"
+                        }
+                    }
+                end,
                 ["basedpyright"] = function()
                     local lspconfig = require("lspconfig")
                     lspconfig.basedpyright.setup {
