@@ -57,6 +57,37 @@ return {
 
         require("fidget").setup({})
         require("mason").setup()
+
+        vim.lsp.config('*', {
+            capabilities = capabilities,
+        })
+
+        vim.lsp.config('basedpyright', {
+            settings = {
+                basedpyright = {
+                    analysis = {
+                        typeCheckingMode = "off",
+                        useLibraryCodeForTypes = false,
+                        diagnosticMode = "openFilesOnly",
+                    },
+                },
+            },
+        })
+
+        vim.lsp.config('clangd', {
+            cmd = { "clangd", "--fallback-style=webkit" },
+        })
+
+        vim.lsp.config('lua_ls', {
+            settings = {
+                Lua = {
+                    diagnostics = {
+                        globals = { "vim", "it", "describe", "before_each", "after_each" },
+                    },
+                },
+            },
+        })
+
         require("mason-lspconfig").setup({
             ensure_installed = {
                 "lua_ls",
@@ -64,53 +95,10 @@ return {
                 "basedpyright",
                 -- "jedi_language_server",
                 "clangd",
-                -- "ruff",
-                "ruff_lsp",
+                "ruff",
+                -- "ruff_lsp",
                 "marksman"
             },
-
-            handlers = {
-                function(server_name) -- default handler (optional)
-                    require("lspconfig")[server_name].setup {
-                        capabilities = capabilities
-                    }
-                end,
-                ["clangd"] = function()
-                    local lspconfig = require("lspconfig")
-                    lspconfig.clangd.setup {
-                        cmd = {
-                            "clangd",
-                            "--fallback-style=webkit"
-                        }
-                    }
-                end,
-                ["basedpyright"] = function()
-                    local lspconfig = require("lspconfig")
-                    lspconfig.basedpyright.setup {
-                        capabilities = capabilities,
-                        settings = {
-                            basedpyright = {
-                                typeCheckingMode = "off",
-                                useLibraryCodeForTypes = "off",
-                                diagnosticMode = 'openFilesOnly',
-                            },
-                        },
-                    }
-                end,
-                ["lua_ls"] = function()
-                    local lspconfig = require("lspconfig")
-                    lspconfig.lua_ls.setup {
-                        capabilities = capabilities,
-                        settings = {
-                            Lua = {
-                                diagnostics = {
-                                    globals = { "vim", "it", "describe", "before_each", "after_each" },
-                                }
-                            }
-                        }
-                    }
-                end,
-            }
         })
 
         local luasnip = require('luasnip')

@@ -20,4 +20,5 @@ require("lazy").setup({
     change_detection = { notify = false }
 })
 
-vim.cmd [[colorscheme tokyonight]]
+vim.cmd [[colorscheme nightfly]]
+vim.cmd[[autocmd vimenter * hi Comment term=bold cterm=NONE ctermfg=Darkgrey ctermbg=NONE gui=NONE guibg=NONE]]

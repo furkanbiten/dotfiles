@@ -1,5 +1,6 @@
 return {
     "nvim-treesitter/nvim-treesitter",
+    tag = "v0.9.3",
     dependencies = {
         "nvim-treesitter/nvim-treesitter-textobjects",
         "nvim-treesitter/nvim-treesitter-context",
