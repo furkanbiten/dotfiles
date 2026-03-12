@@ -50,5 +50,5 @@ vim.o.backup = false
 vim.o.writebackup = false
 vim.o.swapfile = false
 
-vim.o.colorcolumn = "80"
+vim.o.colorcolumn = "120"
 vim.opt.spell = true

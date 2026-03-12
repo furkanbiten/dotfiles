@@ -1,4 +1,12 @@
 #!/bin/bash
+
+# Install system dependencies needed by mason.nvim and other tools
+if [[ "$(uname)" == "Darwin" ]]; then
+    brew install unzip python3
+else
+    sudo apt-get install -y unzip python3-pip python3-venv
+fi
+
 vercomp () {
     if [[ $1 == $2 ]]
     then
@@ -67,8 +75,25 @@ then
     cd "$LUA_LATEST"
     make all test
     echo "alias lua=\"~/${LUA_LATEST}/src/lua\"" >> ~/.bashrc
+    cd
 else
     echo "Skipping lua installation"
+fi
+
+if ! command -v luarocks &> /dev/null
+then
+    LUAROCKS_LATEST=$(curl -s https://api.github.com/repos/luarocks/luarocks/releases/latest | grep '"tag_name"' | sed -E 's/.*"v([^"]+)".*/\1/')
+    curl -R -O "https://luarocks.org/releases/luarocks-${LUAROCKS_LATEST}.tar.gz"
+    tar zxf "luarocks-${LUAROCKS_LATEST}.tar.gz"
+    rm "luarocks-${LUAROCKS_LATEST}.tar.gz"
+    cd "luarocks-${LUAROCKS_LATEST}"
+    ./configure --with-lua-include=/usr/include
+    make
+    sudo make install
+    cd
+    rm -rf "luarocks-${LUAROCKS_LATEST}"
+else
+    echo "Skipping luarocks installation"
 fi
 
 cd

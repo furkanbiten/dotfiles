@@ -17,8 +17,15 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
     spec = "plugins",
-    change_detection = { notify = false }
+    change_detection = { notify = false },
+    rocks = { enabled = false },
 })
 
+vim.api.nvim_create_autocmd("ColorScheme", {
+    callback = function()
+        vim.api.nvim_set_hl(0, "Normal", { bg = "#000000" })
+        vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#000000" })
+        vim.cmd [[hi Comment term=bold cterm=NONE ctermfg=Darkgrey ctermbg=NONE gui=NONE guibg=NONE]]
+    end,
+})
 vim.cmd [[colorscheme nightfly]]
-vim.cmd[[autocmd vimenter * hi Comment term=bold cterm=NONE ctermfg=Darkgrey ctermbg=NONE gui=NONE guibg=NONE]]
