@@ -34,7 +34,8 @@ cwd=$(pwd)
 cd 
 if ! command -v node &> /dev/null
 then
-    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.3/install.sh | bash
+    NVM_LATEST=$(curl -s https://api.github.com/repos/nvm-sh/nvm/releases/latest | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/')
+    curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_LATEST}/install.sh" | bash
     export NVM_DIR=$HOME/.nvm;
     . $NVM_DIR/nvm.sh;
     nvm install node;
@@ -59,51 +60,59 @@ fi
 
 if ! command -v lua &> /dev/null
 then
-    curl -R -O http://www.lua.org/ftp/lua-5.4.4.tar.gz
-    tar zxf lua-5.4.4.tar.gz
-    rm zxf lua-5.4.4.tar.gz
-    cd lua-5.4.4
+    LUA_LATEST=$(curl -s https://www.lua.org/ftp/ | grep -oP 'lua-\d+\.\d+\.\d+' | sort -V | tail -1)
+    curl -R -O "http://www.lua.org/ftp/${LUA_LATEST}.tar.gz"
+    tar zxf "${LUA_LATEST}.tar.gz"
+    rm "${LUA_LATEST}.tar.gz"
+    cd "$LUA_LATEST"
     make all test
-    echo "alias lua="~/lua-5.4.4/src/lua"" >> ~/.bashrc
+    echo "alias lua=\"~/${LUA_LATEST}/src/lua\"" >> ~/.bashrc
 else
     echo "Skipping lua installation"
 fi
 
 cd
 
-# Installing go
-wget https://go.dev/dl/go1.20.2.linux-amd64.tar.gz
-tar zxf go1.20.2.linux-amd64.tar.gz
-rm go1.20.2.linux-amd64.tar.gz
-echo "alias go="~/go/bin/go"">> ~/.bashrc
-~/go/bin/go install github.com/mattn/efm-langserver@latest
-echo "alias efm-langserver="~/go/bin/efm-langserver"">> ~/.bashrc
+# Installing go (into ~/go-sdk to avoid GOPATH conflict with ~/go)
+GO_LATEST=$(curl -s https://go.dev/VERSION?m=text | head -1)
+wget "https://go.dev/dl/${GO_LATEST}.linux-amd64.tar.gz"
+mkdir -p ~/go-sdk
+tar zxf "${GO_LATEST}.linux-amd64.tar.gz" -C ~/go-sdk --strip-components=1
+rm "${GO_LATEST}.linux-amd64.tar.gz"
+export GOROOT=~/go-sdk
+export PATH=~/go-sdk/bin:$PATH
+echo "export GOROOT=~/go-sdk" >> ~/.bashrc
+echo "export PATH=~/go-sdk/bin:\$PATH" >> ~/.bashrc
+~/go-sdk/bin/go install github.com/mattn/efm-langserver@latest
+echo "alias efm-langserver=\"~/go/bin/efm-langserver\"" >> ~/.bashrc
 
 
+NVIM_LATEST=$(curl -s https://api.github.com/repos/neovim/neovim/releases/latest | grep '"tag_name"' | sed -E 's/.*"v([^"]+)".*/\1/')
 if command -v nvim &> /dev/null
 then
     nvim_ver=$(nvim --version | grep "v[0-9]" | cut -f2 -d"v")
-    vercomp "$nvim_ver" 0.8.0
+    vercomp "$nvim_ver" "$NVIM_LATEST"
     case $? in
         0) op='=';;
         1) op='>';;
         2) op='<';;
     esac
-    echo "$op"
     if [[ "$op" == '<' ]]
     then
-        wget https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz
-        tar xf nvim-linux64.tar.gz
-        rm nvim-linux64.tar.gz
-        echo "alias nvim="~/nvim-linux64/bin/nvim"" >> ~/.bashrc
+        echo "Upgrading nvim from $nvim_ver to $NVIM_LATEST"
+        wget https://github.com/neovim/neovim/releases/download/stable/nvim-linux-x86_64.tar.gz
+        tar xf nvim-linux-x86_64.tar.gz
+        rm nvim-linux-x86_64.tar.gz
+        echo "alias nvim=\"~/nvim-linux-x86_64/bin/nvim\"" >> ~/.bashrc
     else
-        echo "Correct nvim version is already installed"
+        echo "Correct nvim version is already installed ($nvim_ver)"
     fi
 else
-    wget https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz
-    tar xf nvim-linux64.tar.gz
-    echo "alias nvim="~/nvim-linux64/bin/nvim"" >> ~/.bashrc
-
+    echo "Installing nvim $NVIM_LATEST"
+    wget https://github.com/neovim/neovim/releases/download/stable/nvim-linux-x86_64.tar.gz
+    tar xf nvim-linux-x86_64.tar.gz
+    rm nvim-linux-x86_64.tar.gz
+    echo "alias nvim=\"~/nvim-linux-x86_64/bin/nvim\"" >> ~/.bashrc
 fi
 
 cd $cwd
@@ -111,6 +120,27 @@ cp -r .config/nvim ~/.config/
 
 git clone --depth 1 https://github.com/wbthomason/packer.nvim\
  ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+
+# Installing oh-my-zsh
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+else
+    echo "Skipping oh-my-zsh installation"
+fi
+
+# Installing powerlevel10k theme
+if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k" ]; then
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
+else
+    echo "Skipping p10k installation"
+fi
+
+# Installing lazygit
+if ! command -v lazygit &> /dev/null; then
+    ~/go-sdk/bin/go install github.com/jesseduffield/lazygit@latest
+else
+    echo "Skipping lazygit installation"
+fi
 
 # getting tmux plugin manager
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
