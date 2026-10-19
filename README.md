@@ -1,52 +1,97 @@
+<h1 align="center">dotfiles</h1>
 
-<!-- vim-markdown-toc Marked -->
+<p align="center">
+  My terminal-first setup for <b>macOS</b> and <b>Linux</b>:<br>
+  Neovim · Alacritty · tmux · zsh · AeroSpace / yabai / skhd
+</p>
 
-* [Install vim/nvim](#install-vim/nvim)
-* [Configurations](#configurations)
-* [Vim Basics](#vim-basics)
+<p align="center">
+  <img alt="neovim" src="https://img.shields.io/badge/neovim-0.12%2B-57A143?logo=neovim&logoColor=white">
+  <img alt="platform" src="https://img.shields.io/badge/platform-macOS%20%7C%20Linux-lightgrey">
+  <img alt="shell" src="https://img.shields.io/badge/shell-zsh-89e051?logo=gnubash&logoColor=white">
+</p>
 
-<!-- vim-markdown-toc -->
-# Install vim/nvim
+---
 
-Apart from telescope, all the plugins works in Vim. The reason I moved to nvim is because of telescope plugin. 
-Telescope is simply beautiful. 
-Follow the instructions here: https://github.com/neovim/neovim/wiki/Installing-Neovim
+## Quick start
 
-## Configurations
-Clone this repo and copy everything that is inside the .config/nvim to your home directory:
 ```bash
-git clone https://github.com/furkanbiten/dotfiles.git
-cd dotfiles/
-cp -r .config/nvim ~/.config/ 
+git clone git@github.com:furkanbiten/dotfiles.git
+cd dotfiles
+./setup.sh
 ```
 
-Run with the native python not **without any envrionment**: 
-```bash
-/usr/bin/python3 -m pip install --user --upgrade pynvim
-```
-```bash
-sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
-       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+The script is **idempotent**: run it again whenever you want to update. It installs only what is missing or outdated, and **backs up** any config it replaces to `<file>.bak-<timestamp>`.
+
+| Step | macOS | Linux (apt, x86_64 / arm64) |
+|------|-------|-----------------------------|
+| System packages | Homebrew: `neovim go lazygit ripgrep fd tmux …` | `apt`: `build-essential zsh tmux xclip ripgrep fd-find …` |
+| Terminal + font | `alacritty`, `font-hack-nerd-font` (casks) | install a [Nerd Font](https://www.nerdfonts.com) yourself |
+| Node | nvm (latest release) | nvm (latest release) |
+| Neovim | `brew` | latest release tarball → `~/.local/nvim`, linked into `~/.local/bin` |
+| Go | `brew` | latest release → `~/go-sdk` (replaced when outdated) |
+| Go tools | `efm-langserver` | `efm-langserver`, `lazygit` |
+| Configs | nvim, alacritty, tmux (+ tpm) | nvim, alacritty, tmux (+ tpm) |
+| Plugins | `:Lazy restore` to the commits in `lazy-lock.json` | same |
+| Shell | oh-my-zsh + powerlevel10k (your `~/.zshrc` is never overwritten) | same |
+
+## What's inside
 
 ```
-```bash
-
-sudo apt install npm clangd ripgrep python3-autopep8 flake8 black isort python3-venv pycodestyle mypy pylint
+dotfiles/
+├── setup.sh                  # one-shot installer (macOS + Linux)
+├── .tmux.conf                # tmux, vi keys, nvim-aware pane navigation
+├── .aerospace.toml           # AeroSpace tiling WM (macOS)
+├── .yabairc  .skhdrc         # yabai + skhd alternative (macOS)
+├── .vscode/                  # VS Code settings + keybindings
+└── .config/
+    ├── alacritty.toml        # terminal: colors, Hack Nerd Font, key bindings
+    ├── nvim/                 # Neovim (lazy.nvim, LSP, telescope, …)
+    └── vscode_nvim/          # Vim config used by the VS Code Neovim extension
 ```
-For ubuntu 18.04
-sudo apt install npm clang python-autopep8 flake8 isort python3-venv pycodestyle mypy pylint
-Might want to check this: https://stackoverflow.com/questions/23393707/how-to-update-npm
-Unfortunately, you have to install ripgrep manually, check here: https://github.com/BurntSushi/ripgrep/releases
 
-Launch nvim and run :PlugInstall to install all the plugins.
+## Neovim
 
-We have to install Meslo font otherwise everything will look weird: https://github.com/andreberg/Meslo-Font
+Plugins are managed by [lazy.nvim](https://github.com/folke/lazy.nvim), which bootstraps itself on first launch. `lazy-lock.json` pins every plugin, so a fresh machine gets exactly the versions I use.
 
-:LspInstallInfo will open a float window where you can select what to install. 
-I prefer pyright over jedi and pylsp simply because of speed. Find pyright in the list and press `i`
+- **LSP** via mason: `lua_ls`, `rust_analyzer`, `basedpyright`, `ruff`, `clangd`, `marksman`
+- **Treesitter**, **telescope**, **trouble**, **aerial**, **oil**, **gitsigns**, **fugitive**, **noice**, **lualine**
+- Debugging with `nvim-dap` through `mason-nvim-dap`
 
-follow [here](https://stackoverflow.com/questions/8191459/how-do-i-update-node-js) if there is a problem with pyright
+Update plugins and re-pin them:
 
-You can always run `:checkhealth` to see if something else is wrong.
-# Vim Basics
-To be written...
+```bash
+nvim --headless "+Lazy! sync" +qa
+cp ~/.config/nvim/lazy-lock.json ~/dotfiles/.config/nvim/   # then commit
+```
+
+Check that everything is healthy with `:checkhealth`.
+
+## Alacritty
+
+Alacritty reads `~/.config/alacritty/alacritty.toml` first, so `setup.sh` installs the config there.
+
+| Key | Action |
+|-----|--------|
+| `Ctrl+←` / `Ctrl+→` | jump back / forward one word |
+| `Shift+Enter` | newline without submitting (sends `ESC` + `CR`) |
+| `Alt+h j k l s w` | sent as `ESC`-prefixed keys for tmux / nvim |
+
+> **macOS gotcha:** `Ctrl+←/→` is a Mission Control shortcut ("Move left/right a space") and is swallowed before any app sees it.
+> Turn it off in *System Settings → Keyboard → Keyboard Shortcuts → Mission Control*.
+
+## tmux
+
+- Plugins via [tpm](https://github.com/tmux-plugins/tpm): start tmux and press `prefix` + <kbd>I</kbd>
+- `Alt+←/→/↑/↓` moves between tmux panes and nvim splits
+- Clipboard works on both platforms (`pbcopy`/`pbpaste` on macOS, `xclip` on Linux)
+
+## Window management (macOS)
+
+`.aerospace.toml` (AeroSpace) and `.yabairc` + `.skhdrc` (yabai + skhd) are two alternatives. Copy the one you use to `~/`.
+
+## Manual steps
+
+- Linux: install a [Nerd Font](https://www.nerdfonts.com) and set it in your terminal (macOS gets Hack Nerd Font from `setup.sh`).
+- Run `p10k configure` once to set up the prompt.
+- Make zsh your login shell if it isn't: `chsh -s "$(command -v zsh)"`.
