@@ -1,62 +1,30 @@
+-- smart-splits v3: multiplexer support lives in separate backend plugins (no auto-detection)
 return {
     {
-        'mrjones2014/smart-splits.nvim',
-        config = function()
-            -- moving between splits
-            vim.keymap.set("n", "<A-left>", require("smart-splits").move_cursor_left)
-            vim.keymap.set("n", "<A-down>", require("smart-splits").move_cursor_down)
-            vim.keymap.set("n", "<A-up>", require("smart-splits").move_cursor_up)
-            vim.keymap.set("n", "<A-right>", require("smart-splits").move_cursor_right)
-            -- resizing splits
-            vim.keymap.set("n", "<A-h>", require("smart-splits").resize_left)
-            vim.keymap.set("n", "<A-j>", require("smart-splits").resize_down)
-            vim.keymap.set("n", "<A-k>", require("smart-splits").resize_up)
-            vim.keymap.set("n", "<A-l>", require("smart-splits").resize_right)
-        end,
+        "smart-splits-nvim/smart-splits.nvim",
+        lazy = false, -- the tmux backend must load at startup so tmux knows the pane runs nvim
+        dependencies = {
+            { "smart-splits-nvim/backend-tmux", main = "smart-splits-backend-tmux" },
+        },
         opts = {
-            -- Ignored filetypes (only while resizing)
-            ignored_filetypes = {
-                "nofile",
-                "quickfix",
-                "prompt",
-            },
-            -- Ignored buffer types (only while resizing)
-            ignored_buftypes = { "NvimTree" },
-            -- the default number of lines/columns to resize by at a time
-            default_amount = 3,
-            -- when moving cursor between splits left or right,
-            -- place the cursor on the same row of the *screen*
-            -- regardless of line numbers. False by default.
-            -- Can be overridden via function parameter, see Usage.
-            move_cursor_same_row = false,
-            -- resize mode options
-            resize_mode = {
-                -- key to exit persistent resize mode
-                quit_key = "<ESC>",
-                -- keys to use for moving in resize mode
-                -- in order of left, down, up' right
-                resize_keys = { "h", "j", "k", "l" },
-                -- set to true to silence the notifications
-                -- when entering/exiting persistent resize mode
-                silent = false,
-                -- must be functions, they will be executed when
-                -- entering or exiting the resize mode
-                hooks = {
-                    on_enter = nil,
-                    on_leave = nil,
-                },
-            },
-            -- ignore these autocmd events (via :h eventignore) while processing
-            -- smart-splits.nvim computations, which involve visiting different
-            -- buffers and windows. These events will be ignored during processing,
-            -- and un-ignored on completed. This only applies to resize events,
-            -- not cursor movement events.
-            ignored_events = {
-                "BufEnter",
-                "WinEnter",
-            },
-            -- enable or disable the tmux integration
-            multiplex_integration = "tmux",
-        }
-    }
+            mux = { backend = "smart-splits-backend-tmux" },
+            ignored_buftypes = { "nofile", "quickfix", "prompt" },
+            ignored_filetypes = { "NvimTree" },
+            resize = { amount = 3 },
+        },
+        config = function(_, opts)
+            local ss = require("smart-splits")
+            ss.setup(opts)
+            -- moving between splits (and into tmux panes at the edge)
+            vim.keymap.set("n", "<A-left>", ss.move_cursor_left)
+            vim.keymap.set("n", "<A-down>", ss.move_cursor_down)
+            vim.keymap.set("n", "<A-up>", ss.move_cursor_up)
+            vim.keymap.set("n", "<A-right>", ss.move_cursor_right)
+            -- resizing splits
+            vim.keymap.set("n", "<A-h>", ss.resize_left)
+            vim.keymap.set("n", "<A-j>", ss.resize_down)
+            vim.keymap.set("n", "<A-k>", ss.resize_up)
+            vim.keymap.set("n", "<A-l>", ss.resize_right)
+        end,
+    },
 }
