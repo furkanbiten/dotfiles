@@ -171,6 +171,8 @@ install_configs() {
     # alacritty reads ~/.config/alacritty/alacritty.toml before ~/.config/alacritty.toml
     install_file "$DOTFILES/.config/alacritty.toml" "$HOME/.config/alacritty/alacritty.toml"
     install_file "$DOTFILES/.tmux.conf" "$HOME/.tmux.conf"
+    # only seed ~/.zshrc if there is none, so an existing one is never touched
+    [[ -f "$HOME/.zshrc" ]] || cp "$DOTFILES/.zshrc" "$HOME/.zshrc"
 
     if [[ ! -d "$HOME/.tmux/plugins/tpm" ]]; then
         git clone --depth 1 https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
