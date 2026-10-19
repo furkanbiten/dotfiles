@@ -21,6 +21,31 @@ gh_latest_tag() {
     curl -sIL -o /dev/null -w '%{url_effective}' "https://github.com/$1/releases/latest" | sed 's|.*/tag/||'
 }
 
+# sha256 of a file (sha256sum on Linux, shasum on macOS).
+sha256_of() {
+    if have sha256sum; then sha256sum "$1" | awk '{print $1}'; else shasum -a 256 "$1" | awk '{print $1}'; fi
+}
+
+# Abort unless file $1 has sha256 $2.
+verify_sha256() {
+    local actual
+    actual="$(sha256_of "$1")"
+    if [[ -z "$2" || "$actual" != "$2" ]]; then
+        echo "Checksum mismatch for $1: expected '$2', got '$actual'" >&2
+        exit 1
+    fi
+}
+
+# Download a remote install script to a temp file and run it with bash/sh $1 (instead of `curl | sh`).
+run_remote_script() {
+    local shell="$1" url="$2" tmp
+    shift 2
+    tmp="$(mktemp)"
+    curl -fsSL "$url" -o "$tmp"
+    "$shell" "$tmp" "$@"
+    rm -f "$tmp"
+}
+
 # True (0) if $1 < $2 (dotted versions).
 ver_lt() { [[ "$1" != "$2" && "$(printf '%s\n%s\n' "$1" "$2" | sort -V | head -n1)" == "$1" ]]; }
 
@@ -72,12 +97,12 @@ install_system_packages() {
         fi
         brew update
         # neovim/go/lazygit are managed by brew on macOS; unzip/python3 are needed by mason.nvim
-        brew install neovim go lazygit ripgrep fd tmux unzip python3 git curl
+        brew install neovim go lazygit ripgrep fd tmux unzip python3 git curl tree-sitter-cli
         brew install --cask alacritty font-hack-nerd-font || true
     else
         sudo apt-get update
         sudo apt-get install -y curl wget git unzip tar build-essential zsh tmux xclip \
-            ripgrep fd-find python3 python3-pip python3-venv
+            ripgrep fd-find ncurses-term python3 python3-pip python3-venv
         # Debian/Ubuntu ship fd as "fdfind"
         if have fdfind && ! have fd; then
             ln -sf "$(command -v fdfind)" "$HOME/.local/bin/fd"
@@ -93,7 +118,7 @@ install_node() {
     fi
     local nvm_latest
     nvm_latest="$(gh_latest_tag nvm-sh/nvm)"
-    curl -fsSL "https://raw.githubusercontent.com/nvm-sh/nvm/${nvm_latest}/install.sh" | bash
+    run_remote_script bash "https://raw.githubusercontent.com/nvm-sh/nvm/${nvm_latest}/install.sh"
     export NVM_DIR="$HOME/.nvm"
     # nvm.sh is not nounset-safe
     set +u
@@ -118,6 +143,17 @@ install_go_linux() {
         local tmp
         tmp="$(mktemp -d)"
         curl -fsSL "https://go.dev/dl/${latest}.linux-${GO_ARCH}.tar.gz" -o "$tmp/go.tar.gz"
+        local want
+        want="$(curl -fsSL 'https://go.dev/dl/?mode=json' | python3 -c "
+import json, sys
+name = sys.argv[1]
+for rel in json.load(sys.stdin):
+    for f in rel['files']:
+        if f['filename'] == name:
+            print(f['sha256'])
+            sys.exit()
+" "${latest}.linux-${GO_ARCH}.tar.gz")"
+        verify_sha256 "$tmp/go.tar.gz" "$want"
         rm -rf "$HOME/go-sdk"      # go must not be extracted over an old tree
         mkdir -p "$HOME/go-sdk"
         tar xzf "$tmp/go.tar.gz" -C "$HOME/go-sdk" --strip-components=1
@@ -155,7 +191,18 @@ install_nvim_linux() {
     echo "Installing nvim ${latest} (was: ${current:-none})"
     local tmp
     tmp="$(mktemp -d)"
-    curl -fsSL "https://github.com/neovim/neovim/releases/download/${latest}/nvim-linux-${GH_ARCH}.tar.gz" -o "$tmp/nvim.tar.gz"
+    local asset="nvim-linux-${GH_ARCH}.tar.gz" want
+    curl -fsSL "https://github.com/neovim/neovim/releases/download/${latest}/${asset}" -o "$tmp/nvim.tar.gz"
+    # GitHub publishes a sha256 "digest" for every release asset
+    want="$(curl -fsSL "https://api.github.com/repos/neovim/neovim/releases/tags/${latest}" | python3 -c "
+import json, sys
+name = sys.argv[1]
+for a in json.load(sys.stdin)['assets']:
+    if a['name'] == name:
+        print(a['digest'].split(':', 1)[1])
+        sys.exit()
+" "$asset")"
+    verify_sha256 "$tmp/nvim.tar.gz" "$want"
     rm -rf "$HOME/.local/nvim"
     mkdir -p "$HOME/.local/nvim"
     tar xzf "$tmp/nvim.tar.gz" -C "$HOME/.local/nvim" --strip-components=1
@@ -165,12 +212,26 @@ install_nvim_linux() {
     add_to_rc 'export PATH="$HOME/.local/bin:$PATH"'
 }
 
+# ---------------------------------------------------------------- tree-sitter CLI (linux only, brew handles macOS)
+# nvim-treesitter (main branch) compiles parsers with the tree-sitter CLI
+install_tree_sitter_linux() {
+    if have tree-sitter; then
+        echo "Skipping tree-sitter-cli installation"
+    else
+        npm install -g tree-sitter-cli
+    fi
+}
+
 # ---------------------------------------------------------------- configs
 install_configs() {
     install_dir "$DOTFILES/.config/nvim" "$HOME/.config/nvim"
     # alacritty reads ~/.config/alacritty/alacritty.toml before ~/.config/alacritty.toml
     install_file "$DOTFILES/.config/alacritty.toml" "$HOME/.config/alacritty/alacritty.toml"
     install_file "$DOTFILES/.tmux.conf" "$HOME/.tmux.conf"
+    if [[ "$OS" == "Darwin" ]]; then
+        install_file "$DOTFILES/.zprofile" "$HOME/.zprofile"
+        install_file "$DOTFILES/.config/karabiner/karabiner.json" "$HOME/.config/karabiner/karabiner.json"
+    fi
     # only seed ~/.zshrc if there is none, so an existing one is never touched
     [[ -f "$HOME/.zshrc" ]] || cp "$DOTFILES/.zshrc" "$HOME/.zshrc"
 
@@ -190,8 +251,8 @@ sync_nvim_plugins() {
 install_zsh_extras() {
     if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
         # KEEP_ZSHRC: do not overwrite an existing ~/.zshrc; RUNZSH/CHSH: stay in this script
-        KEEP_ZSHRC=yes RUNZSH=no CHSH=no sh -c \
-            "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+        KEEP_ZSHRC=yes RUNZSH=no CHSH=no run_remote_script sh \
+            https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh --unattended
     else
         echo "Skipping oh-my-zsh installation"
     fi
@@ -210,6 +271,7 @@ main() {
     if [[ "$OS" == "Linux" ]]; then
         install_go_linux
         install_nvim_linux
+        install_tree_sitter_linux
     fi
     install_go_tools
     install_configs

@@ -25,13 +25,15 @@ The script is **idempotent**: run it again whenever you want to update. It insta
 
 | Step | macOS | Linux (apt, x86_64 / arm64) |
 |------|-------|-----------------------------|
-| System packages | Homebrew: `neovim go lazygit ripgrep fd tmux …` | `apt`: `build-essential zsh tmux xclip ripgrep fd-find …` |
+| System packages | Homebrew: `neovim go lazygit ripgrep fd tmux tree-sitter-cli …` | `apt`: `build-essential zsh tmux xclip ripgrep fd-find ncurses-term …` |
 | Terminal + font | `alacritty`, `font-hack-nerd-font` (casks) | install a [Nerd Font](https://www.nerdfonts.com) yourself |
 | Node | nvm (latest release) | nvm (latest release) |
-| Neovim | `brew` | latest release tarball → `~/.local/nvim`, linked into `~/.local/bin` |
-| Go | `brew` | latest release → `~/go-sdk` (replaced when outdated) |
+| Neovim | `brew` | latest release tarball (**sha256-verified**) → `~/.local/nvim`, linked into `~/.local/bin` |
+| Go | `brew` | latest release (**sha256-verified**) → `~/go-sdk`, replaced when outdated |
+| tree-sitter CLI | `brew` | `npm install -g tree-sitter-cli` |
 | Go tools | `efm-langserver` | `efm-langserver`, `lazygit` |
-| Configs | nvim, alacritty, tmux (+ tpm) | nvim, alacritty, tmux (+ tpm) |
+| Configs | nvim, alacritty, tmux (+ tpm), `.zprofile`, Karabiner | nvim, alacritty, tmux (+ tpm) |
+| `~/.zshrc` | seeded from `.zshrc` only if you have none | same |
 | Plugins | `:Lazy restore` to the commits in `lazy-lock.json` | same |
 | Shell | oh-my-zsh + powerlevel10k (your `~/.zshrc` is never overwritten) | same |
 
@@ -40,12 +42,14 @@ The script is **idempotent**: run it again whenever you want to update. It insta
 ```
 dotfiles/
 ├── setup.sh                  # one-shot installer (macOS + Linux)
+├── .zshrc  .zprofile         # zsh: oh-my-zsh + powerlevel10k; brew, nvm, cargo (macOS)
 ├── .tmux.conf                # tmux, vi keys, nvim-aware pane navigation
 ├── .aerospace.toml           # AeroSpace tiling WM (macOS)
 ├── .yabairc  .skhdrc         # yabai + skhd alternative (macOS)
 ├── .vscode/                  # VS Code settings + keybindings
 └── .config/
     ├── alacritty.toml        # terminal: colors, Hack Nerd Font, key bindings
+    ├── karabiner/            # Karabiner-Elements rules (macOS)
     ├── nvim/                 # Neovim (lazy.nvim, LSP, telescope, …)
     └── vscode_nvim/          # Vim config used by the VS Code Neovim extension
 ```
@@ -55,7 +59,7 @@ dotfiles/
 Plugins are managed by [lazy.nvim](https://github.com/folke/lazy.nvim), which bootstraps itself on first launch. `lazy-lock.json` pins every plugin, so a fresh machine gets exactly the versions I use.
 
 - **LSP** via mason: `lua_ls`, `rust_analyzer`, `basedpyright`, `ruff`, `clangd`, `marksman`
-- **Treesitter**, **telescope**, **trouble**, **aerial**, **oil**, **gitsigns**, **fugitive**, **noice**, **lualine**
+- **Treesitter** (`main` branch API; needs the `tree-sitter` CLI), **telescope**, **trouble**, **aerial**, **oil**, **gitsigns**, **fugitive**, **noice**, **lualine**
 - Debugging with `nvim-dap` through `mason-nvim-dap`
 
 Update plugins and re-pin them:
@@ -85,6 +89,7 @@ Alacritty reads `~/.config/alacritty/alacritty.toml` first, so `setup.sh` instal
 - Plugins via [tpm](https://github.com/tmux-plugins/tpm): start tmux and press `prefix` + <kbd>I</kbd>
 - `Alt+←/→/↑/↓` moves between tmux panes and nvim splits
 - Clipboard works on both platforms (`pbcopy`/`pbpaste` on macOS, `xclip` on Linux)
+- True color: `tmux-256color` with an `RGB` terminal feature for Alacritty
 
 ## Window management (macOS)
 
